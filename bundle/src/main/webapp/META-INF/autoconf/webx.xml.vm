@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!-- Webx Root Context Configuration.  -->
+<beans:beans xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+xmlns:services="http://www.alibaba.com/schema/services"
+xmlns:request-contexts="http://www.alibaba.com/schema/services/request-contexts"
+xmlns:session-encoders="http://www.alibaba.com/schema/services/request-contexts/session/encoders"
+xmlns:model-encoders="http://www.alibaba.com/schema/services/request-contexts/session/model-encoders"
+xmlns:session-idgens="http://www.alibaba.com/schema/services/request-contexts/session/idgens"
+xmlns:session-stores="http://www.alibaba.com/schema/services/request-contexts/session/stores"
+xmlns:ml-adapters="http://www.alibaba.com/schema/services/module-loader/adapters"
+xmlns:ml-factories="http://www.alibaba.com/schema/services/module-loader/factories"
+xmlns:beans="http://www.springframework.org/schema/beans"
+xmlns:p="http://www.springframework.org/schema/p"
+xsi:schemaLocation="
+http://www.alibaba.com/schema/services http://localhost:8080/schema/services.xsd
+http://www.alibaba.com/schema/services/request-contexts http://localhost:8080/schema/services-request-contexts.xsd
+http://www.alibaba.com/schema/services/request-contexts/session/encoders http://localhost:8080/schema/services-request-contexts-session-encoders.xsd
+http://www.alibaba.com/schema/services/request-contexts/session/idgens http://localhost:8080/schema/services-request-contexts-session-idgens.xsd
+http://www.alibaba.com/schema/services/request-contexts/session/stores http://localhost:8080/schema/services-request-contexts-session-stores.xsd
+http://www.alibaba.com/schema/services/request-contexts/session/model-encoders http://localhost:8080/schema/services-request-contexts-session-model-encoders.xsd
+http://www.alibaba.com/schema/services/module-loader/adapters http://localhost:8080/schema/services-module-loader-adapters.xsd
+http://www.alibaba.com/schema/services/module-loader/factories http://localhost:8080/schema/services-module-loader-factories.xsd
+http://www.springframework.org/schema/beans http://localhost:8080/schema/www.springframework.org/schema/beans/spring-beans.xsd
+">
+	<services:property-placeholder>
+		<services:property key="component">common</services:property>
+	</services:property-placeholder>
+	<beans:import resource="classpath:web/common/pipeline-exception.xml" />
+	<beans:import resource="classpath:web/common/resources.xml" />
+	<beans:import resource="classpath:web/common/uris.xml" />
+	<beans:import resource="classpath:web/common/webx-component-and-root.xml" />
+	<!-- datasource -->
+	<!--<beans:import resource="classpath:spring/spring-datasource.xml" />-->
+	<!-- 业务bean -->
+	<!--<beans:import resource="classpath:spring/spring-biz-user.xml" />-->
+	<!-- 数据访问层配置 -->
+	<!--	<beans:import resource="classpath:spring/spring-dal.xml" /> -->
+	<services:webx-configuration>
+		#if("run" == "${qth_basic_setting_mode}")
+			<services:productionMode>true</services:productionMode>
+		#else
+			<services:productionMode>false</services:productionMode>
+		#end
+		<services:components defaultComponent="user" componentConfigurationLocationPattern="classpath*:web/webx-*.xml" />
+	</services:webx-configuration>
+	<!-- 设置request/response/session。 -->
+	<services:request-contexts
+	xmlns="http://www.alibaba.com/schema/services/request-contexts">
+		<basic/>
+		<buffered />
+		<lazy-commit />
+		<parser />
+		<set-locale defaultLocale="zh_CN" defaultCharset="UTF-8" />
+		<parser />
+		<session>
+			<id>
+				<cookie domain="/" path="/" maxAge="0" httpOnly="true" />
+			</id>
+			<stores>
+				<session-stores:cookie-store id="temporaryCookie">
+					<session-stores:cookie name="tmp" />
+				</session-stores:cookie-store>
+			</stores>
+			<store-mappings>
+				<match name="*" store="temporaryCookie" />
+			</store-mappings>
+		</session>
+		<!--文件后缀白名单设置-->
+		<parser>
+			<request-contexts:filters xmlns="http://www.alibaba.com/schema/services/request-contexts/parser/filters">
+				<uploaded-file-whitelist extensions="jpg, gif, png, jpeg, pjpeg, bmp,xls, xlsx,doc, docx, pdf, rar, zip"/>
+			</request-contexts:filters>
+		</parser>
+	</services:request-contexts>
+	<services:upload sizeMax="10M" />
+	<services:module-loader />
+</beans:beans>

@@ -1,0 +1,81 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE log4j:configuration SYSTEM "log4j.dtd">
+
+<log4j:configuration xmlns:log4j="http://jakarta.apache.org/log4j/">
+    <appender name="PROJECT" class="org.apache.log4j.DailyRollingFileAppender">
+        <param name="file" value="${qth_logs}/sys/webx.log"/>
+        <param name="append" value="true"/>
+        <param name="encoding" value="UTF-8"/>
+        <param name="threshold" value="INFO"/>
+        <layout class="org.apache.log4j.PatternLayout">
+            <param name="ConversionPattern" value="%d [%X{requestURIWithQueryString}] %-5p %c{2} - %m%n"/>
+        </layout>
+    </appender>
+    <appender name="PROJECT-DEBUG" class="org.apache.log4j.DailyRollingFileAppender">
+        <param name="file" value="${qth_logs}/sys/debug.log"/>
+        <param name="append" value="false"/>
+        <param name="encoding" value="UTF-8"/>
+        <layout class="org.apache.log4j.PatternLayout">
+            <param name="ConversionPattern" value="%d [%X{requestURIWithQueryString}] %-5p %c{2} - %m%n"/>
+        </layout>
+    </appender>
+    <appender name="SQL" class="org.apache.log4j.DailyRollingFileAppender">
+        <param name="file" value="${qth_logs}/sys/sql.log"/>
+        <param name="append" value="true"/>
+		<param name="encoding" value="UTF-8"/>
+        <layout class="org.apache.log4j.PatternLayout">
+            <param name="ConversionPattern" value="%d %-5p %c{2} - %m%n"/>
+        </layout>
+    </appender>
+    <appender name="VELOCITY" class="org.apache.log4j.DailyRollingFileAppender">
+        <param name="file" value="${qth_logs}/sys/velocity.log"/>
+        <param name="append" value="true"/>
+		<param name="encoding" value="UTF-8"/>
+        <layout class="org.apache.log4j.PatternLayout">
+            <param name="ConversionPattern" value="%d %-5p %c{2} - %m%n"/>
+        </layout>
+    </appender>
+	<appender name="SECURITY_APPENDER" class="org.apache.log4j.DailyRollingFileAppender">
+		<param name="file" value="${qth_logs}/sys/security.log"/>
+        <param name="append" value="true"/>
+        <param name="encoding" value="UTF-8"/>
+        <layout class="org.apache.log4j.PatternLayout">
+            <param name="ConversionPattern" value="%d %-5p %c{2} - %m%n"/>
+        </layout>
+    </appender>
+	
+	
+
+
+
+    <logger name="java.sql" additivity="false">
+        #if("dev" == "${qth_basic_setting_mode}")
+            <level value="DEBUG"/>
+        #else
+            <level value="ERROR"/>
+        #end
+        <appender-ref ref="SQL"/>
+    </logger>
+    <logger name="com.alibaba.citrus.service.velocity.VelocityEngine" additivity="false">
+        <level value="WARN"/>
+        <appender-ref ref="VELOCITY"/>
+    </logger>
+		<logger name="SECURITY" additivity="false">
+        <level value="ERROR"/>
+        <appender-ref ref="SECURITY_APPENDER" />
+    </logger>
+   
+   
+   
+	
+    <root>
+        #if("run" == "${qth_basic_setting_mode}")
+            <level value="ERROR"/>
+        #else
+            <level value="DEBUG"/>
+        #end
+        <appender-ref ref="PROJECT"/>
+        <appender-ref ref="PROJECT-DEBUG"/>
+    </root>
+</log4j:configuration>
