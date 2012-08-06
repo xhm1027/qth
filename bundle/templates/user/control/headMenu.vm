@@ -1,0 +1,48 @@
+<div class="navbar navbar-fixed-top">
+	<div class="navbar-inner">
+		<div class="container-fluid">
+			<a class="btn btn-navbar" data-toggle="collapse"
+			data-target=".nav-collapse">
+				<span class="icon-bar"></span>
+				<span
+				class="icon-bar"></span>
+				<span class="icon-bar"></span>
+			</a>
+			<a class="brand" href="$userModule.setTarget("index")">七台河信息发布系统</a>
+			<div class="btn-group pull-right">
+				<a class="btn dropdown-toggle" data-toggle="dropdown" href="#">
+					<i class="icon-user"></i>
+					用户XX
+					<span class="caret"></span>
+				</a>
+				<ul class="dropdown-menu">
+					<li><a href="profile.html">我的资料</a></li>
+					<li class="divider"></li>
+					<li><a href="login.html">注销t</a></li>
+				</ul>
+			</div>
+			<div class="nav pull-right	">
+				<ul class="nav">
+					<li><a href="messages.html">站内信</a></li>
+				</ul>
+			</div>
+			<div class="nav-collapse">
+				<ul class="nav">
+					<li class="active"><a href="$userModule.setTarget("index")">主页</a></li>
+					<li class="dropdown">
+						<a href="#" class="dropdown-toggle"
+						data-toggle="dropdown">我的产品 <b class="caret"></b></a>
+						<ul class="dropdown-menu">
+							<li><a href="mySaleProduct.html">销售产品</a></li>
+							<li><a href="myProcureProduct.html">采购产品</a></li>
+						</ul>
+					</li>
+					<li><a href="saleProduct.html">我要采购</a></li>
+					<li><a href="procureProduct.html">我要销售</a></li>
+					<li><a href="enterprises.html">查找企业</a></li>
+				</ul>
+			</div>
+			<!--/.nav-collapse -->
+		</div>
+	</div>
+</div>

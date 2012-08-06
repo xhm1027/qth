@@ -48,11 +48,26 @@
 
     <filter-mapping>
         <filter-name>mdc</filter-name>
-        <url-pattern>/*</url-pattern>
+        <url-pattern>*.htm</url-pattern>
     </filter-mapping>
-
     <filter-mapping>
         <filter-name>webx</filter-name>
-        <url-pattern>/*</url-pattern>
+        <url-pattern>*.htm</url-pattern>
     </filter-mapping>
+	<filter-mapping>
+        <filter-name>webx</filter-name>
+        <url-pattern>*.json</url-pattern>
+    </filter-mapping>
+    <filter-mapping>
+        <filter-name>webx</filter-name>
+        <url-pattern>*.do</url-pattern>
+    </filter-mapping>
+    <filter-mapping>
+        <filter-name>webx</filter-name>
+        <url-pattern>*.do</url-pattern>
+    </filter-mapping>
+	
+	<welcome-file-list>
+         <welcome-file>index.htm</welcome-file>
+    </welcome-file-list>
 </web-app>
