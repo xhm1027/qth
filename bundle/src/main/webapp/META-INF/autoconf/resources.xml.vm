@@ -16,6 +16,8 @@
 				
 				<resource pattern="/templates">
 					<res-loaders:file-loader basedir="${qth_templates}" />
+					
+				
 				</resource>
 				<resource pattern="/templates/*/classpath">
 					<res-loaders:classpath-loader />

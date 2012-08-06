@@ -25,6 +25,6 @@ import com.xhm.longxin.qth.user.SimpleObject;
 public class SimpleAction {
     public void doGreeting(@FormGroup("simple") SimpleObject simple, Navigator nav) {
         String name = simple.getName();
-        nav.redirectTo("homeModule").withTarget("hello").withParameter("name", name);
+        nav.redirectTo("userModule").withTarget("hello").withParameter("name", name);
     }
 }

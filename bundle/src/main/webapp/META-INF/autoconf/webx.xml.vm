@@ -41,7 +41,7 @@ http://www.springframework.org/schema/beans http://localhost:8080/schema/www.spr
 		#else
 			<services:productionMode>false</services:productionMode>
 		#end
-		<services:components defaultComponent="user" componentConfigurationLocationPattern="classpath*:web/webx-*.xml" />
+		<services:components defaultComponent="user" componentConfigurationLocationPattern="classpath*:webx-*.xml" />
 	</services:webx-configuration>
 	<!-- 设置request/response/session。 -->
 	<services:request-contexts
@@ -53,17 +53,22 @@ http://www.springframework.org/schema/beans http://localhost:8080/schema/www.spr
 		<set-locale defaultLocale="zh_CN" defaultCharset="UTF-8" />
 		<parser />
 		<session>
-			<id>
-				<cookie domain="/" path="/" maxAge="0" httpOnly="true" />
-			</id>
 			<stores>
 				<session-stores:cookie-store id="temporaryCookie">
 					<session-stores:cookie name="tmp" />
 				</session-stores:cookie-store>
 			</stores>
 			<store-mappings>
-				<match name="*" store="temporaryCookie" />
-			</store-mappings>
+                <match name="*" store="temporaryCookie" />
+            </store-mappings>
+            <request-contexts:interceptors
+                    xmlns="http://www.alibaba.com/schema/services/request-contexts/session/interceptors">
+                <lifecycle-logger />
+                <attribute-whitelist>
+                    <attribute name="_csrf_token" />
+                    <attribute name="_lang" />
+                </attribute-whitelist>
+            </request-contexts:interceptors>
 		</session>
 		<!--文件后缀白名单设置-->
 		<parser>
@@ -74,4 +79,12 @@ http://www.springframework.org/schema/beans http://localhost:8080/schema/www.spr
 	</services:request-contexts>
 	<services:upload sizeMax="10M" />
 	<services:module-loader />
+	
+	<!-- 将beans暴露给模板。这里定义的tools可被所有components之间共享。 -->
+    <services:pull xmlns="http://www.alibaba.com/schema/services/pull/factories">
+        <utils />
+        <page-tool />
+        <control-tool />
+        <uris-tool />
+    </services:pull>
 </beans:beans>

@@ -41,7 +41,7 @@ xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/ma
 		</dependency>
 		<dependency>
 			<groupId>com.xhm.longxin</groupId>
-			<artifactId>qth.web.home</artifactId>
+			<artifactId>qth.web.user</artifactId>
 			<version>${pom.version}</version>
 		</dependency>
 	</dependencies>

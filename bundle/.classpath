@@ -23,9 +23,9 @@
   <classpathentry kind="var" path="M2_REPO/ch/qos/logback/logback-classic/0.9.24/logback-classic-0.9.24.jar" sourcepath="M2_REPO/ch/qos/logback/logback-classic/0.9.24/logback-classic-0.9.24-sources.jar"/>
   <classpathentry kind="var" path="M2_REPO/ch/qos/logback/logback-core/0.9.24/logback-core-0.9.24.jar" sourcepath="M2_REPO/ch/qos/logback/logback-core/0.9.24/logback-core-0.9.24-sources.jar"/>
   <classpathentry kind="var" path="M2_REPO/oro/oro/2.0.8/oro-2.0.8.jar" sourcepath="M2_REPO/oro/oro/2.0.8/oro-2.0.8-sources.jar"/>
-  <classpathentry kind="var" path="M2_REPO/com/xhm/longxin/qth.biz.home/1.0/qth.biz.home-1.0.jar"/>
+  <classpathentry kind="src" path="/qth.biz.user"/>
   <classpathentry kind="src" path="/qth.common"/>
-  <classpathentry kind="var" path="M2_REPO/com/xhm/longxin/qth.web.home/1.0/qth.web.home-1.0.jar" sourcepath="M2_REPO/com/xhm/longxin/qth.web.home/1.0/qth.web.home-1.0-sources.jar"/>
+  <classpathentry kind="src" path="/qth.web.user"/>
   <classpathentry kind="var" path="M2_REPO/org/slf4j/slf4j-api/1.6.1/slf4j-api-1.6.1.jar" sourcepath="M2_REPO/org/slf4j/slf4j-api/1.6.1/slf4j-api-1.6.1-sources.jar"/>
   <classpathentry kind="var" path="M2_REPO/org/slf4j/slf4j-log4j12/1.6.1/slf4j-log4j12-1.6.1.jar" sourcepath="M2_REPO/org/slf4j/slf4j-log4j12/1.6.1/slf4j-log4j12-1.6.1-sources.jar"/>
   <classpathentry kind="var" path="M2_REPO/org/slf4j/slf4j-nop/1.6.1/slf4j-nop-1.6.1.jar" sourcepath="M2_REPO/org/slf4j/slf4j-nop/1.6.1/slf4j-nop-1.6.1-sources.jar"/>

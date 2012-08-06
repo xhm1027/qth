@@ -23,7 +23,7 @@ http://www.springframework.org/schema/beans http://localhost:8080/schema/www.spr
 	<services:template xmlns="http://www.alibaba.com/schema/services/template/engines" searchExtensions="true">
 		<velocity-engine templateEncoding="UTF-8" strictReference="false" path="/templates/${component}">
 			<global-macros>
-				<name>macros.vm</name>
+				<name>global/*.vm</name>
 			</global-macros>
 			<plugins>
 				<vm-plugins:escape-support defaultEscape="html">
