@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="GB2312"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:aop="http://www.springframework.org/schema/aop"
+	xmlns:util="http://www.springframework.org/schema/util"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.0.xsd http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop-2.0.xsd http://www.springframework.org/schema/util http://www.springframework.org/schema/util/spring-util-2.0.xsd"
+	default-autowire="byName">
+
+	<bean id="dataSource" class="org.apache.commons.dbcp.BasicDataSource"
+		destroy-method="close">
+		<property name="driverClassName" value="com.mysql.jdbc.Driver" />
+		<property name="url"
+			value="jdbc:mysql://10.20.155.4:3306/test?characterEncoding=UTF-8" />
+		<property name="username" value="kepler" />
+		<property name="password" value="kepler" />
+		<property name="maxActive" value="8" />
+		<property name="maxWait" value="7200000" />
+	</bean>
+
+	<bean id="sqlMapClient" class="org.springframework.orm.ibatis.SqlMapClientFactoryBean">
+		<property name="dataSource" ref="dataSource" />
+		<property name="configLocation" value="spring/sqlmap-config.xml" />
+		<property name="sqlMapClientProperties">
+			<map>
+				<entry key="baseurl">
+					<bean class="com.alibaba.service.spring.support.GetResourceAsURL">
+						<property name="location" value="spring/sqlmap-config.xml" />
+						<property name="parent" value="true" />
+					</bean>
+				</entry>
+			</map>
+		</property>
+	</bean>
+
+	<bean id="adminUserDaoImpl" class="com.qth.dal.dao.impl.AdminUserDaoImpl" />
+	<bean id="keplerNapoliMsgDao" class="com.ali.kepler.dal.dao.impl.KeplerNapoliMsgDaoImpl" />
+	<bean id="kplHudsonMasterConfDao" class="com.ali.kepler.dal.dao.impl.KplHudsonMasterConfDaoImpl" />
+	<bean id="kplResourceDao" class="com.ali.kepler.dal.dao.impl.KplResourceDaoImpl" />
+	<bean id="kplJobTplConfDao" class="com.ali.kepler.dal.dao.impl.KplJobTplConfDaoImpl" />
+	<bean id="kplProjectBuidConfDao" class="com.ali.kepler.dal.dao.impl.KplProjectBuidConfDaoImpl" />
+	<bean id="kplAppTplRelDao" class="com.ali.kepler.dal.dao.impl.KplAppTplRelDaoImpl" />
+</beans>
