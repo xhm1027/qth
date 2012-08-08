@@ -1,9 +1,9 @@
 /**
  *
  */
-package com.qth.dal.dao.impl;
+package com.xhm.longxin.qth.dal.dao.impl;
 
-import com.qth.dal.dao.AdminUserDao;
+import comxhm.longxin.qth.dal.dao.AdminUserDao;
 
 /**
  * @author ren.zhangr

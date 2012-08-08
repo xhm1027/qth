@@ -1,7 +1,7 @@
 /**
  *
  */
-package com.qth.dal.dataobject;
+package com.xhm.longxin.qth.dal.dataobject;
 
 import java.util.Date;
 

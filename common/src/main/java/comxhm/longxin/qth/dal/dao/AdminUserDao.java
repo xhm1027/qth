@@ -1,7 +1,7 @@
 /**
  *
  */
-package com.qth.dal.dao;
+package comxhm.longxin.qth.dal.dao;
 
 /**
  * @author ren.zhangr
