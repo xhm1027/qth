@@ -32,7 +32,7 @@ http://www.springframework.org/schema/beans http://localhost:8080/schema/www.spr
 	<!-- datasource -->
 	<!--<beans:import resource="classpath:spring/spring-datasource.xml" />-->
 	<!-- 业务bean -->
-	<!--<beans:import resource="classpath:spring/spring-biz-user.xml" />-->
+	<beans:import resource="classpath:spring/spring-biz-user.xml" />
 	<!-- 数据访问层配置 -->
 	<!--	<beans:import resource="classpath:spring/spring-dal.xml" /> -->
 	<services:webx-configuration>
@@ -66,7 +66,9 @@ http://www.springframework.org/schema/beans http://localhost:8080/schema/www.spr
                 <lifecycle-logger />
                 <attribute-whitelist>
                     <attribute name="_csrf_token" />
-                    <attribute name="_lang" />
+                    <attribute name="_lang" /> 
+					<attribute name="qthUser"
+                               type="com.xhm.longxin.qth.user.common.QthUser" />
                 </attribute-whitelist>
             </request-contexts:interceptors>
 		</session>

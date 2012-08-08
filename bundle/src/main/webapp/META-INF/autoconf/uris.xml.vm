@@ -11,6 +11,9 @@ http://www.springframework.org/schema/beans http://localhost:8080/schema/www.spr
 		<uris:uri id="qthServer" exposed="true">
 			<uris:serverURI>http://${qth_server_host}:${qth_server_port}</uris:serverURI>
 		</uris:uri>
+        <turbine-uri id="qthHomeLink" exposed="true" extends="qthServer">
+            <target>index.vm</target>
+        </turbine-uri>
 		<!-- 静态目录-->
 		<uris:turbine-uri id="download" exposed="true" extends="qthServer">
 			<componentPath>/downloads</componentPath>
@@ -20,6 +23,12 @@ http://www.springframework.org/schema/beans http://localhost:8080/schema/www.spr
 			<componentPath>/</componentPath>
 		</uris:turbine-uri>
 		<turbine-content-uri id="userContent" exposed="true" extends="userModule" />
+		<turbine-uri id="userLogoutLink" exposed="true" extends="userModule">
+            <target>login.vm</target>
+            <query key="action">userAction</query>
+            <query key="eventSubmitDoLogout">yes</query>
+        </turbine-uri>
+		
 		<!-- 管理员模块-->
 		<uris:turbine-uri id="adminModule" exposed="true" extends="qthServer">
 			<componentPath>/admin</componentPath>

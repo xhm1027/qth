@@ -24,6 +24,9 @@
         <form-tool />
         <control-tool />
         <uris-tool />
+    
+    	<factory id="qthUser"
+                 class="com.xhm.longxin.qth.user.common.util.QthUserTool" />
     </services:pull>
 
 </beans:beans>
