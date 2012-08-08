@@ -1,0 +1,71 @@
+$rundata.setLayoutEnabled(false)
+<!DOCTYPE html>
+	<head>
+		<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+		#showHead ("七台河信息管理系统")
+		<link href="$!{qthServer}assets/css/bootstrap.css" rel="stylesheet" type="text/css" />
+	</head>
+<body>
+	<div class="container">
+		<div class="span9">
+			<div class="hero-unit">
+				<h1>七台河信息管理系统</h1>
+				<p>
+				黑龙江省东部再生资源回收利用产业园区“城市矿产”示范基地信息管理系统
+				</p>
+			</div>
+			<div class="row-fluid">
+				<form class="well form-horizontal" method="post">
+					$csrfToken.hiddenField
+					<input type="hidden" name="action" value="admin_action"/>
+					#set ($group = $form.login.defaultInstance)
+					<fieldset>
+					<legend>登录</legend>
+					#if(!$group.loginError.valid)
+					<div class="alert alert-error">
+						<button type="button" class="close" data-dismiss="alert">&times;</button>
+						 <strong>Oh snap!</strong> 用户名或密码不正确,请重新输入
+					</div>
+					#end
+					<div class="control-group #if(!$group.name.valid)error #else success #end">
+						<label class="control-label" for="name">$group.name.displayName</label>
+						<div class="controls">
+							<input type="text" class="input-xlarge" id="name" name="$group.name.key" value="$group.name.value"
+							placeholder="用户名">
+							<p class="help-block">
+							#if(!$group.name.valid)$group.name.message #end
+							</p>
+						</div>
+					</div>
+					<div class="control-group #if(!$group.password.valid)error #else success #end">
+						<label class="control-label" for="password">$group.password.displayName</label>
+						<div class="controls">
+							<input type="password" class="input-xlarge" id="password" name="$group.password.key"
+							placeholder="密码">
+							<p class="help-block">
+							#if(!$group.password.valid)$group.password.message #end
+							</p>
+						</div>
+					</div>
+					<div class="control-group #if(!$group.validateStr.valid)error #else success #end">
+						<label class="control-label" for="validateStr">$group.validateStr.displayName</label>
+						<div class="controls">
+							<input type="password" class="input-xlarge" id="validateStr" name="$group.validateStr.key"
+							placeholder="验证码">
+							<p class="help-block">
+							#if(!$group.validateStr.valid)$group.validateStr.message #end
+							</p>
+						</div>
+					</div>
+					<div class="form-actions">
+						<input type="submit" class="btn btn-primary" name="event_submit_do_login" value="登录"/>
+					</div>
+					</fieldset>
+				</form>
+			</div>
+			<!--/row-->
+		</div>
+		<!--/span-->
+	</div>
+</body>
+</html>

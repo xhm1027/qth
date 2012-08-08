@@ -15,7 +15,7 @@
  * limitations under the License.
  */
 
-package com.xhm.longxin.qth.user.module.action;
+package com.xhm.longxin.qth.web.user.module.action;
 
 
 import javax.servlet.http.HttpSession;
@@ -32,13 +32,13 @@ import com.alibaba.citrus.util.StringUtil;
 import com.xhm.longxin.biz.user.interfaces.UserService;
 import com.xhm.longxin.biz.user.vo.LoginVO;
 import com.xhm.longxin.common.daoobject.User;
-import com.xhm.longxin.qth.user.common.QthUser;
-import com.xhm.longxin.qth.user.common.UserConstant;
+import com.xhm.longxin.qth.web.user.common.QthUser;
+import com.xhm.longxin.qth.web.user.common.UserConstant;
 
 public class UserAction {
 	@Autowired
     private UserService userService;
-    public void doLogin(@FormGroup("login") LoginVO vo,@FormField(name = "loginError", group = "login") CustomErrors err,HttpSession session, Navigator nav) {
+    public void doLogin(@FormGroup("login") LoginVO vo,@FormField(name = "loginError", group = "login") CustomErrors err,HttpSession session, Navigator nav, ParameterParser params) {
 
     	User user = userService.login(vo);
     	 if (user != null) {
@@ -51,7 +51,8 @@ public class UserAction {
     		 
              session.setAttribute(UserConstant.QTH_USER_SESSION_KEY, qthUser);
 
-             nav.redirectTo("userModule").withTarget("hello").withParameter("name", vo.getName());
+             // Ìø×ªµ½returnÒ³Ãæ
+             redirectToReturnPage(nav, params);
          } else {
              err.setMessage("invalidUserOrPassword");
          }

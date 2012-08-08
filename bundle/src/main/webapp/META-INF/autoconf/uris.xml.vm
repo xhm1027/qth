@@ -34,5 +34,18 @@ http://www.springframework.org/schema/beans http://localhost:8080/schema/www.spr
 			<componentPath>/admin</componentPath>
 		</uris:turbine-uri>
 		<turbine-content-uri id="adminContent" exposed="true" extends="adminModule" />
+		
+		
+        <turbine-uri id="qthAdminHomeLink" exposed="true" extends="adminModule">
+            <target>index.vm</target>
+        </turbine-uri>
+		<turbine-uri id="qthAdminLoginLink" exposed="true" extends="adminModule">
+            <target>login.vm</target>
+        </turbine-uri>
+		<turbine-uri id="adminLogoutLink" exposed="true" extends="adminModule">
+            <target>login.vm</target>
+            <query key="action">adminAction</query>
+            <query key="eventSubmitDoLogout">yes</query>
+        </turbine-uri>
 	</services:uris>
 </beans:beans>

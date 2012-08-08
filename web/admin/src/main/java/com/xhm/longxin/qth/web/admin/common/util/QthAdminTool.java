@@ -15,17 +15,17 @@
  * limitations under the License.
  */
 
-package com.xhm.longxin.qth.user.common.util;
+package com.xhm.longxin.qth.web.admin.common.util;
 
 import com.alibaba.citrus.service.pull.ToolFactory;
-import com.xhm.longxin.qth.user.common.QthUser;
+import com.xhm.longxin.qth.web.admin.common.QthAdmin;
 
-public class QthUserTool implements ToolFactory {
+public class QthAdminTool implements ToolFactory {
     public boolean isSingleton() {
         return false;
     }
 
     public Object createTool() throws Exception {
-        return QthUser.getCurrentUser();
+        return QthAdmin.getCurrentUser();
     }
 }

@@ -20,10 +20,12 @@ xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/ma
 		<autoconfig-plugin-version>1.0.10</autoconfig-plugin-version>
 	</properties>
 	<modules>
-		<module>biz/user</module>
-		<module>bundle</module>
 		<module>common</module>
+		<module>biz/user</module>
+		<module>biz/admin</module>
 		<module>web/user</module>
+		<module>web/admin</module>
+		<module>bundle</module>
 	</modules>
 	<dependencies>
 		<dependency>

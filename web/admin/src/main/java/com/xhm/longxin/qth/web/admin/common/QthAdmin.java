@@ -15,34 +15,33 @@
  * limitations under the License.
  */
 
-package com.xhm.longxin.qth.user.common;
+package com.xhm.longxin.qth.web.admin.common;
 
 import static com.alibaba.citrus.util.ObjectUtil.*;
 
 import java.io.Serializable;
 
-public class QthUser implements Serializable {
-    private static final long                      serialVersionUID = -7507510429755782596L;
-    private static final ThreadLocal<QthUser> userHolder       = new ThreadLocal<QthUser>();
+public class QthAdmin implements Serializable {
+    private static final long                      serialVersionUID = -7507510429733333544L;
+    private static final ThreadLocal<QthAdmin> adminHolder       = new ThreadLocal<QthAdmin>();
     private Long  userId;
     private String 	userName;
-    private String 	userType;
 
-    public static final QthUser getCurrentUser() {
-    	QthUser qthUser = userHolder.get();
-    	return qthUser;
+    public static final QthAdmin getCurrentUser() {
+    	QthAdmin qthAdmin = adminHolder.get();
+    	return qthAdmin;
     }
 
-    public static final void setCurrentUser(QthUser user) {
-        userHolder.set(user);
+    public static final void setCurrentUser(QthAdmin user) {
+    	adminHolder.set(user);
     }
 
     /** 创建匿名用户。 */
-    public QthUser() {
+    public QthAdmin() {
     }
 
     /** 创建用户。 */
-    public QthUser(Long userId) {
+    public QthAdmin(Long userId) {
         this.userId = userId;
     }
 
@@ -58,22 +57,13 @@ public class QthUser implements Serializable {
         this.userName = userName;
     }
 
-    public String getUserType() {
-        return userType;
-    }
-
-    public void setUserType(String userType) {
-        this.userType = userType;
-    }
-
-    public void upgrade(Long userId,String userName, String userType) {
+    public void upgrade(Long userId,String userName) {
 //        assertTrue(!hasLoggedIn(), ExceptionType.ILLEGAL_STATE, "already logged in");
 
 //        userId = assertNotNull(userId, "no user id");
 
         this.userId = userId;
         this.userName = userName;
-        this.userType = userType;
         this.setCurrentUser(this);
     }
 
@@ -83,6 +73,6 @@ public class QthUser implements Serializable {
 
     @Override
     public String toString() {
-        return "QthUser[" + defaultIfNull(userName, "anonymous") + ", type=" + defaultIfNull(userType, "anonymous") + "]";
+        return "qthAdmin[" + defaultIfNull(userName, "anonymous")  + "]";
     }
 }

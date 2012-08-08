@@ -15,12 +15,12 @@
  * limitations under the License.
  */
 
-package com.xhm.longxin.qth.user.module.action;
+package com.xhm.longxin.qth.web.user.module.action;
 
 import com.alibaba.citrus.turbine.Navigator;
 import com.alibaba.citrus.turbine.dataresolver.FormGroup;
 
-import com.xhm.longxin.qth.user.SimpleObject;
+import com.xhm.longxin.qth.web.user.SimpleObject;
 
 public class SimpleAction {
     public void doGreeting(@FormGroup("simple") SimpleObject simple, Navigator nav) {

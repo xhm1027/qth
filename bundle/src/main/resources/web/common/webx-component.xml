@@ -26,7 +26,10 @@
         <uris-tool />
     
     	<factory id="qthUser"
-                 class="com.xhm.longxin.qth.user.common.util.QthUserTool" />
+                 class="com.xhm.longxin.qth.web.user.common.util.QthUserTool" />
+        <factory id="qthAdmin"
+                 class="com.xhm.longxin.qth.web.admin.common.util.QthAdminTool" />        
+         
     </services:pull>
 
 </beans:beans>

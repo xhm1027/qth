@@ -15,16 +15,13 @@
  * limitations under the License.
  */
 
-package com.xhm.longxin.qth.user;
+package com.xhm.longxin.qth.web.user.module.screen;
 
-public class SimpleObject {
-    private String name;
+import com.alibaba.citrus.turbine.Context;
+import com.alibaba.citrus.turbine.dataresolver.Param;
 
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
-    }
+public class Hello {
+	public void execute(@Param("name") String name, Context context) {
+		context.put("name", name);
+	}
 }

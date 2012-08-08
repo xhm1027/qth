@@ -15,13 +15,17 @@
  * limitations under the License.
  */
 
-package com.xhm.longxin.qth.user.module.screen;
+package com.xhm.longxin.qth.web.user.common.util;
 
-import com.alibaba.citrus.turbine.Context;
-import com.alibaba.citrus.turbine.dataresolver.Param;
+import com.alibaba.citrus.service.pull.ToolFactory;
+import com.xhm.longxin.qth.web.user.common.QthUser;
 
-public class Hello {
-    public void execute(@Param("name") String name, Context context) {
-        context.put("name", name);
+public class QthUserTool implements ToolFactory {
+    public boolean isSingleton() {
+        return false;
+    }
+
+    public Object createTool() throws Exception {
+        return QthUser.getCurrentUser();
     }
 }

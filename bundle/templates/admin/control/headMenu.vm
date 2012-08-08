@@ -9,19 +9,19 @@
 				<span class="icon-bar"></span>
 			</a>
 			<div class="nav pull-left">
-			<a class="brand" href="$qthHomeLink">七台河信息发布系统 </a>
+			<a class="brand" href="$qthAdminHomeLink">七台河信息管理系统 </a>
             </div>
-			#if ($qthUser.hasLoggedIn())
+			#if ($qthAdmin.hasLoggedIn())
 			<div class="btn-group pull-right">
 				<a class="btn dropdown-toggle" data-toggle="dropdown" href="#">
 					<i class="icon-user"></i>
-					$qthUser.getUserName()
+					$qthAdmin.getUserName()
 					<span class="caret"></span>
 				</a>
 				<ul class="dropdown-menu">
 					<li><a href="profile.html">我的资料</a></li>
 					<li class="divider"></li>
-					<li><a href="$userLogoutLink">注销</a></li>
+					<li><a href="$adminLogoutLink">注销</a></li>
 				</ul>
 			</div>
 			<div class="nav pull-right">
@@ -32,26 +32,19 @@
 			#else
 			<div class="nav pull-right">
 				<ul class="nav">
-					<li><a href="$userModule.setTarget("login")">登录</a></li>
+					<li><a href="$adminModule.setTarget("login")">登录</a></li>
 				</ul>
 			</div>	
 			#end
 			<div class="nav-collapse">
 				<ul class="nav">
-					<li class="active"><a href="$qthHomeLink">主页</a></li>
-					#if ($qthUser.hasLoggedIn())
-					<li class="dropdown">
-						<a href="#" class="dropdown-toggle"
-						data-toggle="dropdown">我的产品 <b class="caret"></b></a>
-						<ul class="dropdown-menu">
-							<li><a href="mySaleProduct.html">销售产品</a></li>
-							<li><a href="myProcureProduct.html">采购产品</a></li>
-						</ul>
-					</li>
-					  #end
-					<li><a href="saleProduct.html">我要采购</a></li>
-					<li><a href="procureProduct.html">我要销售</a></li>
-					<li><a href="enterprises.html">查找企业</a></li>
+					<li class="active"><a href="$qthAdminHomeLink">主页</a></li>
+					#if ($qthAdmin.hasLoggedIn())
+						<li class="active"><a href="index.html">用户管理</a></li>
+						<li><a href="saleProductManage.html">销售产品管理</a></li>
+						<li><a href="procureProductManage.html">采购产品管理</a></li>
+						<li><a href="productTypeManage.html">产品类别管理</a></li>
+					#end
 				</ul>
 			</div>
 			<!--/.nav-collapse -->

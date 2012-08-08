@@ -1,4 +1,4 @@
-package com.xhm.longxin.qth.user.common;
+package com.xhm.longxin.qth.web.user.common;
 
 public interface UserConstant {
 	public final String QTH_USER_SESSION_KEY = "qthUser";
