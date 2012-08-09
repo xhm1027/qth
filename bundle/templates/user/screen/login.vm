@@ -22,10 +22,13 @@ $rundata.setLayoutEnabled(false)
 					<fieldset>
 					<legend>登录</legend>
 					#if(!$group.loginError.valid)
-					<div class="alert alert-error">
-						<button type="button" class="close" data-dismiss="alert">&times;</button>
-						 <strong>Oh snap!</strong> 用户名或密码不正确,请重新输入
-					</div>
+						<div class="alert alert-error">
+							<button type="button" class="close" data-dismiss="alert">
+							&times;
+							</button>
+							<strong>Oh snap!</strong>
+							用户名或密码不正确,请重新输入
+						</div>
 					#end
 					<div class="control-group #if(!$group.name.valid)error #else success #end">
 						<label class="control-label" for="name">$group.name.displayName</label>
@@ -50,8 +53,10 @@ $rundata.setLayoutEnabled(false)
 					<div class="control-group #if(!$group.validateStr.valid)error #else success #end">
 						<label class="control-label" for="validateStr">$group.validateStr.displayName</label>
 						<div class="controls">
-							<input type="password" class="input-xlarge" id="validateStr" name="$group.validateStr.key"
+							<input type="text" class="input-xlarge" id="validateStr" name="$group.validateStr.key"
 							placeholder="验证码">
+							<img id="validateImg" alt="" src="$userModule.setTarget("checkCode")" />
+							<a href="#" onclick="changeImg()">换一张</a>
 							<p class="help-block">
 							#if(!$group.validateStr.valid)$group.validateStr.message #end
 							</p>
@@ -68,5 +73,22 @@ $rundata.setLayoutEnabled(false)
 		</div>
 		<!--/span-->
 	</div>
+	<script src="$!{qthServer}assets/js/jquery.js"></script>
+	<script>
+		function changeImg(){
+			var imgSrc = $("#validateImg");
+			var src = imgSrc.attr("src");
+			imgSrc.attr("src", chgUrl(src));
+		}
+		//时间戳
+		//为了使每次生成图片不一致，即不让浏览器读缓存，所以需要加上时间戳
+		function chgUrl(url){
+			var timestamp = (new Date()).valueOf();
+			url = '$userModule.setTarget("checkCode")';
+			url = url + '?timestamp=' + timestamp;
+			
+			return url;
+		}
+	</script>
 </body>
 </html>
