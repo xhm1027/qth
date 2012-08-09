@@ -3,7 +3,7 @@
  */
 package com.xhm.longxin.qth.dal.dao.impl;
 
-import comxhm.longxin.qth.dal.dao.AdminUserDao;
+import com.xhm.longxin.qth.dal.dao.AdminUserDao;
 
 /**
  * @author ren.zhangr
