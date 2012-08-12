@@ -166,11 +166,11 @@ xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/ma
 				<version>3.1.0</version>
 				<scope>test</scope>
 			</dependency>
-			<dependency>
-          <groupId>com.alibaba.external</groupId>
-            <artifactId>jdbc.mysql.mysql-connector</artifactId>
-            <version>5.1.6</version>
-         </dependency>
+			<dependency> 
+  <groupId>mysql</groupId> 
+  <artifactId>mysql-connector-java</artifactId> 
+  <version>5.1.9</version> 
+</dependency>
         <dependency>
           <groupId>commons-dbcp</groupId>
           <artifactId>commons-dbcp</artifactId>
