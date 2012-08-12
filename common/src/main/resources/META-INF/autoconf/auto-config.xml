@@ -4,7 +4,7 @@
 	
 	<group name="qth">
 		<property name="qth.database.url"
-			defaultValue="jdbc:mysql://localhost:3306/qth?characterEncoding=UTF-8"" description="数据库链接url" />
+			defaultValue="jdbc:mysql://localhost:3306/qth?characterEncoding=UTF-8" description="数据库链接url" />
 		<property name="qth.database.usr"
 			defaultValue="qth" description="数据库链接用户名" />
 		<property name="qth.database.password"
