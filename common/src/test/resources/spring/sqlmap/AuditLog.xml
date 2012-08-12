@@ -1,0 +1,99 @@
+<?xml version="1.0" encoding="GBK" ?>
+<!DOCTYPE sqlMap PUBLIC "-//iBATIS.com//DTD SQL Map 2.0//EN" "http://www.ibatis.com/dtd/sql-map-2.dtd">
+<sqlMap namespace="QTH_AUDIT_LOG">
+	<typeAlias alias="AUDIT_LOG_POJO"
+		type="com.xhm.longxin.qth.dal.dataobject.AuditLog" />
+	<resultMap id="LOG_RESULT_MAP" class="AUDIT_LOG_POJO">
+		<result property="id" column="ID" jdbcType="BIGINT" javaType="long" />
+		<result property="auditor" column="auditor" jdbcType="VARCHAR"
+			javaType="String" />
+		<result property="auditType" column="audit_type" jdbcType="VARCHAR"
+			javaType="String" />
+		<result property="auditId" column="audit_id" jdbcType="BIGINT"
+			javaType="long" />
+		<result property="auditResult" column="audit_result" jdbcType="VARCHAR"
+			javaType="String" />
+		<result property="description" column="description" jdbcType="VARCHAR"
+			javaType="String" />
+	</resultMap>
+
+	<insert id="INSERT_AUDIT_LOG" parameterClass="AUDIT_LOG_POJO">
+         <![CDATA[
+            INSERT INTO qth_audit_log
+                (
+                 gmt_created,
+                 gmt_modified,
+                 creator,
+                 modifier,
+                 is_deleted,
+                 auditor,
+                 audit_type,
+                 audit_id,
+                 audit_result,
+                 description
+                 )
+               VALUES
+               (
+				now(),
+				now(),
+	            'system',
+	            'system',
+	            'n',
+				#auditor#,
+                #auditType#,
+                #auditId#,
+                #auditResult#,
+                #description#
+	        )
+        ]]>
+		<selectKey resultClass="Integer" keyProperty="id">
+             <![CDATA[ SELECT LAST_INSERT_ID() AS ID ]]>
+		</selectKey>
+	</insert>
+	<update id="UPDATE_AUDIT_LOG" parameterClass="AUDIT_LOG_POJO"><![CDATA[
+        update
+                qth_audit_log
+        set
+                gmt_modified=now() ]]>
+		<isNotNull property="isDeleted" prepend=",">
+			is_deleted=#isDeleted#</isNotNull>
+		<isNotNull property="modifier" prepend=",">
+			modifier=#modifier#
+		</isNotNull>
+		<isNotNull property="auditor" prepend=",">
+			auditor=#auditor#
+		</isNotNull>
+		<isNotNull property="auditType" prepend=",">
+			audit_type=#auditType#</isNotNull>
+		<isNotNull property="auditId" prepend=",">
+			audit_id=#auditId#
+		</isNotNull>
+		<isNotNull property="auditResult" prepend=",">
+			audit_result=#auditResult#
+		</isNotNull>
+		<isNotNull property="description" prepend=",">
+			description=#description#
+		</isNotNull>
+		where
+		id = #id#
+	</update>
+	<select id="QUERY_AUDIT_LOG_BYMAP" resultMap="LOG_RESULT_MAP"
+		parameterClass="map">
+		 <![CDATA[
+				select
+				*
+				from qth_audit_log where  is_deleted='n' and audit_id=#auditId#]]>
+		<isNotNull property="auditType" prepend="AND">
+			audit_type=#auditType#
+		</isNotNull>
+		<isNotNull property="auditor" prepend="AND">
+			auditor=#auditor#
+		</isNotNull>
+		<isNotNull property="auditResult" prepend="AND">
+			audit_result=#auditResult#
+		</isNotNull>
+		order by gmt_created desc
+	</select>
+</sqlMap>
+
+

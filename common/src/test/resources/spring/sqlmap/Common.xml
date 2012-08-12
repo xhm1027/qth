@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE sqlMap PUBLIC "-//iBATIS.com//DTD SQL Map 2.0//EN" "http://www.ibatis.com/dtd/sql-map-2.dtd">
+<sqlMap namespace="ALICRM_COMMON">
+	<sql id="ALI_PAGING">
+		<dynamic>
+			<isNotNull property="pageSize">
+				<![CDATA[ limit #pageStart#,#pageSize#]]>
+			</isNotNull>
+		</dynamic>
+	</sql>
+	<sql id="ALI_ORDER">
+		<dynamic>
+			<isNotNull property="pageOrder" prepend="ORDER BY">
+				<iterate property="pageOrder" conjunction=",">$pageOrder[]$</iterate>
+			</isNotNull>
+		</dynamic>
+	</sql>
+	<sql id="ALI_ORDER_EXT">
+		<dynamic>
+			<isNotNull property="pageOrder" prepend="ORDER BY">
+				<iterate property="pageOrder" close=",ID" conjunction=",">$pageOrder[]$</iterate>
+			</isNotNull>
+		</dynamic>
+	</sql>
+</sqlMap>

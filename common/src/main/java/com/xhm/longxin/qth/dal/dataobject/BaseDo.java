@@ -10,16 +10,17 @@ import java.util.Date;
  *
  */
 public class BaseDo {
-	private long id;
-	private Date gmtCreated;
-	private Date gmtModified;
-	private String creator;
-	private String modifier;
-	private String isDeleted;
-	public long getId() {
+
+    protected Long           id;
+    protected Date             gmtCreated;
+    protected Date             gmtModified;
+    protected String           creator;
+    protected String           modifier;
+    protected String           isDeleted;
+	public Long getId() {
 		return id;
 	}
-	public void setId(long id) {
+	public void setId(Long id) {
 		this.id = id;
 	}
 	public Date getGmtCreated() {
@@ -52,5 +53,6 @@ public class BaseDo {
 	public void setIsDeleted(String isDeleted) {
 		this.isDeleted = isDeleted;
 	}
+
 
 }

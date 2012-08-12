@@ -1,0 +1,114 @@
+<?xml version="1.0" encoding="GBK" ?>
+<!DOCTYPE sqlMap PUBLIC "-//iBATIS.com//DTD SQL Map 2.0//EN" "http://www.ibatis.com/dtd/sql-map-2.dtd">
+<sqlMap namespace="QTH_BUY_PRODUCT">
+	<typeAlias alias="BUY_PRODUCT_POJO"
+		type="com.xhm.longxin.qth.dal.dataobject.BuyProduct" />
+	<resultMap id="PRODUCT_RESULT_MAP" class="BUY_PRODUCT_POJO">
+		<result property="id" column="ID" jdbcType="BIGINT" javaType="long" />
+		<result property="name" column="name" jdbcType="VARCHAR"
+			javaType="String" />
+		<result property="unit" column="unit" jdbcType="VARCHAR"
+			javaType="String" />
+		<result property="categoryId" column="category_id" jdbcType="BIGINT"
+			javaType="long" />
+		<result property="quantity" column="quantity" jdbcType="BIGINT"
+			javaType="long" />
+		<result property="price" column="price" jdbcType="DOUBLE"
+			javaType="double" />
+		<result property="lowestDealSize" column="lowest_deal_size"
+			jdbcType="DOUBLE" javaType="double" />
+		<result property="status" column="status" jdbcType="VARCHAR"
+			javaType="String" />
+		<result property="owner" column="owner" jdbcType="VARCHAR"
+			javaType="String" />
+		<result property="productType" column="product_type" jdbcType="VARCHAR"
+			javaType="String" />
+		<result property="isSale" column="is_sale" jdbcType="VARCHAR"
+			javaType="String" />
+	</resultMap>
+
+	<insert id="INSERT_PRODUCT" parameterClass="BUY_PRODUCT_POJO">
+         <![CDATA[
+            INSERT INTO qth_product_buy
+                (
+                 gmt_created,
+                 gmt_modified,
+                 creator,
+                 modifier,
+                 is_deleted,
+                 name,
+                 category_id,
+                 quantity,
+                 unit,
+                 price,
+                 lowest_deal_size,
+                 status,
+                 owner,
+                 product_type,
+                 is_sale
+                 )
+               VALUES
+               (
+				now(),
+				now(),
+	            'system',
+	            'system',
+	            'n',
+				#name#,
+                #categoryId#,
+                #quantity#,
+                #unit#,
+                #price#,
+                #lowestDealSize#,
+                #status#,
+                #owner#,
+                #productType#,
+                #isSale#
+	        )
+        ]]>
+		<selectKey resultClass="Integer" keyProperty="id">
+             <![CDATA[ SELECT LAST_INSERT_ID() AS ID ]]>
+		</selectKey>
+	</insert>
+	<update id="UPDATE_PRODUCT" parameterClass="BUY_PRODUCT_POJO"><![CDATA[
+        update
+                qth_product_buy
+        set
+                gmt_modified=now() ]]>
+		<isNotNull property="isDeleted" prepend=",">
+			is_deleted=#isDeleted#</isNotNull>
+		<isNotNull property="modifier" prepend=",">
+			modifier=#modifier#
+		</isNotNull>
+		<isNotNull property="name" prepend=",">
+			name=#name#
+		</isNotNull>
+		<isNotNull property="categoryId" prepend=",">
+			category_id=#categoryId#</isNotNull>
+		<isNotNull property="unit" prepend=",">
+			unit=#unit#
+		</isNotNull>
+		<isNotNull property="price" prepend=",">
+			price=#price#
+		</isNotNull>
+		<isNotNull property="lowestDealSize" prepend=",">
+			lowest_deal_size=#lowestDealSize#
+		</isNotNull>
+		<isNotNull property="status" prepend=",">
+			status=#status#
+		</isNotNull>
+		<isNotNull property="owner" prepend=",">
+			owner=#owner#
+		</isNotNull>
+		<isNotNull property="productType" prepend=",">
+			product_type=#productType#
+		</isNotNull>
+		<isNotNull property="isSale" prepend=",">
+			is_sale=#isSale#
+		</isNotNull>
+		where
+		id = #id#
+	</update>
+</sqlMap>
+
+

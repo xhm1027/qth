@@ -1,0 +1,96 @@
+<?xml version="1.0" encoding="GBK" ?>
+<!DOCTYPE sqlMap PUBLIC "-//iBATIS.com//DTD SQL Map 2.0//EN" "http://www.ibatis.com/dtd/sql-map-2.dtd">
+<sqlMap namespace="QTH_MESSAGE">
+	<typeAlias alias="MESSAGE_POJO" type="com.xhm.longxin.qth.dal.dataobject.Message" />
+	<resultMap id="MESSAGE_RESULT_MAP" class="MESSAGE_POJO">
+		<result property="id" column="ID" jdbcType="BIGINT" javaType="long" />
+		<result property="title" column="msg_title" jdbcType="VARCHAR"
+			javaType="String" />
+		<result property="sender" column="sender" jdbcType="VARCHAR"
+			javaType="String" />
+		<result property="receiver" column="receiver" jdbcType="VARCHAR"
+			javaType="String" />
+		<result property="content" column="msgContent" jdbcType="VARCHAR"
+			javaType="String" />
+		<result property="isOpened" column="is_opened" jdbcType="VARCHAR"
+			javaType="String" />
+		<result property="senderDeleted" column="sender_deleted"
+			jdbcType="VARCHAR" javaType="String" />
+		<result property="receiverDeleted" column="receiver_deleted"
+			jdbcType="VARCHAR" javaType="String" />
+	</resultMap>
+
+	<insert id="INSERT_MESSAGE" parameterClass="MESSAGE_POJO">
+         <![CDATA[
+            INSERT INTO qth_msg
+                (
+                 gmt_created,
+                 gmt_modified,
+                 creator,
+                 modifier,
+                 is_deleted,
+                 msg_title,
+                 sender,
+                 receiver,
+                 msg_content,
+                 is_opened,
+                 sender_deleted,
+                 receiver_deleted
+                 )
+               VALUES
+               (
+				now(),
+				now(),
+	            'system',
+	            'system',
+	            'n',
+				#title#,
+                #sender#,
+                #receiver#,
+                #content#,
+                #isOpened#,
+                #senderDeleted#,
+                #receiverDeleted#
+	        )
+        ]]>
+		<selectKey resultClass="Integer" keyProperty="id">
+             <![CDATA[ SELECT LAST_INSERT_ID() AS ID ]]>
+		</selectKey>
+	</insert>
+	<update id="UPDATE_MESSAGE" parameterClass="MESSAGE_POJO"><![CDATA[
+        update
+                qth_msg
+        set
+                gmt_modified=now() ]]>
+		<isNotNull property="isDeleted" prepend=",">
+			is_deleted=#isDeleted#</isNotNull>
+		<isNotNull property="modifier" prepend=",">
+			modifier=#modifier#
+		</isNotNull>
+		<isNotNull property="title" prepend=",">
+			msg_title=#title#
+		</isNotNull>
+		<isNotNull property="sender" prepend=",">
+			sender=#sender#
+		</isNotNull>
+		<isNotNull property="receiver" prepend=",">
+			receiver=#receiver#
+		</isNotNull>
+		<isNotNull property="content" prepend=",">
+			msg_content=#content#
+		</isNotNull>
+		<isNotNull property="isOpened" prepend=",">
+			is_opened=#isOpened#
+		</isNotNull>
+		<isNotNull property="receiverDeleted" prepend=",">
+			receiver_deleted=#receiverDeleted#
+		</isNotNull>
+		<isNotNull property="senderDeleted" prepend=",">
+			sender_deleted=#senderDeleted#
+		</isNotNull>
+		where
+		id = #id#
+	</update>
+</sqlMap>
+
+
