@@ -4,6 +4,8 @@
 package com.xhm.longxin.qth.dal.dao;
 
 import junit.framework.Assert;
+
+import org.jtester.annotations.SpringBeanByName;
 import org.testng.annotations.Test;
 import com.xhm.longxin.qth.dal.constant.AttachmentType;
 import com.xhm.longxin.qth.dal.dataobject.Attachment;
@@ -13,6 +15,8 @@ import com.xhm.longxin.qth.dal.dataobject.Attachment;
  *
  */
 public class AttachmentDaoTest  extends BaseDaoTest {
+	@SpringBeanByName
+	private AttachmentDao attachmentDao;
 	@Test
 	public void testAddAttachment() {
 		Attachment attachment = new Attachment();
@@ -20,7 +24,7 @@ public class AttachmentDaoTest  extends BaseDaoTest {
 		attachment.setKey("firstPicture");
 		attachment.setType(AttachmentType.IMG);
 		attachment.setPath("/xxx/123/abc.jpg");
-		// Ôö
+		// 
 		Assert.assertTrue(attachmentDao.addAttachment(attachment));
 	}
 }

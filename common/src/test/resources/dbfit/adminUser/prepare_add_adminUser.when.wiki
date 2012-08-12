@@ -1,0 +1,2 @@
+|connect|
+|clean table|admin_user|

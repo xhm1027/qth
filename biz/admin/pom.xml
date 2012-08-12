@@ -30,6 +30,11 @@
 					<artifactId>qth.common</artifactId>
 					<version>${pom.version}</version>
 				</dependency>
+		
+        <dependency>
+			<groupId>com.alibaba.shared</groupId>
+			<artifactId>toolkit.sandbox.jtester</artifactId>
+		</dependency>
     </dependencies>
     <build>
 		<plugins>

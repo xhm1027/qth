@@ -2,38 +2,37 @@
  *
  */
 package com.xhm.longxin.qth.dal.dao;
-import junit.framework.Assert;
-import org.testng.annotations.BeforeMethod;
+
+
+import org.jtester.annotations.DbFit;
+import org.jtester.annotations.SpringBeanByName;
+import org.testng.Assert;
 import org.testng.annotations.Test;
 import com.xhm.longxin.qth.dal.dataobject.AdminUser;
 
 /**
  * @author ren.zhangr
- *
+ * 
  */
 public class AdminUserDaoTest extends BaseDaoTest {
-	@BeforeMethod
-	public void setUp() {
-		AdminUser user = adminUserDao.getAdminUserByLoginId("admin");
-		if (user != null) {
-			adminUserDao.deleteAdminUserById(user.getId());
-		}
-	}
+	@SpringBeanByName
+	private AdminUserDao adminUserDao;
 
 	@Test
+    @DbFit(when = "dbfit/adminUser/prepare_add_adminUser.when.wiki")
 	public void testAddAdminUser() {
 		AdminUser user = new AdminUser();
 		String loginId = "admin";
 		user.setLoginId(loginId);
 		// user.setBuyCategory("1,2,3");
-		user.setName("ÀîËÄ");
+		user.setName("ï¿½ï¿½ï¿½ï¿½");
 		user.setPassword("11234");
 		user.setEmail("afb@123.com");
-		Assert.assertTrue(adminUserDao.addAdminUser(user));
-		Assert.assertNotNull(adminUserDao.getAdminUserByLoginId(loginId));
+		want.bool(adminUserDao.addAdminUser(user)).isEqualTo(true);
+		want.object(adminUserDao.getAdminUserByLoginId(loginId)).notNull();
 		AdminUser u = adminUserDao.getAdminUserByLoginIdAndPass(loginId,
 				"11234");
-		Assert.assertNotNull(u);
+		want.object(u).notNull();
 	}
 
 	@Test
@@ -42,17 +41,17 @@ public class AdminUserDaoTest extends BaseDaoTest {
 		String loginId = "admin";
 		user.setLoginId(loginId);
 		// user.setBuyCategory("1,2,3");
-		user.setName("ÀîËÄ");
+		user.setName("ï¿½ï¿½ï¿½ï¿½");
 		user.setPassword("11234");
 		user.setEmail("afb@123.com");
 		Assert.assertTrue(adminUserDao.addAdminUser(user));
 		AdminUser u = adminUserDao.getAdminUserByLoginId(loginId);
-		// ÐÞ¸Ä
-		u.setName("ÐÂÀîËÄ");
+		// ï¿½Þ¸ï¿½
+		u.setName("ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½");
 		adminUserDao.updateAdminUser(u);
-		Assert.assertEquals("ÐÂÀîËÄ", adminUserDao.getAdminUserByLoginId(loginId)
-				.getName());
-		// É¾³ý
+		Assert.assertEquals("ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½",
+				adminUserDao.getAdminUserByLoginId(loginId).getName());
+		// É¾ï¿½ï¿½
 		adminUserDao.deleteAdminUserById(u.getId());
 		Assert.assertNull(adminUserDao.getAdminUserByLoginId(loginId));
 	}

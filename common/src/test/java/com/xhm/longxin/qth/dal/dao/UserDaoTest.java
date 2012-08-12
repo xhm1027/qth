@@ -10,6 +10,7 @@ import java.util.Map;
 
 import junit.framework.Assert;
 
+import org.jtester.annotations.SpringBeanByName;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 import com.xhm.longxin.qth.dal.constant.Gender;
@@ -25,6 +26,8 @@ import com.xhm.longxin.qth.dal.dataobject.UserInterest;
  *
  */
 public class UserDaoTest extends BaseDaoTest{
+	@SpringBeanByName
+	private UserDao userDao;
 
 	@BeforeMethod
 	public void setUp(){
@@ -64,10 +67,10 @@ public class UserDaoTest extends BaseDaoTest{
 		buyInsterests.add(i);
 		user.setBuyInterests(buyInsterests);
 		//新增
-		Assert.assertTrue(super.userDao.addUser(user));
+		Assert.assertTrue(userDao.addUser(user));
 		//通过loginId查询
-		Assert.assertNotNull(super.userDao.getUserByLoginId(loginId));
-		User u=super.userDao.getUserByLoginIdAndPass(loginId, "11234");
+		Assert.assertNotNull(userDao.getUserByLoginId(loginId));
+		User u=userDao.getUserByLoginIdAndPass(loginId, "11234");
 		Assert.assertNotNull(u);
 	}
 
@@ -109,7 +112,7 @@ public class UserDaoTest extends BaseDaoTest{
 		//修改
 		u.setBuyInterests(buyInsterests);
 		userDao.updateUser(u);
-		u=super.userDao.getUserByLoginIdAndPass(loginId, "123");
+		u=userDao.getUserByLoginIdAndPass(loginId, "123");
 		Assert.assertEquals(u.getCompany(), userDao.getUserById(u.getId()).getCompany());
 		//查询
 		Map<String,Object> param=new HashMap<String,Object>();
@@ -119,6 +122,6 @@ public class UserDaoTest extends BaseDaoTest{
 		Assert.assertNotNull(userDao.queryUser(param));
 		//删除
 		userDao.deleteUserById(u.getId());
-		Assert.assertNull(super.userDao.getUserByLoginId(loginId));
+		Assert.assertNull(userDao.getUserByLoginId(loginId));
 	}
 }

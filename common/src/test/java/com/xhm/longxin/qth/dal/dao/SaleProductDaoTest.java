@@ -4,6 +4,8 @@
 package com.xhm.longxin.qth.dal.dao;
 
 import junit.framework.Assert;
+
+import org.jtester.annotations.SpringBeanByName;
 import org.testng.annotations.Test;
 import com.xhm.longxin.qth.dal.constant.ProductStatus;
 import com.xhm.longxin.qth.dal.dataobject.SaleProduct;
@@ -13,14 +15,16 @@ import com.xhm.longxin.qth.dal.dataobject.SaleProduct;
  *
  */
 public class SaleProductDaoTest  extends BaseDaoTest {
+	@SpringBeanByName
+	private SaleProductDao saleProductDao;
 	@Test
 	public void testAddProduct() {
 		SaleProduct product = new SaleProduct();
 		product.setOwner("zhangren");
-		product.setName("²úÆ·Ãû³Æ");
+		product.setName("ï¿½ï¿½Æ·ï¿½ï¿½ï¿½");
 		product.setQuantity(12345L);
 		product.setStatus(ProductStatus.NEW);
-		// Ôö
+		// ï¿½ï¿½
 		Assert.assertTrue(saleProductDao.addSaleProduct(product));
 	}
 }
