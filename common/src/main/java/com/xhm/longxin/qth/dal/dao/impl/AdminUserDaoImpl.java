@@ -53,9 +53,9 @@ public class AdminUserDaoImpl extends SqlMapClientDaoSupport implements
 	}
 
 	public AdminUser getAdminUserByLoginId(String loginId) {
-		AdminUser user = (AdminUser) getSqlMapClientTemplate().queryForObject(
+		List<AdminUser> users = (List<AdminUser>) getSqlMapClientTemplate().queryForList(
 				NAMESPACE_USER + "." + QUERY_BY_LOGIN_ID, loginId);
-		return user;
+		return users.size()>0?users.get(0):null;
 	}
 
 	/*
