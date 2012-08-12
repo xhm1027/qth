@@ -31,11 +31,12 @@ http://www.springframework.org/schema/beans http://localhost:8080/schema/www.spr
 	<beans:import resource="classpath:web/common/webx-component-and-root.xml" />
 	<!-- datasource -->
 	<!--<beans:import resource="classpath:spring/spring-datasource.xml" />-->
+	
+	<!-- 数据访问层配置 -->
+	<beans:import resource="classpath:spring/common-dal.xml" /> 
 	<!-- 业务bean -->
 	<beans:import resource="classpath:spring/spring-biz-user.xml" />
 	<beans:import resource="classpath:spring/spring-biz-admin.xml" />
-	<!-- 数据访问层配置 -->
-	<!--	<beans:import resource="classpath:spring/spring-dal.xml" /> -->
 	<services:webx-configuration>
 		#if("run" == "${qth_basic_setting_mode}")
 			<services:productionMode>true</services:productionMode>

@@ -31,7 +31,7 @@ import com.alibaba.citrus.util.StringUtil;
 
 import com.xhm.longxin.biz.admin.interfaces.AdminService;
 import com.xhm.longxin.biz.admin.vo.LoginVO;
-import com.xhm.longxin.common.daoobject.Admin;
+import com.xhm.longxin.qth.dal.dataobject.AdminUser;
 import com.xhm.longxin.qth.web.admin.common.AdminConstant;
 import com.xhm.longxin.qth.web.admin.common.QthAdmin;
 
@@ -40,18 +40,18 @@ public class AdminAction {
     private AdminService adminService;
     public void doLogin(@FormGroup("login") LoginVO vo,@FormField(name = "loginError", group = "login") CustomErrors err,HttpSession session, Navigator nav, ParameterParser params) {
 
-    	Admin admin = adminService.login(vo);
+    	AdminUser admin = adminService.login(vo);
     	 if (admin != null) {
     		 QthAdmin qthAdmin = (QthAdmin) session.getAttribute(AdminConstant.QTH_ADMIN_SESSION_KEY);
 
     		 if (qthAdmin == null || qthAdmin.hasLoggedIn()) {
     			 qthAdmin = new QthAdmin();
              }
-    		 qthAdmin.upgrade(admin.getId(), admin.getName());
+    		 qthAdmin.upgrade(admin.getLoginId(), admin.getName());
     		 
              session.setAttribute(AdminConstant.QTH_ADMIN_SESSION_KEY, qthAdmin);
 
-             // 跳转到return页面
+             
              redirectToReturnPage(nav, params);
          } else {
              err.setMessage("invalidUserOrPassword");
@@ -60,10 +60,10 @@ public class AdminAction {
     }
     
     public void doLogout(HttpSession session, Navigator nav, ParameterParser params) throws Exception {
-        // 清除session中的user
+        
         session.removeAttribute(AdminConstant.QTH_ADMIN_SESSION_KEY);
 
-        // 跳转到return页面
+       
         redirectToReturnPage(nav, params);
     }
     

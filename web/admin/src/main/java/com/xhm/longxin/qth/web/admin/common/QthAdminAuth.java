@@ -88,7 +88,7 @@ public class QthAdminAuth extends BeanSupport implements Callback<QthAdminAuth.S
             session.setAttribute(sessionKey, user);
         }
 
-        // 将user设置到rundata中，以便其它程序使用�?        PetstoreUser.setCurrentUser(user);
+        // 将user设置到rundata中，以便其它程序使用�?        PetstoreUser.setCurrentUser(user);
 
         return new Status(rundata, user);
     }
@@ -97,7 +97,7 @@ public class QthAdminAuth extends BeanSupport implements Callback<QthAdminAuth.S
         return status.user.getUserName();
     }
 
-    public Long getUserId(Status status) {
+    public String getUserId(Status status) {
         return status.user.getId();
     }
 

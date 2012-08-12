@@ -24,9 +24,9 @@ import java.io.Serializable;
 public class QthUser implements Serializable {
     private static final long                      serialVersionUID = -7507510429755782596L;
     private static final ThreadLocal<QthUser> userHolder       = new ThreadLocal<QthUser>();
-    private Long  userId;
+    private String  userId;
     private String 	userName;
-    private String 	userType;
+    private String 	role;
 
     public static final QthUser getCurrentUser() {
     	QthUser qthUser = userHolder.get();
@@ -37,16 +37,16 @@ public class QthUser implements Serializable {
         userHolder.set(user);
     }
 
-    /** 创建匿名用户。 */
+    
     public QthUser() {
     }
 
-    /** 创建用户。 */
-    public QthUser(Long userId) {
+    
+    public QthUser(String userId) {
         this.userId = userId;
     }
 
-    public Long getId() {
+    public String getId() {
         return userId;
     }
     
@@ -58,22 +58,22 @@ public class QthUser implements Serializable {
         this.userName = userName;
     }
 
-    public String getUserType() {
-        return userType;
+    public String getRole() {
+        return role;
     }
 
-    public void setUserType(String userType) {
-        this.userType = userType;
+    public void setRoe(String role) {
+    	this.role = role;
     }
 
-    public void upgrade(Long userId,String userName, String userType) {
+    public void upgrade(String userId,String userName, String role) {
 //        assertTrue(!hasLoggedIn(), ExceptionType.ILLEGAL_STATE, "already logged in");
 
 //        userId = assertNotNull(userId, "no user id");
 
         this.userId = userId;
         this.userName = userName;
-        this.userType = userType;
+        this.role = role;
         this.setCurrentUser(this);
     }
 
@@ -83,6 +83,6 @@ public class QthUser implements Serializable {
 
     @Override
     public String toString() {
-        return "QthUser[" + defaultIfNull(userName, "anonymous") + ", type=" + defaultIfNull(userType, "anonymous") + "]";
+        return "QthUser[" + defaultIfNull(userName, "anonymous") + ", role=" + defaultIfNull(role, "anonymous") + "]";
     }
 }

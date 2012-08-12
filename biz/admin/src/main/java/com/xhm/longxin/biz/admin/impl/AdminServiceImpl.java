@@ -1,22 +1,21 @@
 package com.xhm.longxin.biz.admin.impl;
 
-import com.alibaba.citrus.util.StringUtil;
+import org.springframework.beans.factory.annotation.Autowired;
+
 import com.xhm.longxin.biz.admin.interfaces.AdminService;
 import com.xhm.longxin.biz.admin.vo.LoginVO;
-import com.xhm.longxin.common.daoobject.Admin;
+import com.xhm.longxin.qth.dal.dao.AdminUserDao;
+import com.xhm.longxin.qth.dal.dataobject.AdminUser;
 
 public class AdminServiceImpl implements AdminService {
-
-	public Admin login(LoginVO vo) {
-		if(StringUtil.isEqualsIgnoreCase(vo.getName(), "admin")){
-			Admin admin=  new Admin();
-			admin.setName(vo.getName());
-			admin.setPassword(vo.getPassword());
-			admin.setId(1l);
-			return admin;
-		}else{
-			return null;
-		}
+	@Autowired
+	private AdminUserDao adminUserDao;
+	
+	public AdminUser login(LoginVO vo) {
+		
+		return adminUserDao.getAdminUserByLoginIdAndPass(vo.getName(), vo.getPassword());
+		
+		
 	}
 
 }

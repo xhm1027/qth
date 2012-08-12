@@ -24,7 +24,7 @@ import java.io.Serializable;
 public class QthAdmin implements Serializable {
     private static final long                      serialVersionUID = -7507510429733333544L;
     private static final ThreadLocal<QthAdmin> adminHolder       = new ThreadLocal<QthAdmin>();
-    private Long  userId;
+    private String  userId;
     private String 	userName;
 
     public static final QthAdmin getCurrentUser() {
@@ -36,16 +36,16 @@ public class QthAdmin implements Serializable {
     	adminHolder.set(user);
     }
 
-    /** 创建匿名用户。 */
+
     public QthAdmin() {
     }
 
-    /** 创建用户。 */
-    public QthAdmin(Long userId) {
+    
+    public QthAdmin(String userId) {
         this.userId = userId;
     }
 
-    public Long getId() {
+    public String getId() {
         return userId;
     }
     
@@ -57,7 +57,7 @@ public class QthAdmin implements Serializable {
         this.userName = userName;
     }
 
-    public void upgrade(Long userId,String userName) {
+    public void upgrade(String userId,String userName) {
 //        assertTrue(!hasLoggedIn(), ExceptionType.ILLEGAL_STATE, "already logged in");
 
 //        userId = assertNotNull(userId, "no user id");

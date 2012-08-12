@@ -1,7 +1,7 @@
 package com.xhm.longxin.biz.user.interfaces;
 
 import com.xhm.longxin.biz.user.vo.LoginVO;
-import com.xhm.longxin.common.daoobject.User;
+import com.xhm.longxin.qth.dal.dataobject.User;
 
 /**
  * 
@@ -10,7 +10,7 @@ import com.xhm.longxin.common.daoobject.User;
  */
 public interface UserService {
 	/**
-	 * µÇÂ¼
+	 * login
 	 * @param vo
 	 * @return User
 	 */

@@ -1,7 +1,7 @@
 package com.xhm.longxin.biz.admin.interfaces;
 
 import com.xhm.longxin.biz.admin.vo.LoginVO;
-import com.xhm.longxin.common.daoobject.Admin;
+import com.xhm.longxin.qth.dal.dataobject.AdminUser;
 
 /**
  * 
@@ -10,9 +10,9 @@ import com.xhm.longxin.common.daoobject.Admin;
  */
 public interface AdminService {
 	/**
-	 * µÇÂ¼
+	 * ç™»å½•
 	 * @param vo
 	 * @return User
 	 */
-	public Admin login(LoginVO vo);
+	public AdminUser login(LoginVO vo);
 }
