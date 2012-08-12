@@ -6,7 +6,6 @@ package com.xhm.longxin.qth.dal.dao;
 
 import org.jtester.annotations.DbFit;
 import org.jtester.annotations.SpringBeanByName;
-import org.testng.Assert;
 import org.testng.annotations.Test;
 import com.xhm.longxin.qth.dal.dataobject.AdminUser;
 
@@ -24,12 +23,13 @@ public class AdminUserDaoTest extends BaseDaoTest {
 		AdminUser user = new AdminUser();
 		String loginId = "admin";
 		user.setLoginId(loginId);
-		// user.setBuyCategory("1,2,3");
-		user.setName("����");
+		user.setName("许昊旻");
 		user.setPassword("11234");
 		user.setEmail("afb@123.com");
-		want.bool(adminUserDao.addAdminUser(user)).isEqualTo(true);
-		want.object(adminUserDao.getAdminUserByLoginId(loginId)).notNull();
+		boolean result = adminUserDao.addAdminUser(user);
+		want.bool(result).isEqualTo(true);
+		user = adminUserDao.getAdminUserByLoginId(loginId);
+		want.object(user).notNull();
 		AdminUser u = adminUserDao.getAdminUserByLoginIdAndPass(loginId,
 				"11234");
 		want.object(u).notNull();
@@ -41,7 +41,6 @@ public class AdminUserDaoTest extends BaseDaoTest {
 		AdminUser user = new AdminUser();
 		String loginId = "admin";
 		user.setLoginId(loginId);
-		// user.setBuyCategory("1,2,3");
 		user.setName("xhm");
 		user.setPassword("11234");
 		user.setEmail("afb@123.com");

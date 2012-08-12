@@ -9,11 +9,11 @@
 		destroy-method="close">
 		<property name="driverClassName" value="com.mysql.jdbc.Driver" />
 		<property name="url"
-			value="jdbc:mysql://sp5027866fef1f5.mysql.rds.aliyuncs.com:3306/sp5027866fef1f5?characterEncoding=UTF-8" />
-		<property name="username" value="sp5027866fef1f5" />
-		<property name="password" value="aliyunqth" />
-		<property name="maxActive" value="8" />
-		<property name="maxWait" value="7200000" />
+			value="jdbc:mysql://localhost:3306/qth?characterEncoding=UTF-8" />
+		<property name="username" value="qth" />
+		<property name="password" value="qth" />
+		<property name="maxActive" value="32" />
+		<property name="maxWait" value="60000" />
 	</bean>
 
 	<bean id="sqlMapClient" class="org.springframework.orm.ibatis.SqlMapClientFactoryBean">
