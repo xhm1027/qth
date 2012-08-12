@@ -1,0 +1,105 @@
+<?xml version="1.0" encoding="GBK" ?>
+<!DOCTYPE sqlMap PUBLIC "-//iBATIS.com//DTD SQL Map 2.0//EN" "http://www.ibatis.com/dtd/sql-map-2.dtd">
+<sqlMap namespace="QTH_ADMIN_USER">
+	<typeAlias alias="ADMIN_USER_POJO" type="com.xhm.longxin.qth.dal.dataobject.AdminUser" />
+	<resultMap id="USER_RESULT_MAP" class="ADMIN_USER_POJO">
+		<result property="id" column="ID" jdbcType="BIGINT" javaType="long" />
+		<result property="loginId" column="login_id" jdbcType="VARCHAR"
+			javaType="String" />
+		<result property="name" column="name" jdbcType="VARCHAR"
+			javaType="String" />
+		<result property="email" column="email" jdbcType="VARCHAR"
+			javaType="String" />
+	</resultMap>
+
+	<insert id="INSERT_ADMIN_USER" parameterClass="ADMIN_USER_POJO">
+         <![CDATA[
+            INSERT INTO admin_user
+                (
+                 gmt_created,
+                 gmt_modified,
+                 creator,
+                 modifier,
+                 is_deleted,
+                 login_id,
+                 password,
+                 name,
+                 email
+                 )
+               VALUES
+               (
+				now(),
+				now(),
+	            'system',
+	            'system',
+	            'n',
+				#loginId#,
+				md5(#password#),
+				#name#,
+				#email#
+	        )
+        ]]>
+		<selectKey resultClass="Integer" keyProperty="id">
+             <![CDATA[ SELECT LAST_INSERT_ID() AS ID ]]>
+		</selectKey>
+	</insert>
+	<update id="UPDATE_ADMIN_USER" parameterClass="ADMIN_USER_POJO"><![CDATA[
+        update
+                admin_user
+        set
+                gmt_modified=now() ]]>
+		<isNotNull property="isDeleted" prepend=",">
+			is_deleted=#isDeleted#</isNotNull>
+		<isNotNull property="modifier" prepend=",">
+			modifier=#modifier#
+		</isNotNull>
+		<isNotNull property="name" prepend=",">
+			name=#name#</isNotNull>
+		<isNotNull property="password" prepend=",">
+			password=md5(#password#)</isNotNull>
+		<isNotNull property="email" prepend=",">
+			email=#email#
+		</isNotNull>
+		where
+		id = #id#
+	</update>
+
+	<select id="QUERY_ADMIN_USER_BYID" resultMap="USER_RESULT_MAP"
+		parameterClass="java.lang.Long">
+		 <![CDATA[
+				select
+				*
+				from admin_user where  is_deleted='n' AND id=#id#]]>
+	</select>
+	<select id="QUERY_ADMIN_USER_BY_LOGINID" resultMap="USER_RESULT_MAP"
+		parameterClass="java.lang.String">
+		 <![CDATA[
+				select
+				*
+				from admin_user where  is_deleted='n' AND login_id=#loginId#]]>
+	</select>
+	<select id="QUERY_ADMIN_USER_BY_MAP" resultMap="USER_RESULT_MAP"
+		parameterClass="map">
+		 <![CDATA[
+				select
+				*
+				from admin_user u where  u.is_deleted='n' ]]>
+		<isNotNull property="name" prepend="AND">
+			u.name=#name#
+		</isNotNull>
+		<isNotNull property="password" prepend="AND">
+			u.password=md5(#password#)
+		</isNotNull>
+		<isNotNull property="loginId" prepend="AND">
+			u.login_id=#loginId#
+		</isNotNull>
+		<isNotNull property="email" prepend="AND">
+			u.email=#email#
+		</isNotNull>
+		<isNotNull property="pageSize">
+				<![CDATA[ limit #pageStart#,#pageSize#]]>
+		</isNotNull>
+	</select>
+</sqlMap>
+
+

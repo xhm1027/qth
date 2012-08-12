@@ -18,24 +18,27 @@
 
 	<bean id="sqlMapClient" class="org.springframework.orm.ibatis.SqlMapClientFactoryBean">
 		<property name="dataSource" ref="dataSource" />
-		<property name="configLocation" value="spring/sqlmap-config.xml" />
-		<property name="sqlMapClientProperties">
-			<map>
-				<entry key="baseurl">
-					<bean class="com.alibaba.service.spring.support.GetResourceAsURL">
-						<property name="location" value="spring/sqlmap-config.xml" />
-						<property name="parent" value="true" />
-					</bean>
-				</entry>
-			</map>
-		</property>
+		<property name="configLocation" value="classpath:spring/sqlmap-config.xml" />
 	</bean>
 
-	<bean id="adminUserDaoImpl" class="com.qth.dal.dao.impl.AdminUserDaoImpl" />
-	<bean id="keplerNapoliMsgDao" class="com.ali.kepler.dal.dao.impl.KeplerNapoliMsgDaoImpl" />
-	<bean id="kplHudsonMasterConfDao" class="com.ali.kepler.dal.dao.impl.KplHudsonMasterConfDaoImpl" />
-	<bean id="kplResourceDao" class="com.ali.kepler.dal.dao.impl.KplResourceDaoImpl" />
-	<bean id="kplJobTplConfDao" class="com.ali.kepler.dal.dao.impl.KplJobTplConfDaoImpl" />
-	<bean id="kplProjectBuidConfDao" class="com.ali.kepler.dal.dao.impl.KplProjectBuidConfDaoImpl" />
-	<bean id="kplAppTplRelDao" class="com.ali.kepler.dal.dao.impl.KplAppTplRelDaoImpl" />
+	<bean id="adminUserDao" class="com.xhm.longxin.qth.dal.dao.impl.AdminUserDaoImpl" />
+	<bean id="userDao" class="com.xhm.longxin.qth.dal.dao.impl.UserDaoImpl" />
+	<bean id="attachmentDao" class="com.xhm.longxin.qth.dal.dao.impl.AttachmentDaoImpl" />
+	<bean id="auditLogDao" class="com.xhm.longxin.qth.dal.dao.impl.AuditLogDaoImpl" />
+	<bean id="buyProductDao" class="com.xhm.longxin.qth.dal.dao.impl.BuyProductDaoImpl" />
+	<bean id="saleProductDao" class="com.xhm.longxin.qth.dal.dao.impl.SaleProductDaoImpl" />
+	<bean id="messageDao" class="com.xhm.longxin.qth.dal.dao.impl.MessageDaoImpl" />
+	<bean id="productCategoryDao" class="com.xhm.longxin.qth.dal.dao.impl.ProductCategoryDaoImpl" />
+
+    <!-- ======================================================================== -->
+    <!--  TransactionManager¶¨Òå¡£                                                -->
+    <!-- ======================================================================== -->
+    <bean id="transactionManager"
+        class="org.springframework.jdbc.datasource.DataSourceTransactionManager">
+        <property name="dataSource" ref="dataSource" />
+    </bean>
+    <bean id="transactionTemplate"
+        class="org.springframework.transaction.support.TransactionTemplate">
+        <property name="transactionManager" ref="transactionManager" />
+    </bean>
 </beans>

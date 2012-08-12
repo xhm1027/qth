@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="GBK" ?>
+<!DOCTYPE sqlMap PUBLIC "-//iBATIS.com//DTD SQL Map 2.0//EN" "http://www.ibatis.com/dtd/sql-map-2.dtd">
+<sqlMap namespace="QTH_ATTACHMENT">
+	<typeAlias alias="ATTACHMENT_POJO"
+		type="com.xhm.longxin.qth.dal.dataobject.Attachment" />
+	<resultMap id="ATTACHMENT_RESULT_MAP" class="ATTACHMENT_POJO">
+		<result property="id" column="ID" jdbcType="BIGINT" javaType="long" />
+		<result property="type" column="type" jdbcType="VARCHAR"
+			javaType="String" />
+		<result property="path" column="path" jdbcType="VARCHAR"
+			javaType="String" />
+		<result property="key" column="key" jdbcType="VARCHAR"
+			javaType="String" />
+		<result property="ownerId" column="owner_id" jdbcType="BIGINT"
+			javaType="long" />
+	</resultMap>
+
+	<insert id="INSERT_ATTACHMENT" parameterClass="ATTACHMENT_POJO">
+         <![CDATA[
+            INSERT INTO qth_attachment
+                (
+                 gmt_created,
+                 gmt_modified,
+                 creator,
+                 modifier,
+                 is_deleted,
+                 type,
+                 path,
+                 `key`,
+                 owner_id
+                 )
+               VALUES
+               (
+				now(),
+				now(),
+	            'system',
+	            'system',
+	            'n',
+				#type#,
+				#path#,
+				#key#,
+				#ownerId#
+	        )
+        ]]>
+		<selectKey resultClass="Integer" keyProperty="id">
+             <![CDATA[ SELECT LAST_INSERT_ID() AS ID ]]>
+		</selectKey>
+	</insert>
+	<update id="UPDATE_ATTACHMENT" parameterClass="ATTACHMENT_POJO"><![CDATA[
+        update
+                qth_attachment
+        set
+                gmt_modified=now() ]]>
+		<isNotNull property="isDeleted" prepend=",">
+			is_deleted=#isDeleted#</isNotNull>
+		<isNotNull property="modifier" prepend=",">
+			modifier=#modifier#
+		</isNotNull>
+		<isNotNull property="type" prepend=",">
+			type=#type#</isNotNull>
+		<isNotNull property="path" prepend=",">
+			path=#path#</isNotNull>
+		<isNotNull property="key" prepend=",">
+			key=#key#
+		</isNotNull>
+		<isNotNull property="ownerId" prepend=",">
+			owner_id=#ownerId#
+		</isNotNull>
+		where
+		id = #id#
+	</update>
+</sqlMap>
+
+
