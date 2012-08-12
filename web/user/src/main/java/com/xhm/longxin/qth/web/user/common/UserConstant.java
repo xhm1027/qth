@@ -3,9 +3,9 @@ package com.xhm.longxin.qth.web.user.common;
 public interface UserConstant {
 	public final String QTH_USER_SESSION_KEY = "qthUser";
 	
-	/** Èç¹ûÎ´Ö¸¶¨return£¬µÇÂ¼ÒÔºó¾ÍÌøµ½¸ÃURL¡£ */
+	/** ä¸»é¡µ */
     public final String LOGIN_RETURN_DEFAULT_LINK = "qthHomeLink";
     
-    /** Í¼Æ¬ÑéÖ¤Âë **/
-    public final String VALIDATE_CODE="validateCode";
+    /** éªŒè¯ç **/
+    public final String VALIDATE_CODE="userValidateCode";
 }

@@ -42,7 +42,7 @@
                 <allow>*</allow>
             </grant>
         </match>
-        <match target="/login">
+        <match target="/login, /checkCode">
             <grant user="anonymous">
                 <allow>*</allow>
             </grant>
