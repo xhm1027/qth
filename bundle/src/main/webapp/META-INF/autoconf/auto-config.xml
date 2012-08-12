@@ -1,24 +1,14 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <config description="自动配置：qth.bundle">
-	<group name="qth.server">
+	<group name="qth">
 		<property name="qth.server.host" defaultValue="qth.com" description="qth的域名" />
 		<property name="qth.server.port" defaultValue="80" description="qth的端口" />
-	</group>
-	<group name="qth.basic.settings">
 		<property name="qth.basic.setting.workdir" defaultValue="D:/project/qth" description="应用工作路径" />
 		<property name="qth.basic.setting.output" defaultValue="${qth.basic.setting.workdir}/output" description="应用输出路径" />
 		<property name="qth.basic.setting.mode" defaultValue="dev" description="应用的部署状态（run，test，dev）" />
-	</group>
-
-	<group name="qth.deploy">
 		<property name="qth.deploy" defaultValue="${qth.basic.setting.workdir}/bundle" description="App布署目录" />
 		<property name="qth.logs" defaultValue="${qth.basic.setting.output}/logs" description="App输出目录" />
-	</group>
-
-
-
-	<group name="qth.bundle">
 		<property name="qth.templates" defaultValue="${qth.deploy}/templates" description="App模板目录" />
 	</group>
 

@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<config description="自动配置：lpscm.biz.refund">
+	
+	<group name="qth">
+		<property name="qth.database.url"
+			defaultValue="jdbc:mysql://localhost:3306/qth?characterEncoding=UTF-8"" description="数据库链接url" />
+		<property name="qth.database.usr"
+			defaultValue="qth" description="数据库链接用户名" />
+		<property name="qth.database.password"
+			defaultValue="qth" description="数据库链接密码" />
+	</group>
+	
+	<script>
+		<generate template="common.dal.xml.vm" destfile="spring/common.dal.xml"
+			charset="UTF-8" />
+	</script>
+</config>
