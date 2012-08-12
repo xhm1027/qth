@@ -2,8 +2,10 @@
   <name>qth.bundle</name>
   <comment>NO_M2ECLIPSE_SUPPORT: Project files created with the maven-eclipse-plugin are not supported in M2Eclipse.</comment>
   <projects>
+    <project>qth.biz.admin</project>
     <project>qth.biz.user</project>
     <project>qth.common</project>
+    <project>qth.web.admin</project>
     <project>qth.web.user</project>
   </projects>
   <buildSpec>
