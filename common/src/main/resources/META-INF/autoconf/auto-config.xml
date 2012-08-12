@@ -12,7 +12,7 @@
 	</group>
 	
 	<script>
-		<generate template="common.dal.xml.vm" destfile="spring/common.dal.xml"
+		<generate template="biz-dal.xml.vm" destfile="spring/biz-dal.xml"
 			charset="UTF-8" />
 	</script>
 </config>
