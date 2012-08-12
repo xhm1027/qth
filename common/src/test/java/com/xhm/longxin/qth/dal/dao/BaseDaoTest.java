@@ -24,7 +24,7 @@ public class BaseDaoTest {
 
 	public BaseDaoTest() {
 		ApplicationContext ctx = new FileSystemXmlApplicationContext(
-				"classpath:spring/biz-dal.xml");
+				"classpath:spring/test-common-dal.xml");
 		try {
 			userDao = (UserDao) ctx.getBean("userDao");
 			adminUserDao = (AdminUserDao) ctx.getBean("adminUserDao");
