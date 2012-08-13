@@ -20,6 +20,7 @@ public class MessageDaoTest  extends BaseDaoTest{
 	private MessageDao messageDao;
 	@Test
 	public void testAddMessage() {
+		db.table("qth_msg").clean().commit();
 		Message m = new Message();
 		m.setContent("����");
 		m.setTitle("����");

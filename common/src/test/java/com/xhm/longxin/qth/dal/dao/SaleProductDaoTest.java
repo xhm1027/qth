@@ -19,9 +19,10 @@ public class SaleProductDaoTest  extends BaseDaoTest {
 	private SaleProductDao saleProductDao;
 	@Test
 	public void testAddProduct() {
+		db.table("qth_product_sale").clean().commit();
 		SaleProduct product = new SaleProduct();
 		product.setOwner("zhangren");
-		product.setName("ï¿½ï¿½Æ·ï¿½ï¿½ï¿½");
+		product.setName("µ¥Ôª²âÊÔÊÛÂô²úÆ·Ãû³Æ");
 		product.setQuantity(12345L);
 		product.setStatus(ProductStatus.NEW);
 		// ï¿½ï¿½

@@ -19,12 +19,13 @@ public class AttachmentDaoTest  extends BaseDaoTest {
 	private AttachmentDao attachmentDao;
 	@Test
 	public void testAddAttachment() {
+		db.table("qth_attachment").clean().commit();
 		Attachment attachment = new Attachment();
 		attachment.setOwnerId(1L);
 		attachment.setKey("firstPicture");
 		attachment.setType(AttachmentType.IMG);
 		attachment.setPath("/xxx/123/abc.jpg");
-		// 
+		//
 		Assert.assertTrue(attachmentDao.addAttachment(attachment));
 	}
 }

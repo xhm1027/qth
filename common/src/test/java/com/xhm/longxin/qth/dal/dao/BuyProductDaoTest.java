@@ -19,12 +19,13 @@ public class BuyProductDaoTest  extends BaseDaoTest {
 	private BuyProductDao buyProductDao;
 	@Test
 	public void testAddProduct() {
+		db.table("qth_product_buy").clean().commit();
 		BuyProduct product = new BuyProduct();
 		product.setOwner("zhangren");
-		product.setName("ï¿½ï¿½Æ·ï¿½ï¿½ï¿½");
+		product.setName("µ¥Ôª²âÊÔ²úÆ·Ãû³Æ");
 		product.setQuantity(12345L);
 		product.setStatus(ProductStatus.NEW);
-		// ï¿½ï¿½
+
 		Assert.assertTrue(buyProductDao.addBuyProduct(product));
 	}
 }

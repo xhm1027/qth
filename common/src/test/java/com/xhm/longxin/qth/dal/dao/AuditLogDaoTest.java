@@ -22,17 +22,11 @@ import com.xhm.longxin.qth.dal.dataobject.AuditLog;
 public class AuditLogDaoTest extends BaseDaoTest {
 	@SpringBeanByName
 	private AuditLogDao auditLogDao;
-	
-	
+
+
 	@BeforeMethod
 	public void setUp() {
-		List<AuditLog> logs = auditLogDao.getAuditLogByTypeAndId("user", 1L);
-		for (AuditLog log : logs) {
-			// ɾ
-			auditLogDao.deleteAuditLogById(log.getId());
-		}
-		Assert.assertEquals(auditLogDao.getAuditLogByTypeAndId("user", 1L)
-				.size(), 0);
+		db.table("qth_audit_log").clean().commit();
 	}
 
 	@Test
@@ -43,9 +37,9 @@ public class AuditLogDaoTest extends BaseDaoTest {
 		log.setAuditResult(AuditResult.PASS);
 		log.setAuditType(AuditType.USER);
 		log.setDescription("desc");
-		// 
+		//
 		Assert.assertTrue(auditLogDao.addAuditLog(log));
-		// 
+		//
 		log = auditLogDao.getAuditLogByTypeAndId(AuditType.USER, 1L).get(0);
 		log.setAuditResult(AuditResult.FAIL);
 		//

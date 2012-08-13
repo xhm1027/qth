@@ -31,12 +31,7 @@ public class UserDaoTest extends BaseDaoTest{
 
 	@BeforeMethod
 	public void setUp(){
-		Map<String,Object> param=new HashMap<String,Object>();
-		param.put("company", "å…¬å¸");
-		List<User> users=userDao.queryUser(param);
-		for(User user:users){
-			userDao.deleteUserById(user.getId());
-		}
+		db.table("qth_user").clean().commit();
 	}
 	@Test
 	public void testUserAdd() {
@@ -44,14 +39,14 @@ public class UserDaoTest extends BaseDaoTest{
 		User user = new User();
 		user.setBusiLicense("11234");
 		//user.setBuyCategory("1,2,3");
-		user.setCompany("å…¬å¸å");
-		user.setCompanyAddress("å…¬å¸åœ°å€");
+		user.setCompany("µ¥²â¹«Ë¾Ãû");
+		user.setCompanyAddress("µ¥Ôª²âÊÔ¹«Ë¾µØÖ·");
 		user.setEmail("afb@123.com");
 		user.setGender(Gender.FEMALE);
 		user.setIdCardNum("365587458755");
 		user.setLoginId(loginId);
 		user.setMobilePhone("12355478965");
-		user.setName("å¼ ä¸‰");
+		user.setName("µ¥²âÕÅÈı");
 		user.setPassword("11234");
 		user.setPhoneArea("0571");
 		user.setPhoneNumber("88889988");
@@ -66,9 +61,9 @@ public class UserDaoTest extends BaseDaoTest{
 		i.setLoginId(loginId);
 		buyInsterests.add(i);
 		user.setBuyInterests(buyInsterests);
-		//æ–°å¢
+		//ĞÂÔö¢
 		Assert.assertTrue(userDao.addUser(user));
-		//é€šè¿‡loginIdæŸ¥è¯¢
+		//ÑéÖ¤
 		Assert.assertNotNull(userDao.getUserByLoginId(loginId));
 		User u=userDao.getUserByLoginIdAndPass(loginId, "11234");
 		Assert.assertNotNull(u);
@@ -81,14 +76,14 @@ public class UserDaoTest extends BaseDaoTest{
 		User user = new User();
 		user.setBusiLicense("11234");
 		//user.setBuyCategory("1,2,3");
-		user.setCompany("å…¬å¸å");
-		user.setCompanyAddress("å…¬å¸åœ°å€");
+		user.setCompany("µ¥²â¹«Ë¾Ãû");
+		user.setCompanyAddress("µ¥²â¹«Ë¾µØÖ·");
 		user.setEmail("afb@123.com");
 		user.setGender(Gender.FEMALE);
 		user.setIdCardNum("365587458755");
 		user.setLoginId(loginId);
 		user.setMobilePhone("12355478965");
-		user.setName("å¼ ä¸‰");
+		user.setName("µ¥²âÀîËÄ");
 		user.setPassword("11234");
 		user.setPhoneArea("0571");
 		user.setPhoneNumber("88889988");
@@ -103,24 +98,24 @@ public class UserDaoTest extends BaseDaoTest{
 		bi.setLoginId(loginId);
 		buyInsterests.add(bi);
 		user.setBuyInterests(buyInsterests);
-		//æ–°å¢
+		//ĞÂÔö¢
 		userDao.addUser(user);
 		User u=userDao.getUserByLoginIdAndPass(loginId, "11234");
 		u.setPassword("123");
-		u.setCompany("æ–°å…¬å¸å");
+		u.setCompany("µ¥²â¹«Ë¾Ãû");
 		bi.setValue("321");
-		//ä¿®æ”¹
+		//±à¼­
 		u.setBuyInterests(buyInsterests);
 		userDao.updateUser(u);
 		u=userDao.getUserByLoginIdAndPass(loginId, "123");
 		Assert.assertEquals(u.getCompany(), userDao.getUserById(u.getId()).getCompany());
-		//æŸ¥è¯¢
+		//±à¼­²úÆ·¯¢
 		Map<String,Object> param=new HashMap<String,Object>();
 		List<String> buyInterests=new ArrayList<String>();
 		buyInterests.add("321");
 		param.put("buyInterests", buyInterests);
 		Assert.assertNotNull(userDao.queryUser(param));
-		//åˆ é™¤
+		//É¾³ı
 		userDao.deleteUserById(u.getId());
 		Assert.assertNull(userDao.getUserByLoginId(loginId));
 	}

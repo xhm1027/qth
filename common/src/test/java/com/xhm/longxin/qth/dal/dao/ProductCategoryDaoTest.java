@@ -17,9 +17,10 @@ import com.xhm.longxin.qth.dal.dataobject.ProductCategory;
 public class ProductCategoryDaoTest extends BaseDaoTest {
 	@SpringBeanByName
 	private ProductCategoryDao productCategoryDao;
-	
+
 	@Test
 	public void testAddProductCategory() {
+		db.table("qth_pro_category").clean().commit();
 		ProductCategory cate = new ProductCategory();
 		cate.setName("��Ŀ1");
 		cate.setIsMaterial(IS.Y);
