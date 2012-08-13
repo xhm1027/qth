@@ -51,7 +51,7 @@
 
     <logger name="java.sql" additivity="false">
         #if("dev" == "${qth_basic_setting_mode}")
-            <level value="DEBUG"/>
+            <level value="INFO"/>
         #else
             <level value="ERROR"/>
         #end
@@ -73,7 +73,7 @@
         #if("run" == "${qth_basic_setting_mode}")
             <level value="ERROR"/>
         #else
-            <level value="DEBUG"/>
+            <level value="INFO"/>
         #end
         <appender-ref ref="PROJECT"/>
         <appender-ref ref="PROJECT-DEBUG"/>
