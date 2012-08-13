@@ -15,7 +15,7 @@
     </context-param>
 	<context-param>
 		<param-name>logSystem</param-name>
-		<param-value>log4j</param-value>
+		<param-value>logback</param-value>
 	</context-param>
     <listener>
         <listener-class>com.alibaba.citrus.logconfig.LogConfiguratorListener</listener-class>

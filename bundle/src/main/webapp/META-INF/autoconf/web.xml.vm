@@ -15,7 +15,7 @@
     </context-param>
 	<context-param>
 		<param-name>logSystem</param-name>
-		<param-value>log4j</param-value>
+		<param-value>logback</param-value>
 	</context-param>
     <!-- 初始化日志系统 -->
     <listener>

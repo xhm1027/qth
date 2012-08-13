@@ -13,7 +13,7 @@
 	</group>
 
 	<script>
-		<generate template="log4j.xml.vm" destfile="WEB-INF/log4j.xml" charset="UTF-8" />
+		<generate template="logback.xml.vm" destfile="WEB-INF/logback.xml" charset="UTF-8" />
 		<generate template="resources.xml.vm" destfile="WEB-INF/classes/web/common/resources.xml" charset="UTF-8" />
 		<generate template="web.xml.vm" destfile="WEB-INF/web.xml" charset="UTF-8" />
 		<generate template="webx.xml.vm" destfile="WEB-INF/webx.xml" charset="UTF-8" />
