@@ -23,10 +23,10 @@
     <beans:import resource="classpath:web/common/webx-component.xml" />
 
     <!-- 执行管道。 -->
-    <beans:import resource="classpath:user/pipeline.xml" />
+    <beans:import resource="classpath:web/user/pipeline.xml" />
 
     <!-- 表单验证。 -->
-    <beans:import resource="user/form.xml" />
+    <beans:import resource="classpath:web/user/form.xml" />
 
     <!-- 装载模块。 -->
     <services:module-loader>

@@ -43,7 +43,7 @@ http://www.springframework.org/schema/beans http://localhost:8080/schema/www.spr
 		#else
 			<services:productionMode>false</services:productionMode>
 		#end
-		<services:components defaultComponent="user" componentConfigurationLocationPattern="classpath*:webx-*.xml" />
+		<services:components defaultComponent="user" componentConfigurationLocationPattern="classpath*:web/webx-*.xml" />
 	</services:webx-configuration>
 	<!-- 设置request/response/session。 -->
 	<services:request-contexts

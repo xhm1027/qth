@@ -29,7 +29,7 @@
     <appender name="PROJECT" class="ch.qos.logback.core.FileAppender">
         <file>${qth_logs}/sys/webx.log</file>
         <encoding>UTF-8</encoding>
-        <append>false</append>
+        <append>true</append>
         <layout class="ch.qos.logback.classic.PatternLayout">
             <pattern><![CDATA[
 %n%-4r [%d{yyyy-MM-dd HH:mm:ss} %X{productionMode}] - %X{method} %X{requestURIWithQueryString} [ip=%X{remoteAddr}, ref=%X{referrer}, ua=%X{userAgent}, sid=%X{cookie.JSESSIONID}]%n  %-5level %logger{35} - %m%n
