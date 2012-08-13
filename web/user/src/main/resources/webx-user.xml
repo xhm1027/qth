@@ -23,7 +23,7 @@
     <beans:import resource="classpath:web/common/webx-component.xml" />
 
     <!-- 执行管道。 -->
-    <beans:import resource="classpath:web/common/pipeline.xml" />
+    <beans:import resource="classpath:user/pipeline.xml" />
 
     <!-- 表单验证。 -->
     <beans:import resource="user/form.xml" />
@@ -34,5 +34,4 @@
             <ml-factories:search-packages type="$1" packages="com.xhm.longxin.qth.web.user.module.*" />
         </ml-factories:class-modules>
     </services:module-loader>
-
 </beans:beans>

@@ -24,7 +24,7 @@ $rundata.setLayoutEnabled(false)
 					#if(!$group.loginError.valid)
 					<div class="alert alert-error">
 						<button type="button" class="close" data-dismiss="alert">&times;</button>
-						 <strong>Oh snap!</strong> 用户名或密码不正确,请重新输入
+						 <strong>Oh snap!</strong> $group.loginError.message
 					</div>
 					#end
 					<div class="control-group #if(!$group.name.valid)error #else success #end">

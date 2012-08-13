@@ -1,0 +1,64 @@
+<div class="container-fluid">
+	<div class="row-fluid">
+		<div class="row-fluid">
+			<form class="well form-horizontal" method="post">
+				$csrfToken.hiddenField
+				#set ($group = $form.profile.defaultInstance)
+				$group.mapTo($user)
+				<input type="hidden" name="action" value="admin_action"/>
+				<input type="hidden" name="$group.id.key" value="$!group.id.value"/>
+				<fieldset>
+				<legend>资料修改</legend>
+				#if(!$group.editError.valid)
+				<div class="alert alert-error">
+					<button type="button" class="close" data-dismiss="alert">&times;</button>
+					 <strong>Oh snap!</strong> $group.editError.message
+				</div>
+				#end
+				#if(!$group.editInfo.valid)
+				<div class="alert alert-success">
+					<button type="button" class="close" data-dismiss="alert">&times;</button>
+					 <strong>Oh snap!</strong> $group.editInfo.message
+				</div>
+				#end
+					
+				<div class="control-group #if(!$group.name.valid)error #else success #end">
+					<label class="control-label" for="name">$group.name.displayName</label>
+					<div class="controls">
+						<input type="text" class="input-xlarge" id="name" name="$group.name.key" value="$group.name.value">
+						<p class="help-block">
+						#if(!$group.name.valid)$group.name.message #end
+						</p>
+					</div>
+				</div>
+				<div class="control-group #if(!$group.email.valid)error #else success #end">
+					<label class="control-label" for="email">$group.email.displayName</label>
+					<div class="controls">
+						<input type="text" class="input-xlarge" id="email" name="$group.email.key"  value="$group.email.value">
+						<p class="help-block">
+						#if(!$group.email.valid)$group.email.message #end
+						</p>
+					</div>
+				</div>
+				<div class="control-group #if(!$group.password.valid)error #else success #end">
+					<label class="control-label" for="password">$group.password.displayName</label>
+					<div class="controls">
+						<input type="password" class="input-xlarge" id="password" name="$group.password.key"
+						placeholder="新密码">
+						<p class="help-block">
+						#if(!$group.password.valid)$group.password.message #end
+						</p>
+					</div>
+				</div>
+				
+				
+				<div class="form-actions">
+					<input type="submit" class="btn btn-primary" name="event_submit_do_edit" value="修改"/>
+				</div>
+				</fieldset>
+			</form>
+		</div>
+		<!--/row-->
+	</div>
+	<!--/span-->
+</div>

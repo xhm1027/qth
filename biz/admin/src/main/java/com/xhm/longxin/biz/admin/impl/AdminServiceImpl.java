@@ -14,8 +14,20 @@ public class AdminServiceImpl implements AdminService {
 	public AdminUser login(LoginVO vo) {
 		
 		return adminUserDao.getAdminUserByLoginIdAndPass(vo.getName(), vo.getPassword());
-		
-		
+	}
+
+	public AdminUser getAdminUserByLoginId(String loginId) {
+		return adminUserDao.getAdminUserByLoginId(loginId);
+	}
+	
+	
+	public boolean updateAdminUser(AdminUser user){
+		user.setLoginId(null);
+		return adminUserDao.updateAdminUser(user);
+	}
+
+	public AdminUser getAdminUserById(Long id) {
+		return adminUserDao.getAdminUserById(id);
 	}
 
 }

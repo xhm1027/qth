@@ -56,6 +56,10 @@ public class QthAdmin implements Serializable {
     public void setUserName(String userName) {
         this.userName = userName;
     }
+    
+    public void upgrade(){
+        this.setCurrentUser(this);
+    }
 
     public void upgrade(String userId,String userName) {
 //        assertTrue(!hasLoggedIn(), ExceptionType.ILLEGAL_STATE, "already logged in");
@@ -68,7 +72,8 @@ public class QthAdmin implements Serializable {
     }
 
     public boolean hasLoggedIn() {
-        return userId != null;
+        boolean result =  userId != null;
+        return result;
     }
 
     @Override

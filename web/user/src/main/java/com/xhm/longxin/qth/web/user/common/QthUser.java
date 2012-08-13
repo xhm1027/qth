@@ -76,6 +76,10 @@ public class QthUser implements Serializable {
         this.role = role;
         this.setCurrentUser(this);
     }
+    
+    public void upgrade() {
+      this.setCurrentUser(this);
+  }
 
     public boolean hasLoggedIn() {
         return userId != null;

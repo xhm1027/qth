@@ -37,11 +37,13 @@ import com.xhm.longxin.qth.web.admin.common.QthAdmin;
 public class AdminAction {
 	@Autowired
 	private AdminService adminService;
+	@Autowired
+	HttpSession session;
 
 	public void doLogin(@FormGroup("login") LoginVO vo,
 			@FormField(name = "validateStr", group = "login") CustomErrors validateField,
 			@FormField(name = "loginError", group = "login") CustomErrors err,
-			HttpSession session, Navigator nav, ParameterParser params) {
+			 Navigator nav, ParameterParser params) {
 		String validateCode = (String) session
 				.getAttribute(AdminConstant.VALIDATE_CODE);
 		if (validateCode == null
@@ -52,21 +54,25 @@ public class AdminAction {
 		
 		AdminUser admin = adminService.login(vo);
 		if (admin != null) {
-			QthAdmin qthAdmin = (QthAdmin) session
-					.getAttribute(AdminConstant.QTH_ADMIN_SESSION_KEY);
-
-			if (qthAdmin == null || qthAdmin.hasLoggedIn()) {
-				qthAdmin = new QthAdmin();
-			}
-			qthAdmin.upgrade(admin.getLoginId(), admin.getName());
-
-			session.setAttribute(AdminConstant.QTH_ADMIN_SESSION_KEY, qthAdmin);
+			setSession(admin);
 
 			redirectToReturnPage(nav, params);
 		} else {
 			err.setMessage("invalidUserOrPassword");
 		}
 
+	}
+	
+	private void setSession(AdminUser admin){
+		QthAdmin qthAdmin = (QthAdmin) session
+				.getAttribute(AdminConstant.QTH_ADMIN_SESSION_KEY);
+
+		if (qthAdmin == null || qthAdmin.hasLoggedIn()) {
+			qthAdmin = new QthAdmin();
+		}
+		qthAdmin.upgrade(admin.getLoginId(), admin.getName());
+
+		session.setAttribute(AdminConstant.QTH_ADMIN_SESSION_KEY, qthAdmin);
 	}
 
 	public void doLogout(HttpSession session, Navigator nav,
@@ -85,5 +91,19 @@ public class AdminAction {
 		} else {
 			nav.redirectToLocation(returnURL);
 		}
+	}
+	
+	public void doEdit(@FormGroup("profile") AdminUser user,
+			@FormField(name = "editInfo", group = "profile") CustomErrors info,
+			@FormField(name = "editError", group = "profile") CustomErrors err,
+			HttpSession session, Navigator nav, ParameterParser params) {
+		boolean editResult = adminService.updateAdminUser(user);
+		if(editResult){
+			setSession(adminService.getAdminUserById(user.getId()));
+			info.setMessage("editInfo");
+		}else{
+			err.setMessage("editError");
+		}
+
 	}
 }

@@ -69,6 +69,39 @@
                 </custom-error>
             </services:field>
         </services:group>
+        
+        <!--
+          - ===============================================
+          - profile form
+          - ===============================================
+         -->
+        <services:group name="profile" extends="csrfCheck">
+        	<services:field name="editInfo">
+                <custom-error id="editInfo">
+                    <message>编辑成功</message>
+                </custom-error>
+            </services:field>
+        	<services:field name="editError">
+                <custom-error id="editError">
+                    <message>编辑失败</message>
+                </custom-error>
+            </services:field>
+            <services:field name="id" displayName="ID">
+            </services:field>
+            <services:field name="password" displayName="新密码">
+            	 <string-length-validator minLength="6" maxLength="16">
+                    <message>${displayName} 最少必须由${minLength}个字组成，最多不能超过${maxLength}个字</message>
+                </string-length-validator>
+            </services:field>
+            <services:field name="email" displayName="邮箱">
+            	<mail-address-validator>
+            		<message>不符合邮件格式</message>
+            	</mail-address-validator>
+            </services:field>
+            <services:field name="name" displayName="姓名">
+            </services:field>
+           
+        </services:group>
     </services:form>
 
 </beans:beans>

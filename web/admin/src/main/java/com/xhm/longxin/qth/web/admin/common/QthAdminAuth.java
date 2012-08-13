@@ -83,13 +83,13 @@ public class QthAdminAuth extends BeanSupport implements Callback<QthAdminAuth.S
         }
 
         if (user == null) {
-            // åˆ›å»ºåŒ¿åç”¨æˆ·
+            // ´´½¨ÄäÃûÓÃ»§
             user = new QthAdmin();
             session.setAttribute(sessionKey, user);
         }
 
-        // å°†userè®¾ç½®åˆ°rundataä¸­ï¼Œä»¥ä¾¿å…¶å®ƒç¨‹åºä½¿ç”¨ï¿½?        PetstoreUser.setCurrentUser(user);
-
+        // ½«userÉèÖÃµ½rundataÖÐ      PetstoreUser.setCurrentUser(user);
+        user.upgrade();
         return new Status(rundata, user);
     }
 
