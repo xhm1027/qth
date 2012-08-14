@@ -205,7 +205,7 @@ $rundata.setLayoutEnabled(false)
 						#foreach($buy in $buyInterests)
 						<label class="checkbox inline">
 							<input type="checkbox"
-							id="buyInterests" value="$!buy.id">
+							name="buyInterests" value="$!buy.id">
 							$!buy.name
 						</label>
 						#end
@@ -215,7 +215,7 @@ $rundata.setLayoutEnabled(false)
 						#foreach($sale in $saleInterests)
 						<label class="checkbox inline">
 							<input type="checkbox"
-							id="saleInterests" value="$!sale.id">
+							name="saleInterests" value="$!sale.id">
 							$!sale.name
 						</label>
 						#end

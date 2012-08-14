@@ -10,6 +10,7 @@
 	default-autowire="byName">		
 	<bean id="userService" 
 		class="com.xhm.longxin.biz.user.impl.UserServiceImpl"/>
-	<bean id="userProductCategoryService" 
-		class="com.xhm.longxin.biz.user.impl.UserProductCategoryServiceImpl"/>
+	
+	<bean id="productCategoryService"
+		class="com.xhm.longxin.biz.user.impl.ProductCategoryServiceImpl" />
 </beans>

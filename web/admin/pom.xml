@@ -26,10 +26,15 @@
             <artifactId>logback-classic</artifactId>
         </dependency>
         <dependency>
-					<groupId>com.xhm.longxin</groupId>
-					<artifactId>qth.biz.admin</artifactId>
-					<version>${pom.version}</version>
-				</dependency>
+			<groupId>com.xhm.longxin</groupId>
+			<artifactId>qth.biz.admin</artifactId>
+			<version>${pom.version}</version>
+		</dependency>
+        <dependency>
+			<groupId>com.xhm.longxin</groupId>
+			<artifactId>qth.biz.user</artifactId>
+			<version>${pom.version}</version>
+		</dependency>
     </dependencies>
     <build>
 		<plugins>

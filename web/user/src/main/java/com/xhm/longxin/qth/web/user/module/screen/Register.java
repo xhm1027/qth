@@ -22,17 +22,17 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import com.alibaba.citrus.turbine.Context;
-import com.xhm.longxin.biz.user.interfaces.UserProductCategoryService;
+import com.xhm.longxin.biz.user.interfaces.ProductCategoryService;
 import com.xhm.longxin.qth.dal.dataobject.ProductCategory;
 
 public class Register {
 	@Autowired
-	private UserProductCategoryService userProductCategoryService;
+	private ProductCategoryService productCategoryService;
 	
 	public void execute( Context context) {
 		/* 因为注册的都是园区外部用户，所以初始化感兴趣的采购产品类目是资源产品的类目 ,感兴趣的销售类目都是原材料产品的类目*/
-		List<ProductCategory> buyInterests = userProductCategoryService.getAllResourceCategory();
-		List<ProductCategory> saleInterests = userProductCategoryService.getAllMaterialCategory();
+		List<ProductCategory> buyInterests = productCategoryService.getAllResourceCategory();
+		List<ProductCategory> saleInterests = productCategoryService.getAllMaterialCategory();
 		
 		context.put("buyInterests", buyInterests);
 		context.put("saleInterests", saleInterests);

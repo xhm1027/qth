@@ -7,7 +7,7 @@ import com.alibaba.citrus.service.form.CustomErrors;
 import com.alibaba.citrus.turbine.Navigator;
 import com.alibaba.citrus.turbine.dataresolver.FormField;
 import com.alibaba.citrus.turbine.dataresolver.FormGroup;
-import com.xhm.longxin.biz.admin.interfaces.ProductCategoryService;
+import com.xhm.longxin.biz.user.interfaces.ProductCategoryService;
 import com.xhm.longxin.qth.dal.dataobject.ProductCategory;
 
 /**

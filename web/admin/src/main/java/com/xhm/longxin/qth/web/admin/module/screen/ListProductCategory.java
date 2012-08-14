@@ -7,14 +7,11 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import javax.servlet.http.HttpServletResponse;
-
 import org.springframework.beans.factory.annotation.Autowired;
 
 import com.alibaba.citrus.turbine.Context;
 import com.alibaba.citrus.turbine.dataresolver.Param;
-import com.xhm.longxin.biz.admin.interfaces.AdminService;
-import com.xhm.longxin.biz.admin.interfaces.ProductCategoryService;
+import com.xhm.longxin.biz.user.interfaces.ProductCategoryService;
 import com.xhm.longxin.qth.dal.constant.IS;
 import com.xhm.longxin.qth.dal.dataobject.ProductCategory;
 
