@@ -34,7 +34,7 @@
 				<ul class="nav">
 					<li><a href="$adminModule.setTarget("login")">登录</a></li>
 				</ul>
-			</div>	
+			</div>
 			#end
 			<div class="nav-collapse">
 				<ul class="nav">
@@ -43,7 +43,7 @@
 						<li class="active"><a href="index.html">用户管理</a></li>
 						<li><a href="saleProductManage.html">销售产品管理</a></li>
 						<li><a href="procureProductManage.html">采购产品管理</a></li>
-						<li><a href="productTypeManage.html">产品类别管理</a></li>
+						<li><a href="listProductCategory.htm">产品类别管理</a></li>
 					#end
 				</ul>
 			</div>
