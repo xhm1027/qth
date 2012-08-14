@@ -3,8 +3,12 @@
  */
 package com.xhm.longxin.qth.dal.dao;
 
+import java.util.List;
+import java.util.Map;
+
 import com.xhm.longxin.qth.dal.dataobject.Message;
 import com.xhm.longxin.qth.dal.dataobject.ProductCategory;
+import com.xhm.longxin.qth.dal.dataobject.User;
 
 /**
  * @author ren.zhangr
@@ -27,5 +31,10 @@ public interface ProductCategoryDao {
 	 * É¾³ý¼ÇÂ¼
 	 * */
 	public boolean deleteProductCategoryById(Long id);
+
+	/**
+	 * ²éÑ¯¼ÇÂ¼
+	 * */
+	public List<ProductCategory> queryProductCategory(Map<String, Object> param);
 
 }

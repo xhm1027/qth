@@ -1,0 +1,70 @@
+<html>
+<body>
+<div class="container-fluid">
+		<div class="row">
+			<div class="span12">
+				<ul class="nav nav-pills">
+				#if($!isMaterial != 0)
+					<li><a href="listProductCategory.htm?isMaterial=0">资源类别</a></li>
+					<li class="active"><a href="listProductCategory.htm?isMaterial=1">废旧原料类别</a></li>
+				#else
+					<li class="active"><a href="listProductCategory.htm?isMaterial=0">资源类别</a></li>
+					<li><a href="listProductCategory.htm?isMaterial=1">废旧原料类别</a></li>
+				#end
+
+				</ul>
+				<!--/.well -->
+			</div>
+		</div>
+		<!--/row-->
+		<div class="row">
+			<form class="well form-search span12">
+				<div class="row-fluid">
+					<div class="input-append span9">
+						<span class="add-on">名称</span><input type="text" class="span3"
+							id="categoryName"><button type="submit" class="btn" onClick="queryCategory();">查询</button>
+					</div>
+					<div class="input-append span3">
+						<button class="btn" type="button" onClick="addCategory();">新增+</button>
+					</div>
+				</div>
+			</form>
+		</div>
+		<div class="row">
+			<div class="span12">
+				<table class="table table-bordered">
+					<thead>
+						<tr>
+							<th>#</th>
+							<th>名称</th>
+							<th>描述</th>
+							<th>操作</th>
+						</tr>
+					</thead>
+					<tbody>
+						#set($_rowIndex = 0)
+						#foreach($category in $categoryList)
+						#set($_rowIndex = $_rowIndex+1)
+						<tr>
+							<td>$!_rowIndex</td>
+							<td>$!category.name</td>
+							<td>$!category.description</td>
+							<td><a href="#">编辑</a></td>
+						</tr>
+						#end
+					</tbody>
+				</table>
+			</div>
+		</div>
+		<hr>
+	</div>
+	<script src="$!{qthServer}assets/js/jquery.js"></script>
+	<script>
+		function queryCategory(){
+			var name = $("#categoryName");
+			alert(name.text);
+			location.href="listProductCategory.htm?isMaterial=$!isMaterial&name="+name;
+		}
+	</script>
+</body>
+</html>

@@ -221,10 +221,7 @@
 				conjunction=","> #buyInterests[]#</iterate>
 		</isNotNull>
 		<![CDATA[group by u.id ]]>
-		<isNotNull property="pageSize">
-				<![CDATA[ limit #pageStart#,#pageSize#]]>
-		</isNotNull>
-
+		<include refid="ALICRM_COMMON.ALI_PAGING" />
 	</select>
 
 	<insert id="INSERT_INTEREST" parameterClass="INTEREST_POJO">

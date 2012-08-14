@@ -3,6 +3,7 @@
 <sqlMapConfig>
 	<settings enhancementEnabled="true" lazyLoadingEnabled="true"
 		useStatementNamespaces="true" />
+	<sqlMap resource="spring/sqlmap/Common.xml" />
 	<sqlMap resource="spring/sqlmap/User.xml" />
 	<sqlMap resource="spring/sqlmap/AdminUser.xml" />
 	<sqlMap resource="spring/sqlmap/AuditLog.xml" />
@@ -11,6 +12,4 @@
 	<sqlMap resource="spring/sqlmap/SaleProduct.xml" />
 	<sqlMap resource="spring/sqlmap/Message.xml" />
 	<sqlMap resource="spring/sqlmap/ProductCategory.xml" />
-	<sqlMap resource="spring/sqlmap/Common.xml" />
-
 </sqlMapConfig>

@@ -63,6 +63,25 @@
 		where
 		id = #id#
 	</update>
+
+	<select id="QUERY_PRODUCT_BYMAP" resultMap="CATEGORY_RESULT_MAP"
+		parameterClass="map">
+		 <![CDATA[
+				select
+				*
+				from qth_pro_category where  is_deleted='n']]>
+		<isNotNull property="name" prepend="AND">
+			name like CONCAT('%',#name#, '%')
+		</isNotNull>
+		<isNotNull property="description" prepend="AND">
+			description=#description#
+		</isNotNull>
+		<isNotNull property="isMaterial" prepend="AND">
+			is_material=#isMaterial#
+		</isNotNull>
+		<![CDATA[order by gmt_modified desc ]]>
+		<include refid="ALICRM_COMMON.ALI_PAGING" />
+	</select>
 </sqlMap>
 
 

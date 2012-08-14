@@ -96,9 +96,7 @@
 		<isNotNull property="email" prepend="AND">
 			u.email=#email#
 		</isNotNull>
-		<isNotNull property="pageSize">
-				<![CDATA[ limit #pageStart#,#pageSize#]]>
-		</isNotNull>
+		<include refid="ALICRM_COMMON.ALI_PAGING" />
 	</select>
 </sqlMap>
 
