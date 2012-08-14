@@ -9,7 +9,6 @@ import java.util.Map;
 import org.springframework.orm.ibatis.support.SqlMapClientDaoSupport;
 import com.xhm.longxin.qth.dal.dao.ProductCategoryDao;
 import com.xhm.longxin.qth.dal.dataobject.ProductCategory;
-import com.xhm.longxin.qth.dal.dataobject.User;
 
 /**
  * @author ren.zhangr
@@ -65,6 +64,7 @@ public class ProductCategoryDaoImpl extends SqlMapClientDaoSupport implements
 	 * com.xhm.longxin.qth.dal.dao.ProductCategoryDao#queryProductCategory(java
 	 * .util.Map)
 	 */
+	@SuppressWarnings("unchecked")
 	public List<ProductCategory> queryProductCategory(Map<String, Object> param) {
 		List<ProductCategory> cateList = (List<ProductCategory>) getSqlMapClientTemplate()
 				.queryForList(NAMESPACE_PRODUCT_CATEGORY + "." + QUERY_ID,

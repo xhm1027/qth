@@ -93,6 +93,112 @@
                 </required-validator>
             </services:field>
         </services:group>
+        <!--
+        - ===============================================
+        - register form
+        - ===============================================
+       -->
+		<services:group name="register" extends="csrfCheck">
+			<services:field name="registerError">
+				<custom-error id="registerFail">
+					<message>注册失败</message>
+				</custom-error>
+			</services:field>
+			<services:field name="loginId" displayName="用户名">
+				<required-validator>
+					<message>必须填写 ${displayName}</message>
+				</required-validator>
+			</services:field>
+			<services:field name="password" displayName="登录密码">
+				<required-validator>
+					<message>必须填写 ${displayName}</message>
+				</required-validator>
+			</services:field>
+			<services:field name="confirmPassword" displayName="确认密码">
+				<string-compare-validator notEqualTo="password">
+					<message>2次输入的密码不一致</message>
+				</string-compare-validator>
+			</services:field>
+			<services:field name="name" displayName="姓名">
+				<required-validator>
+					<message>必须填写 ${displayName}</message>
+				</required-validator>
+			</services:field>
+			<services:field name="gender" displayName="性别">
+				<required-validator>
+					<message>必须填写 ${displayName}</message>
+				</required-validator>
+			</services:field>
+			<services:field name="email" displayName="邮箱">
+				<required-validator>
+					<message>必须填写 ${displayName}</message>
+				</required-validator>
+			</services:field>
+			<services:field name="phoneArea" displayName="区号">
+				<required-validator>
+					<message>必须填写 ${displayName}</message>
+				</required-validator>
+			</services:field>
+			<services:field name="phoneNumber" displayName="电话号码">
+				<required-validator>
+					<message>必须填写 ${displayName}</message>
+				</required-validator>
+			</services:field>
+			<services:field name="mobilePhone" displayName="手机">
+				<required-validator>
+					<message>必须填写 ${displayName}</message>
+				</required-validator>
+			</services:field>
+			<services:field name="company" displayName="公司名称">
+				<required-validator>
+					<message>必须填写 ${displayName}</message>
+				</required-validator>
+			</services:field>
+			<services:field name="companyAddress" displayName="公司地址">
+				<required-validator>
+					<message>必须填写 ${displayName}</message>
+				</required-validator>
+			</services:field>
+			<services:field name="idCardNum" displayName="身份证">
+				<required-validator>
+					<message>必须填写 ${displayName}</message>
+				</required-validator>
+			</services:field>
+			<services:field name="busiLicense" displayName="营业执照号">
+				<required-validator>
+					<message>必须填写 ${displayName}</message>
+				</required-validator>
+			</services:field>
+		</services:group>
+		<!--
+        - ===============================================
+        - 兴趣点
+        - ===============================================
+       -->
+		<services:group name="userInterest" extends="csrfCheck">
+			<services:field name="loginId" displayName="用户ID">
+			</services:field>
+			<services:field name="interest" displayName="兴趣">
+			</services:field>
+			<services:field name="value" displayName="类别Id">
+			</services:field>
+			<services:field name="name" displayName="类别名称">
+			</services:field>
+		</services:group>
+		<!--
+        - ===============================================
+        - 购买兴趣点
+        - ===============================================
+       -->
+		<services:group name="buyInterest" extends="userInterest">
+		</services:group>
+		<!--
+        - ===============================================
+        - 售卖兴趣点
+        - ===============================================
+       -->
+		<services:group name="sellInterest" extends="userInterest">
+		</services:group>
     </services:form>
 
 </beans:beans>

@@ -5,7 +5,6 @@ package com.xhm.longxin.qth.dal.dao;
 
 import java.util.List;
 
-import com.xhm.longxin.qth.dal.dataobject.AdminUser;
 import com.xhm.longxin.qth.dal.dataobject.AuditLog;
 
 /**

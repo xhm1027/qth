@@ -11,8 +11,6 @@ import java.util.Map;
 import junit.framework.Assert;
 
 import org.jtester.annotations.SpringBeanByName;
-import org.jtester.core.IJTester.DataGenerator;
-import org.jtester.core.IJTester.DataMap;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 import com.xhm.longxin.qth.dal.constant.Gender;

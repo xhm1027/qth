@@ -100,6 +100,7 @@ public class UserDaoImpl extends SqlMapClientDaoSupport implements UserDao {
 	/**
 	 * 用户登录
 	 * */
+	@SuppressWarnings("unchecked")
 	public User getUserByLoginIdAndPass(String loginId, String password) {
 		Map<String, Object> param = new HashMap<String, Object>();
 		param.put("loginId", loginId);
@@ -115,6 +116,7 @@ public class UserDaoImpl extends SqlMapClientDaoSupport implements UserDao {
 	/**
 	 * 按条件查询，当查询公司的求购/售卖产品时，比较复杂，是否分表？
 	 * */
+	@SuppressWarnings("unchecked")
 	public List<User> queryUser(Map<String, Object> param) {
 		List<User> userList = (List<User>) getSqlMapClientTemplate()
 				.queryForList(NAMESPACE_USER + "." + QUERY_BY_MAP, param);

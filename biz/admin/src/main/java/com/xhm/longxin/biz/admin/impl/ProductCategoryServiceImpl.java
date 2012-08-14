@@ -9,7 +9,6 @@ import java.util.Map;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import com.xhm.longxin.biz.admin.interfaces.ProductCategoryService;
-import com.xhm.longxin.qth.dal.dao.AdminUserDao;
 import com.xhm.longxin.qth.dal.dao.ProductCategoryDao;
 import com.xhm.longxin.qth.dal.dataobject.ProductCategory;
 

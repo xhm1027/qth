@@ -1,0 +1,269 @@
+$rundata.setLayoutEnabled(false)
+<!DOCTYPE html>
+	<head>
+		<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+		#showHead ("七台河信息发布系统")
+		<!-- Le styles -->
+		<link href="$!{qthServer}assets/css/bootstrap.css" rel="stylesheet">
+		<link href="$!{qthServer}assets/css/bootstrap-responsive.css" rel="stylesheet">
+		<link href="$!{qthServer}assets/css/docs.css" rel="stylesheet">
+		<link href="$!{qthServer}assets/js/google-code-prettify/prettify.css" rel="stylesheet">
+		<style type="text/css">
+			body {
+			padding-top: 60px;
+			padding-bottom: 40px;
+			}
+			.sidebar-nav {
+			padding: 9px 0;
+			}
+		</style>
+		<!-- Le HTML5 shim, for IE6-8 support of HTML5 elements -->
+		<!--[if lt IE 9]>
+		<script src="http://html5shim.googlecode.com/svn/trunk/html5.js"></script>
+		<![endif]-->
+			<!-- Le fav and touch icons -->
+			<link rel="shortcut icon" href="$!{qthServer}assets/ico/favicon.ico">
+			<link rel="apple-touch-icon-precomposed" sizes="144x144"
+			href="$!{qthServer}assets/ico/apple-touch-icon-144-precomposed.png">
+			<link rel="apple-touch-icon-precomposed" sizes="114x114"
+			href="$!{qthServer}assets/ico/apple-touch-icon-114-precomposed.png">
+			<link rel="apple-touch-icon-precomposed" sizes="72x72"
+			href="$!{qthServer}assets/ico/apple-touch-icon-72-precomposed.png">
+			<link rel="apple-touch-icon-precomposed"
+			href="$!{qthServer}assets/ico/apple-touch-icon-57-precomposed.png">
+	</head>
+<body>
+	<div class="container">
+		<div class="span9">
+			<div class="hero-unit">
+				<h1>七台河信息发布系统</h1>
+				<p>
+				黑龙江省东部再生资源回收利用产业园区“城市矿产”示范基地信息发布系统
+				</p>
+			</div>
+			<div class="row-fluid">
+				<form class="well form-horizontal" method="post">
+					$csrfToken.hiddenField
+					<input type="hidden" name="action" value="user_action"/>
+					#set ($group = $form.register.defaultInstance)
+					<fieldset>
+					<legend><h2>注册</h2></legend>
+					#if(!$group.registerError.valid)
+						<div class="alert alert-error">
+							<button type="button" class="close" data-dismiss="alert">
+							&times;
+							</button>
+							<strong>Oh snap!</strong>
+							$group.registerError.message
+						</div>
+					#end
+					<h2>基本信息</h2>
+					<div class="control-group #if(!$group.loginId.valid)error  #end" >
+						<label class="control-label" for="loginId">$group.loginId.displayName</label>
+						<div class="controls">
+							<input type="text" class="input-xlarge" id="loginId" name="$group.loginId.key" value="$group.loginId.value"
+							placeholder="$group.loginId.displayName">
+							<p class="help-block">
+							#if(!$group.loginId.valid)$group.loginId.message #end
+							</p>
+						</div>
+					</div>
+					<div class="control-group #if(!$group.password.valid)error  #end" >
+						<label class="control-label" for="password">$group.password.displayName</label>
+						<div class="controls">
+							<input type="password" class="input-xlarge" id="password" name="$group.password.key" value="$group.password.value"
+							placeholder="$group.password.displayName">
+							<p class="help-block">
+							#if(!$group.password.valid)$group.password.message #end
+							</p>
+						</div>
+					</div>
+					<div class="control-group #if(!$group.confirmPassword.valid)error  #end" >
+						<label class="control-label" for="confirmPassword">$group.confirmPassword.displayName</label>
+						<div class="controls">
+							<input type="password" class="input-xlarge" id="confirmPassword" name="$group.confirmPassword.key" value="$group.confirmPassword.value"
+							placeholder="$group.confirmPassword.displayName">
+							<p class="help-block">
+							#if(!$group.confirmPassword.valid)$group.confirmPassword.message #end
+							</p>
+						</div>
+					</div>
+					<div class="control-group #if(!$group.name.valid)error  #end" >
+						<label class="control-label" for="name">$group.name.displayName</label>
+						<div class="controls">
+							<input type="text" class="input-xlarge" id="name" name="$group.name.key" value="$group.name.value"
+							placeholder="$group.name.displayName">
+							<p class="help-block">
+							#if(!$group.name.valid)$group.name.message #end
+							</p>
+						</div>
+					</div>
+					<div class="control-group #if(!$group.gender.valid)error  #end" >
+						<label class="control-label" for="gender">$group.gender.displayName</label>
+						<div class="controls">
+							<label class="radio inline">
+								<input type="radio"
+								name="$group.gender.key"" id="gender1" value="m"
+								checked="">
+								男
+							</label>
+							<label class="radio inline">
+								<input type="radio"
+								name="$group.gender.key"" id="gender2" value="f"
+								checked="">
+								女
+							</label>
+							<p class="help-block">
+							#if(!$group.gender.valid)$group.gender.message #end
+							</p>
+						</div>
+					</div>
+					<hr>
+					<h2>企业信息</h2>
+					<div class="control-group #if(!$group.email.valid)error  #end" >
+						<label class="control-label" for="email">$group.email.displayName</label>
+						<div class="controls">
+							<input type="text" class="input-xlarge" id="email" name="$group.email.key" value="$group.email.value"
+							placeholder="$group.email.displayName">
+							<p class="help-block">
+							#if(!$group.email.valid)$group.email.message #end
+							</p>
+						</div>
+					</div>
+					<div class="control-group #if(!$group.phoneArea.valid||!$group.phoneNumber.valid)error  #end" >
+						<label class="control-label" for="phone">电话</label>
+						<div class="controls">
+							<input type="text" class="input-mini" id="phoneArea" name="$group.phoneArea.key" value="$group.phoneArea.value"
+							placeholder="$group.phoneArea.displayName">
+							<span class="badge">-</span>
+							<input type="text" class="input-medium" id="phoneNumber" name="$group.phoneNumber.key" value="$group.phoneNumber.value"
+							placeholder="$group.phoneNumber.displayName">
+							<p class="help-block">
+							#if(!$group.phoneArea.valid)$group.phoneArea.message #end
+							</p>
+							<p class="help-block">
+							#if(!$group.phoneNumber.valid)$group.phoneNumber.message #end
+							</p>
+						</div>
+					</div>
+					<div class="control-group #if(!$group.mobilePhone.valid)error  #end" >
+						<label class="control-label" for="mobilePhone">$group.mobilePhone.displayName</label>
+						<div class="controls">
+							<input type="text" class="input-xlarge" id="mobilePhone" name="$group.mobilePhone.key" value="$group.mobilePhone.value"
+							placeholder="$group.mobilePhone.displayName">
+							<p class="help-block">
+							#if(!$group.mobilePhone.valid)$group.mobilePhone.message #end
+							</p>
+						</div>
+					</div>
+					<div class="control-group #if(!$group.company.valid)error  #end" >
+						<label class="control-label" for="company">$group.company.displayName</label>
+						<div class="controls">
+							<input type="text" class="input-xlarge" id="company" name="$group.company.key" value="$group.company.value"
+							placeholder="$group.company.displayName">
+							<p class="help-block">
+							#if(!$group.company.valid)$group.company.message #end
+							</p>
+						</div>
+					</div>
+					<div class="control-group #if(!$group.companyAddress.valid)error  #end" >
+						<label class="control-label" for="companyAddress">$group.companyAddress.displayName</label>
+						<div class="controls">
+							<textarea class="input-xlarge" id="companyAddress" rows="3" name="$group.companyAddress.key"
+							placeholder="$group.companyAddress.displayName">$!group.companyAddress.value</textarea>
+							<p class="help-block">
+							#if(!$group.companyAddress.valid)$group.companyAddress.message #end
+							</p>
+						</div>
+					</div>
+					<hr>
+					<h2>私密信息</h2>
+					<div class="control-group #if(!$group.idCardNum.valid)error  #end" >
+						<label class="control-label" for="idCardNum">$group.idCardNum.displayName</label>
+						<div class="controls">
+							<input type="text" class="input-xlarge" id="idCardNum" name="$group.idCardNum.key" value="$group.idCardNum.value"
+							placeholder="$group.idCardNum.displayName">
+							<p class="help-block">
+							#if(!$group.idCardNum.valid)$group.idCardNum.message #end
+							</p>
+						</div>
+					</div>
+					<div class="control-group #if(!$group.busiLicense.valid)error  #end" >
+						<label class="control-label" for="busiLicense">$group.busiLicense.displayName</label>
+						<div class="controls">
+							<input type="text" class="input-xlarge" id="busiLicense" name="$group.busiLicense.key" value="$group.busiLicense.value"
+							placeholder="$group.busiLicense.displayName">
+							<p class="help-block">
+							#if(!$group.busiLicense.valid)$group.busiLicense.message #end
+							</p>
+						</div>
+					</div>
+					<hr>
+					<h2>产品信息</h2>
+					<span class="label label-important">主营销售废旧原材料类别</span>
+					<div class="control-group">
+						#foreach($buy in $buyInterests)
+						<label class="checkbox inline">
+							<input type="checkbox"
+							id="buyInterests" value="$!buy.id">
+							$!buy.name
+						</label>
+						#end
+					</div>
+					<span class="label label-info">主营采购资源类别</span>
+					<div class="control-group">
+						#foreach($sale in $saleInterests)
+						<label class="checkbox inline">
+							<input type="checkbox"
+							id="saleInterests" value="$!sale.id">
+							$!sale.name
+						</label>
+						#end
+					</div>
+					<div class="form-actions">
+						<button type="submit" class="btn btn-primary">
+						注册
+						</button>
+					</div>
+					</fieldset>
+				</form>
+			</div>
+			<!--/row-->
+		</div>
+		<!--/span-->
+	</div>
+	<!-- Le javascript
+    ================================================== -->
+	<!-- Placed at the end of the document so the pages load faster -->
+	<script src="$!{qthServer}assets/js/jquery.js"></script>
+	<script src="$!{qthServer}assets/js/google-code-prettify/prettify.js"></script>
+	<script src="$!{qthServer}assets/js/bootstrap-transition.js"></script>
+	<script src="$!{qthServer}assets/js/bootstrap-alert.js"></script>
+	<script src="$!{qthServer}assets/js/bootstrap-modal.js"></script>
+	<script src="$!{qthServer}assets/js/bootstrap-dropdown.js"></script>
+	<script src="$!{qthServer}assets/js/bootstrap-scrollspy.js"></script>
+	<script src="$!{qthServer}assets/js/bootstrap-tab.js"></script>
+	<script src="$!{qthServer}assets/js/bootstrap-tooltip.js"></script>
+	<script src="$!{qthServer}assets/js/bootstrap-popover.js"></script>
+	<script src="$!{qthServer}assets/js/bootstrap-button.js"></script>
+	<script src="$!{qthServer}assets/js/bootstrap-collapse.js"></script>
+	<script src="$!{qthServer}assets/js/bootstrap-carousel.js"></script>
+	<script src="$!{qthServer}assets/js/bootstrap-typeahead.js"></script>
+	<script src="$!{qthServer}assets/js/application.js"></script>
+	<script>
+		function changeImg(){
+			var imgSrc = $("#validateImg");
+			var src = imgSrc.attr("src");
+			imgSrc.attr("src", chgUrl(src));
+		}
+		//时间戳
+		//为了使每次生成图片不一致，即不让浏览器读缓存，所以需要加上时间戳
+		function chgUrl(url){
+			var timestamp = (new Date()).valueOf();
+			url = '$userModule.setTarget("checkCode")';
+			url = url + '?timestamp=' + timestamp;
+			return url;
+		}
+	</script>
+</body>
+</html>

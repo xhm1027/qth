@@ -54,7 +54,7 @@ $rundata.setLayoutEnabled(false)
 						 <strong>Oh snap!</strong> $group.loginError.message
 					</div>
 					#end
-					<div class="control-group #if(!$group.name.valid)error #else success #end">
+					<div class="control-group #if(!$group.name.valid)error  #end">
 						<label class="control-label" for="name">$group.name.displayName</label>
 						<div class="controls">
 							<input type="text" class="input-xlarge" id="name" name="$group.name.key" value="$group.name.value"
@@ -64,7 +64,7 @@ $rundata.setLayoutEnabled(false)
 							</p>
 						</div>
 					</div>
-					<div class="control-group #if(!$group.password.valid)error #else success #end">
+					<div class="control-group #if(!$group.password.valid)error  #end">
 						<label class="control-label" for="password">$group.password.displayName</label>
 						<div class="controls">
 							<input type="password" class="input-xlarge" id="password" name="$group.password.key"
@@ -74,7 +74,7 @@ $rundata.setLayoutEnabled(false)
 							</p>
 						</div>
 					</div>
-					<div class="control-group #if(!$group.validateStr.valid)error #else success #end">
+					<div class="control-group #if(!$group.validateStr.valid)error  #end">
 						<label class="control-label" for="validateStr">$group.validateStr.displayName</label>
 						<div class="controls">
 							<input type="password" class="input-xlarge" id="validateStr" name="$group.validateStr.key"

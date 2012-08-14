@@ -3,7 +3,6 @@
  */
 package com.xhm.longxin.qth.dal.dao;
 
-import java.util.List;
 
 import junit.framework.Assert;
 
