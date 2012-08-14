@@ -33,6 +33,7 @@
 			<div class="nav pull-right">
 				<ul class="nav">
 					<li><a href="$userModule.setTarget("login")">登录</a></li>
+					<li><a href="$userModule.setTarget("register")">注册</a></li>
 				</ul>
 			</div>	
 			#end
