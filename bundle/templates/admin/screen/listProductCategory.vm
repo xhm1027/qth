@@ -22,10 +22,10 @@
 				<div class="row-fluid">
 					<div class="input-append span9">
 						<span class="add-on">名称</span><input type="text" class="span3"
-							id="categoryName"><button type="submit" class="btn" onClick="queryCategory();">查询</button>
-					</div>
-					<div class="input-append span3">
-						<button class="btn" type="button" onClick="addCategory();">新增+</button>
+							id="categoryName" name="name" />
+							<input type="hidden" name="isMaterial" value="$!isMaterial" />
+							<button type="submit" class="btn" >查询</button>
+							<button class="btn" type="button" onClick="addCategory();">新增</button>
 					</div>
 				</div>
 			</form>
@@ -49,7 +49,7 @@
 							<td>$!_rowIndex</td>
 							<td>$!category.name</td>
 							<td>$!category.description</td>
-							<td><a href="#">编辑</a></td>
+							<td><a href="editCategory.htm?id=$!category.id">编辑</a></td>
 						</tr>
 						#end
 					</tbody>
@@ -61,9 +61,15 @@
 	<script src="$!{qthServer}assets/js/jquery.js"></script>
 	<script>
 		function queryCategory(){
-			var name = $("#categoryName");
-			alert(name.text);
-			location.href="listProductCategory.htm?isMaterial=$!isMaterial&name="+name;
+			var name = document.getElementById("categoryName");
+			//var name = $("#categoryName");
+			//alert(name.value);
+			var url="listProductCategory.htm?isMaterial=c&name="+name.value;
+			alert(url);
+			window.location.href="listProductCategory.htm?isMaterial=$!isMaterial&name="+name.value;
+		}
+		function addCategory(){
+			window.location.href="addCategory.htm";
 		}
 	</script>
 </body>
