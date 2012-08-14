@@ -59,7 +59,7 @@ $rundata.setLayoutEnabled(false)
 					#end
 					<h2>基本信息</h2>
 					<div class="control-group #if(!$group.loginId.valid)error  #end" >
-						<label class="control-label" for="loginId">$group.loginId.displayName</label>
+                        <label class="control-label" for="loginId">$group.loginId.displayName<span style="color:red">*</span></label>
 						<div class="controls">
 							<input type="text" class="input-xlarge" id="loginId" name="$group.loginId.key" value="$group.loginId.value"
 							placeholder="$group.loginId.displayName">
@@ -69,7 +69,7 @@ $rundata.setLayoutEnabled(false)
 						</div>
 					</div>
 					<div class="control-group #if(!$group.password.valid)error  #end" >
-						<label class="control-label" for="password">$group.password.displayName</label>
+						<label class="control-label" for="password">$group.password.displayName<span style="color:red">*</span></label>
 						<div class="controls">
 							<input type="password" class="input-xlarge" id="password" name="$group.password.key" value="$group.password.value"
 							placeholder="$group.password.displayName">
@@ -79,7 +79,7 @@ $rundata.setLayoutEnabled(false)
 						</div>
 					</div>
 					<div class="control-group #if(!$group.confirmPassword.valid)error  #end" >
-						<label class="control-label" for="confirmPassword">$group.confirmPassword.displayName</label>
+						<label class="control-label" for="confirmPassword">$group.confirmPassword.displayName<span style="color:red">*</span></label>
 						<div class="controls">
 							<input type="password" class="input-xlarge" id="confirmPassword" name="$group.confirmPassword.key" value="$group.confirmPassword.value"
 							placeholder="$group.confirmPassword.displayName">
@@ -89,7 +89,7 @@ $rundata.setLayoutEnabled(false)
 						</div>
 					</div>
 					<div class="control-group #if(!$group.name.valid)error  #end" >
-						<label class="control-label" for="name">$group.name.displayName</label>
+						<label class="control-label" for="name">$group.name.displayName<span style="color:red">*</span></label>
 						<div class="controls">
 							<input type="text" class="input-xlarge" id="name" name="$group.name.key" value="$group.name.value"
 							placeholder="$group.name.displayName">
@@ -99,7 +99,7 @@ $rundata.setLayoutEnabled(false)
 						</div>
 					</div>
 					<div class="control-group #if(!$group.gender.valid)error  #end" >
-						<label class="control-label" for="gender">$group.gender.displayName</label>
+						<label class="control-label" for="gender">$group.gender.displayName<span style="color:red">*</span></label>
 						<div class="controls">
 							<label class="radio inline">
 								<input type="radio"
@@ -121,7 +121,7 @@ $rundata.setLayoutEnabled(false)
 					<hr>
 					<h2>企业信息</h2>
 					<div class="control-group #if(!$group.email.valid)error  #end" >
-						<label class="control-label" for="email">$group.email.displayName</label>
+						<label class="control-label" for="email">$group.email.displayName<span style="color:red">*</span></label>
 						<div class="controls">
 							<input type="text" class="input-xlarge" id="email" name="$group.email.key" value="$group.email.value"
 							placeholder="$group.email.displayName">
@@ -131,7 +131,7 @@ $rundata.setLayoutEnabled(false)
 						</div>
 					</div>
 					<div class="control-group #if(!$group.phoneArea.valid||!$group.phoneNumber.valid)error  #end" >
-						<label class="control-label" for="phone">电话</label>
+						<label class="control-label" for="phone">电话<span style="color:red">*</span></label>
 						<div class="controls">
 							<input type="text" class="input-mini" id="phoneArea" name="$group.phoneArea.key" value="$group.phoneArea.value"
 							placeholder="$group.phoneArea.displayName">
@@ -147,7 +147,7 @@ $rundata.setLayoutEnabled(false)
 						</div>
 					</div>
 					<div class="control-group #if(!$group.mobilePhone.valid)error  #end" >
-						<label class="control-label" for="mobilePhone">$group.mobilePhone.displayName</label>
+						<label class="control-label" for="mobilePhone">$group.mobilePhone.displayName<span style="color:red">*</span></label>
 						<div class="controls">
 							<input type="text" class="input-xlarge" id="mobilePhone" name="$group.mobilePhone.key" value="$group.mobilePhone.value"
 							placeholder="$group.mobilePhone.displayName">
@@ -157,7 +157,7 @@ $rundata.setLayoutEnabled(false)
 						</div>
 					</div>
 					<div class="control-group #if(!$group.company.valid)error  #end" >
-						<label class="control-label" for="company">$group.company.displayName</label>
+						<label class="control-label" for="company">$group.company.displayName<span style="color:red">*</span></label>
 						<div class="controls">
 							<input type="text" class="input-xlarge" id="company" name="$group.company.key" value="$group.company.value"
 							placeholder="$group.company.displayName">
@@ -167,7 +167,7 @@ $rundata.setLayoutEnabled(false)
 						</div>
 					</div>
 					<div class="control-group #if(!$group.companyAddress.valid)error  #end" >
-						<label class="control-label" for="companyAddress">$group.companyAddress.displayName</label>
+						<label class="control-label" for="companyAddress">$group.companyAddress.displayName<span style="color:red">*</span></label>
 						<div class="controls">
 							<textarea class="input-xlarge" id="companyAddress" rows="3" name="$group.companyAddress.key"
 							placeholder="$group.companyAddress.displayName">$!group.companyAddress.value</textarea>
@@ -179,7 +179,7 @@ $rundata.setLayoutEnabled(false)
 					<hr>
 					<h2>私密信息</h2>
 					<div class="control-group #if(!$group.idCardNum.valid)error  #end" >
-						<label class="control-label" for="idCardNum">$group.idCardNum.displayName</label>
+						<label class="control-label" for="idCardNum">$group.idCardNum.displayName<span style="color:red">*</span></label>
 						<div class="controls">
 							<input type="text" class="input-xlarge" id="idCardNum" name="$group.idCardNum.key" value="$group.idCardNum.value"
 							placeholder="$group.idCardNum.displayName">
@@ -189,7 +189,7 @@ $rundata.setLayoutEnabled(false)
 						</div>
 					</div>
 					<div class="control-group #if(!$group.busiLicense.valid)error  #end" >
-						<label class="control-label" for="busiLicense">$group.busiLicense.displayName</label>
+						<label class="control-label" for="busiLicense">$group.busiLicense.displayName<span style="color:red">*</span></label>
 						<div class="controls">
 							<input type="text" class="input-xlarge" id="busiLicense" name="$group.busiLicense.key" value="$group.busiLicense.value"
 							placeholder="$group.busiLicense.displayName">

@@ -89,7 +89,7 @@
             <services:field name="id" displayName="ID">
             </services:field>
             <services:field name="password" displayName="新密码">
-            	 <string-length-validator minLength="6" maxLength="16">
+            	<string-length-validator minLength="6" maxLength="16">
                     <message>${displayName} 最少必须由${minLength}个字组成，最多不能超过${maxLength}个字</message>
                 </string-length-validator>
             </services:field>

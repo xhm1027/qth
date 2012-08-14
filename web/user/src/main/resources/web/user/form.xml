@@ -113,6 +113,9 @@
 				<required-validator>
 					<message>必须填写 ${displayName}</message>
 				</required-validator>
+				<string-length-validator minLength="6" maxLength="16">
+                    <message>${displayName} 最少必须由${minLength}个字组成，最多不能超过${maxLength}个字</message>
+                </string-length-validator>
 			</services:field>
 			<services:field name="confirmPassword" displayName="确认密码">
 				<string-compare-validator notEqualTo="password">
@@ -126,28 +129,50 @@
 			</services:field>
 			<services:field name="gender" displayName="性别">
 				<required-validator>
-					<message>必须填写 ${displayName}</message>
+					<message>必须选择 ${displayName}</message>
 				</required-validator>
+				<regexp-validator pattern="^[f|m][f|m]$">
+			        <message>必须选择 ${displayName}</message>
+			    </regexp-validator>
 			</services:field>
 			<services:field name="email" displayName="邮箱">
 				<required-validator>
 					<message>必须填写 ${displayName}</message>
 				</required-validator>
+				<mail-address-validator>
+            		<message>不符合邮件格式</message>
+            	</mail-address-validator>
 			</services:field>
 			<services:field name="phoneArea" displayName="区号">
 				<required-validator>
 					<message>必须填写 ${displayName}</message>
 				</required-validator>
+			    <number-validator>
+			        <message>${displayName}必须是数字</message>
+			    </number-validator>
+				 <string-byte-length-validator minLength="3" maxLength="4" >
+			        <message>${displayName}必须是${minLength}或${maxLength}位数字</message>
+			    </string-byte-length-validator>
 			</services:field>
 			<services:field name="phoneNumber" displayName="电话号码">
 				<required-validator>
 					<message>必须填写 ${displayName}</message>
 				</required-validator>
+			    <regexp-validator pattern="^\d{3,4}$">
+			        <message>${displayName}错误</message>
+			    </regexp-validator>
 			</services:field>
 			<services:field name="mobilePhone" displayName="手机">
 				<required-validator>
 					<message>必须填写 ${displayName}</message>
 				</required-validator>
+			    <number-validator>
+			        <message>${displayName}必须是数字</message>
+			    </number-validator>
+			    <regexp-validator pattern="^\d{11}$">
+			        <message>${displayName}错误</message>
+			    </regexp-validator>
+			    
 			</services:field>
 			<services:field name="company" displayName="公司名称">
 				<required-validator>
@@ -163,6 +188,9 @@
 				<required-validator>
 					<message>必须填写 ${displayName}</message>
 				</required-validator>
+				<regexp-validator pattern="^(\d{6})(18|19|20)?(\d{2})([01]\d)([0123]\d)(\d{3})(\d|X)?$">
+			        <message>${displayName}错误</message>
+			    </regexp-validator>
 			</services:field>
 			<services:field name="busiLicense" displayName="营业执照号">
 				<required-validator>
