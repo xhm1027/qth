@@ -2,8 +2,6 @@
 <!DOCTYPE sqlMap PUBLIC "-//iBATIS.com//DTD SQL Map 2.0//EN" "http://www.ibatis.com/dtd/sql-map-2.dtd">
 <sqlMap namespace="QTH_USER">
 	<typeAlias alias="USER_POJO" type="com.xhm.longxin.qth.dal.dataobject.User" />
-	<typeAlias alias="INTEREST_POJO"
-		type="com.xhm.longxin.qth.dal.dataobject.UserInterest" />
 	<resultMap id="USER_RESULT_MAP" class="USER_POJO">
 		<result property="id" column="ID" jdbcType="BIGINT" javaType="long" />
 		<result property="loginId" column="login_id" jdbcType="VARCHAR"
@@ -29,25 +27,15 @@
 		<result property="busiLicense" column="busi_license" jdbcType="VARCHAR"
 			javaType="String" />
 		<result property="buyInterests" column="login_id"
-			select="QTH_USER.SELECT_BUY_INST" />
+			select="QTH_USER_INTEREST.SELECT_BUY_INST" />
 		<result property="saleInterests" column="login_id"
-			select="QTH_USER.SELECT_SALE_INST" />
+			select="QTH_USER_INTEREST.SELECT_SALE_INST" />
 		<result property="userLevel" column="user_level" jdbcType="VARCHAR"
 			javaType="String" />
 		<result property="status" column="status" jdbcType="VARCHAR"
 			javaType="String" />
 	</resultMap>
 
-	<resultMap id="USER_INTEREST_RESULT_MAP" class="INTEREST_POJO">
-		<result property="id" column="ID" jdbcType="BIGINT" javaType="long" />
-		<result property="loginId" column="login_id" jdbcType="VARCHAR"
-			javaType="String" />
-		<result property="value" column="value" jdbcType="VARCHAR"
-			javaType="String" />
-		<result property="interest" column="interest" jdbcType="VARCHAR"
-			javaType="String" />
-
-	</resultMap>
 	<insert id="INSERT_USER" parameterClass="USER_POJO">
          <![CDATA[
             INSERT INTO qth_user
@@ -165,7 +153,22 @@
 		parameterClass="map">
 		 <![CDATA[
 				select
-				*
+				u.is_deleted,
+				u.id,
+				u.login_id,
+				u.name,
+				u.gender,
+				u.email,
+				u.phone_area,
+				u.phone_number,
+				u.mobile_phone,
+				u.company,
+				u.company_address,
+				u.role,
+				u.id_card_num,
+				u.busi_license,
+				u.user_level,
+				u.status
 				from qth_user u,qth_user_interest i where  u.is_deleted='n' and i.is_deleted='n']]>
 		<isNotNull property="name" prepend="AND">
 			u.name=#name#
@@ -223,87 +226,6 @@
 		<![CDATA[group by u.id ]]>
 		<include refid="ALICRM_COMMON.ALI_PAGING" />
 	</select>
-
-	<insert id="INSERT_INTEREST" parameterClass="INTEREST_POJO">
-         <![CDATA[
-            INSERT INTO qth_user_interest
-                (
-                 gmt_created,
-                 gmt_modified,
-                 creator,
-                 modifier,
-                 is_deleted,
-                 login_id,
-                 interest,
-                 value
-                 )
-               VALUES
-               (
-				now(),
-				now(),
-	            'system',
-	            'system',
-	            'n',
-				#loginId#,
-				#interest#,
-				#value#
-	        )
-        ]]>
-		<selectKey resultClass="Integer" keyProperty="id">
-             <![CDATA[ SELECT LAST_INSERT_ID() AS ID ]]>
-		</selectKey>
-	</insert>
-
-	<select id="GET_EXIST_INTEREST" resultMap="USER_INTEREST_RESULT_MAP"
-		parameterClass="INTEREST_POJO">
-		 <![CDATA[
-				select
-				*
-				from qth_user_interest where  is_deleted='n'
-				AND login_id=#loginId#
-				and value=#value#
-				and interest=#interest#]]>
-	</select>
-	<select id="SELECT_BUY_INST" resultMap="USER_INTEREST_RESULT_MAP"
-		parameterClass="java.lang.String">
-		 <![CDATA[
-				select
-				*
-				from qth_user_interest where  is_deleted='n'
-				AND login_id=#loginId#
-				and interest='buy']]>
-	</select>
-	<select id="SELECT_SALE_INST" resultMap="USER_INTEREST_RESULT_MAP"
-		parameterClass="java.lang.String">
-		 <![CDATA[
-				select
-				*
-				from qth_user_interest where  is_deleted='n'
-				AND login_id=#loginId#
-				and interest='sale']]>
-	</select>
-
-	<update id="DELETE_INTEREST_BY_IDS" parameterClass="map"><![CDATA[
-        update
-                qth_user_interest
-        set
-                gmt_modified=now(),
-                is_deleted='y'
-                ]]>
-		where 1=0
-		<isNotNull property="buyInterests" prepend="OR">
-			<![CDATA[(login_id =#loginId#  and interest='buy' and value not IN]]>
-			<iterate property="buyInterests" open="(" close=")"
-				conjunction=","> #buyInterests[]#</iterate>
-				<![CDATA[) ]]>
-		</isNotNull>
-		<isNotNull property="saleInterests" prepend="OR">
-			<![CDATA[(login_id =#loginId#  and interest='sale' and value not IN]]>
-			<iterate property="saleInterests" open="(" close=")"
-				conjunction=","> #saleInterests[]#</iterate>
-				<![CDATA[) ]]>
-		</isNotNull>
-	</update>
 </sqlMap>
 
 

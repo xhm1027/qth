@@ -18,7 +18,15 @@ public class UserInterest extends BaseDo implements Serializable {
 
 	private String loginId;
 	private String interest;
-	private String value;
+	private Long value;
+	private String name;
+
+	public String getName() {
+		return name;
+	}
+	public void setName(String name) {
+		this.name = name;
+	}
 	public String getLoginId() {
 		return loginId;
 	}
@@ -31,10 +39,10 @@ public class UserInterest extends BaseDo implements Serializable {
 	public void setInterest(String interest) {
 		this.interest = interest;
 	}
-	public String getValue() {
+	public Long getValue() {
 		return value;
 	}
-	public void setValue(String value) {
+	public void setValue(Long value) {
 		this.value = value;
 	}
 

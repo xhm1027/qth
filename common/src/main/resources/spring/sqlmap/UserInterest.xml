@@ -1,0 +1,111 @@
+<?xml version="1.0" encoding="GBK" ?>
+<!DOCTYPE sqlMap PUBLIC "-//iBATIS.com//DTD SQL Map 2.0//EN" "http://www.ibatis.com/dtd/sql-map-2.dtd">
+<sqlMap namespace="QTH_USER_INTEREST">
+	<typeAlias alias="INTEREST_POJO"
+		type="com.xhm.longxin.qth.dal.dataobject.UserInterest" />
+	<resultMap id="USER_INTEREST_RESULT_MAP" class="INTEREST_POJO">
+		<result property="id" column="ID" jdbcType="BIGINT" javaType="long" />
+		<result property="loginId" column="login_id" jdbcType="VARCHAR"
+			javaType="String" />
+		<result property="value" column="value" jdbcType="BIGINT"
+			javaType="long" />
+		<result property="interest" column="interest" jdbcType="VARCHAR"
+			javaType="String" />
+
+	</resultMap>
+
+	<insert id="INSERT_INTEREST" parameterClass="INTEREST_POJO">
+         <![CDATA[
+            INSERT INTO qth_user_interest
+                (
+                 gmt_created,
+                 gmt_modified,
+                 creator,
+                 modifier,
+                 is_deleted,
+                 login_id,
+                 interest,
+                 value
+                 )
+               VALUES
+               (
+				now(),
+				now(),
+	            'system',
+	            'system',
+	            'n',
+				#loginId#,
+				#interest#,
+				#value#
+	        )
+        ]]>
+		<selectKey resultClass="Integer" keyProperty="id">
+             <![CDATA[ SELECT LAST_INSERT_ID() AS ID ]]>
+		</selectKey>
+	</insert>
+
+	<select id="GET_EXIST_INTEREST" resultMap="USER_INTEREST_RESULT_MAP"
+		parameterClass="INTEREST_POJO">
+		 <![CDATA[
+				select
+				*
+				from qth_user_interest where  is_deleted='n'
+				AND login_id=#loginId#
+				and value=#value#
+				and interest=#interest#]]>
+	</select>
+	<select id="SELECT_BUY_INST" resultMap="USER_INTEREST_RESULT_MAP"
+		parameterClass="java.lang.String">
+		 <![CDATA[
+				select
+				i.id,i.is_deleted,i.login_id,i.interest,i.value,c.name
+				from qth_user_interest i,qth_pro_category c where  i.is_deleted='n' and c.is_deleted='n'
+				AND i.login_id=#loginId#
+				and c.id=i.value
+				and i.interest='buy']]>
+	</select>
+	<select id="SELECT_SALE_INST" resultMap="USER_INTEREST_RESULT_MAP"
+		parameterClass="java.lang.String">
+		 <![CDATA[
+				select
+				i.id,i.is_deleted,i.login_id,i.interest,i.value,c.name
+				from qth_user_interest i,qth_pro_category c where  i.is_deleted='n' and c.is_deleted='n'
+				AND i.login_id=#loginId#
+				and c.id=i.value
+				and i.interest='sale']]>
+	</select>
+
+	<update id="DELETE_INTEREST_BY_IDS" parameterClass="map"><![CDATA[
+        update
+                qth_user_interest
+        set
+                gmt_modified=now(),
+                is_deleted='y'
+                ]]>
+		where 1=0
+		<isNotNull property="buyInterests" prepend="OR">
+			<![CDATA[(login_id =#loginId#  and interest='buy' and value not IN]]>
+			<iterate property="buyInterests" open="(" close=")"
+				conjunction=","> #buyInterests[]#</iterate>
+				<![CDATA[) ]]>
+		</isNotNull>
+		<isNotNull property="saleInterests" prepend="OR">
+			<![CDATA[(login_id =#loginId#  and interest='sale' and value not IN]]>
+			<iterate property="saleInterests" open="(" close=")"
+				conjunction=","> #saleInterests[]#</iterate>
+				<![CDATA[) ]]>
+		</isNotNull>
+	</update>
+
+	<update id="DELETE_INTEREST_BY_ID" parameterClass="long"><![CDATA[
+        update
+                qth_user_interest
+        set
+                gmt_modified=now(),
+                is_deleted='y'
+		where id=#id#
+		]]>
+	</update>
+</sqlMap>
+
+

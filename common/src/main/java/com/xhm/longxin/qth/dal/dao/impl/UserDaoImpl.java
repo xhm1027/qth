@@ -27,9 +27,11 @@ public class UserDaoImpl extends SqlMapClientDaoSupport implements UserDao {
 	private static final String QUERY_BY_LOGIN_ID = "QUERY_USER_BY_LOGINID";
 	private static final String QUERY_BY_MAP = "QUERY_USER_BY_MAP";
 
+	private static final String QTH_USER_INTEREST = "QTH_USER_INTEREST";
 	private static final String INSERT_INTEREST = "INSERT_INTEREST";
 	private static final String GET_EXIST_INTEREST = "GET_EXIST_INTEREST";
 	private static final String DELETE_INTEREST_BY_IDS = "DELETE_INTEREST_BY_IDS";
+	private static final String DELETE_INTEREST_BY_ID = "DELETE_INTEREST_BY_ID";
 
 	/**
 	 * 保存
@@ -59,6 +61,20 @@ public class UserDaoImpl extends SqlMapClientDaoSupport implements UserDao {
 		user.setIsDeleted("y");
 		Integer res = (Integer) getSqlMapClientTemplate().delete(
 				NAMESPACE_USER + "." + UPDATE_ID, user);
+		if (user.getBuyInterests() != null) {
+			for (UserInterest interest : user.getBuyInterests()) {
+				getSqlMapClientTemplate().update(
+						QTH_USER_INTEREST + "." + DELETE_INTEREST_BY_ID,
+						interest.getId());
+			}
+		}
+		if (user.getSaleInterests() != null) {
+			for (UserInterest interest : user.getSaleInterests()) {
+				getSqlMapClientTemplate().update(
+						QTH_USER_INTEREST + "." + DELETE_INTEREST_BY_ID,
+						interest.getId());
+			}
+		}
 		return res > 0 ? true : false;
 	}
 
@@ -111,17 +127,18 @@ public class UserDaoImpl extends SqlMapClientDaoSupport implements UserDao {
 	public boolean updateUser(User user) {
 		Integer res = (Integer) getSqlMapClientTemplate().update(
 				NAMESPACE_USER + "." + UPDATE_ID, user);
-		List<String> buyInterests =null;
-		if(user.getBuyInterests()!=null&&user.getBuyInterests().size()>0){
-			buyInterests=new ArrayList<String>();
-			for (UserInterest inst:user.getBuyInterests()){
+		List<Long> buyInterests = null;
+		if (user.getBuyInterests() != null && user.getBuyInterests().size() > 0) {
+			buyInterests = new ArrayList<Long>();
+			for (UserInterest inst : user.getBuyInterests()) {
 				buyInterests.add(inst.getValue());
 			}
 		}
-		List<String> saleInterests =null;
-		if(user.getSaleInterests()!=null&&user.getSaleInterests().size()>0){
-			saleInterests=new ArrayList<String>();
-			for (UserInterest inst:user.getSaleInterests()){
+		List<Long> saleInterests = null;
+		if (user.getSaleInterests() != null
+				&& user.getSaleInterests().size() > 0) {
+			saleInterests = new ArrayList<Long>();
+			for (UserInterest inst : user.getSaleInterests()) {
 				saleInterests.add(inst.getValue());
 			}
 		}
@@ -131,7 +148,7 @@ public class UserDaoImpl extends SqlMapClientDaoSupport implements UserDao {
 		param.put("loginId", user.getLoginId());
 		// delete不存在的
 		getSqlMapClientTemplate().update(
-				NAMESPACE_USER + "." + DELETE_INTEREST_BY_IDS, param);
+				QTH_USER_INTEREST + "." + DELETE_INTEREST_BY_IDS, param);
 		// 插入或不动
 		for (UserInterest interest : user.getBuyInterests()) {
 			this.addOrUpdateUserInterest(interest);
@@ -152,12 +169,12 @@ public class UserDaoImpl extends SqlMapClientDaoSupport implements UserDao {
 	public boolean addOrUpdateUserInterest(UserInterest userInterest) {
 		// 如果已经存在了，不插入
 		if (getSqlMapClientTemplate().queryForList(
-				NAMESPACE_USER + "." + GET_EXIST_INTEREST, userInterest).size() > 0) {
+				QTH_USER_INTEREST + "." + GET_EXIST_INTEREST, userInterest).size() > 0) {
 			return true;
 		}
 		// 否则插入
 		Integer res = (Integer) getSqlMapClientTemplate().update(
-				NAMESPACE_USER + "." + INSERT_INTEREST, userInterest);
+				QTH_USER_INTEREST + "." + INSERT_INTEREST, userInterest);
 		return res > 0 ? true : false;
 	}
 }

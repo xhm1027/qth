@@ -11,6 +11,8 @@ import java.util.Map;
 import junit.framework.Assert;
 
 import org.jtester.annotations.SpringBeanByName;
+import org.jtester.core.IJTester.DataGenerator;
+import org.jtester.core.IJTester.DataMap;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 import com.xhm.longxin.qth.dal.constant.Gender;
@@ -32,6 +34,7 @@ public class UserDaoTest extends BaseDaoTest{
 	@BeforeMethod
 	public void setUp(){
 		db.table("qth_user").clean().commit();
+		//db.table("qth_pro_category").clean().commit();
 	}
 	@Test
 	public void testUserAdd() {
@@ -57,7 +60,7 @@ public class UserDaoTest extends BaseDaoTest{
 		List<UserInterest> buyInsterests=new ArrayList<UserInterest>();
 		UserInterest i=new UserInterest();
 		i.setInterest(UserInterestType.BUY);
-		i.setValue("123");
+		i.setValue(1L);
 		i.setLoginId(loginId);
 		buyInsterests.add(i);
 		user.setBuyInterests(buyInsterests);
@@ -71,7 +74,13 @@ public class UserDaoTest extends BaseDaoTest{
 
 	@Test
 	public void testUserUpdate() {
-
+		db.table("qth_pro_category").clean().insert(1, new DataMap() {
+			{
+				this.put("id",1);
+				this.put("name", "testCate1");
+				this.put("is_material", "Y");
+			}
+		});
 		String loginId="zhangren";
 		User user = new User();
 		user.setBusiLicense("11234");
@@ -94,7 +103,7 @@ public class UserDaoTest extends BaseDaoTest{
 		List<UserInterest> buyInsterests=new ArrayList<UserInterest>();
 		UserInterest bi=new UserInterest();
 		bi.setInterest(UserInterestType.BUY);
-		bi.setValue("123");
+		bi.setValue(1L);
 		bi.setLoginId(loginId);
 		buyInsterests.add(bi);
 		user.setBuyInterests(buyInsterests);
@@ -103,12 +112,14 @@ public class UserDaoTest extends BaseDaoTest{
 		User u=userDao.getUserByLoginIdAndPass(loginId, "11234");
 		u.setPassword("123");
 		u.setCompany("单测公司名");
-		bi.setValue("321");
+		bi.setValue(1L);
 		//编辑
 		u.setBuyInterests(buyInsterests);
 		userDao.updateUser(u);
 		u=userDao.getUserByLoginIdAndPass(loginId, "123");
 		Assert.assertEquals(u.getCompany(), userDao.getUserById(u.getId()).getCompany());
+		//检查测试类别关联
+		Assert.assertEquals(u.getBuyInterests().get(0).getName(),"testCate1");
 		//编辑产品
 		Map<String,Object> param=new HashMap<String,Object>();
 		List<String> buyInterests=new ArrayList<String>();

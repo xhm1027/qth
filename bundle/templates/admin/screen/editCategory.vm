@@ -2,13 +2,15 @@
 		<div class="row">
 			<div class="span12">
 				<ul class="nav nav-pills">
+					<li><a href="listProductCategory.htm?isMaterial=0">资源类别</a></li>
+					<li><a href="listProductCategory.htm?isMaterial=1">废旧原料类别</a></li>
 					<li class="active"><a href="#l">编辑类目</a></li>
 				</ul>
 			</div>
 		</div>
 		<div class="row">
 			<div class="span12">
-				<form class="well form-horizontal" action="mySaleProduct.html">
+				<form class="well form-horizontal" method="post">
 					<div class="control-group error">
 						<label class="control-label" for="input01">名称</label>
 						<div class="controls">

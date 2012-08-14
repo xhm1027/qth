@@ -2,38 +2,52 @@
 		<div class="row">
 			<div class="span12">
 				<ul class="nav nav-pills">
+					<li><a href="listProductCategory.htm?isMaterial=0">资源类别</a></li>
+					<li><a href="listProductCategory.htm?isMaterial=1">废旧原料类别</a></li>
 					<li class="active"><a href="#l">新增类目</a></li>
 				</ul>
 			</div>
 		</div>
 		<div class="row">
 			<div class="span12">
-				<form class="well form-horizontal" action="mySaleProduct.html">
-					<div class="control-group error">
-						<label class="control-label" for="input01">名称</label>
+				<form class="well form-horizontal" method="post">
+					$csrfToken.hiddenField
+					<input type="hidden" name="action" value="category_action"/>
+					#set ($group = $form.category.defaultInstance)
+					<fieldset>
+					<div class="control-group #if(!$group.name.valid)error #else success #end">
+						<label class="control-label" for="name">$group.name.displayName</label>
 						<div class="controls">
-							<input type="text" class="input-xlarge" id="input01"
-								placeholder="名称">
-							<p class="help-inline">填写名称</p>
+							<input type="text" class="input-xlarge" id="name" name="$group.name.key" value="$group.name.value"
+							placeholder="类别名称">
+							<p class="help-block">
+							#if(!$group.name.valid)$group.name.message #end
+							</p>
 						</div>
 					</div>
-					<div class="control-group error">
-						<label class="control-label" for="input01">描述</label>
+					<div class="control-group success">
+						<label class="control-label" for="description">$group.description.displayName</label>
 						<div class="controls">
-							<textarea class="input-xlarge" id="input01" rows="3"
-												placeholder="描述"></textarea>
-							<p class="help-inline"></p>
+							<input type="text" class="input-xlarge" id="name" name="$group.description.key" value="$group.description.value"
+							placeholder="类别描述">
 						</div>
 					</div>
 					<div class="control-group error">
 						<label class="control-label" for="input01">类目类型</label>
 						<div class="controls">
-							<select id="isMaterial">
+							<select id="isMaterial" name="$group.isMaterial.key">
 								<option selected="true" value="1">废旧原料类别</option>
 								<option value="0">资源类别</option>
 							</select>
 						</div>
 					</div>
+					#if(!$group.categoryErr.valid)
+					<div class="alert alert-error">
+						<button type="button" class="close" data-dismiss="alert">&times;</button>
+						 $group.categoryErr.message
+					</div>
+					#end
+					</fieldset>
 					<div class="form-actions">
 						<button type="submit" class="btn btn-primary">保存</button>
 						<button type="submit" class="btn btn-primary">取消</button>
