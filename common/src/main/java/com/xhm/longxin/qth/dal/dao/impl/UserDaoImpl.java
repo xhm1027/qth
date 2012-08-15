@@ -4,9 +4,7 @@
 package com.xhm.longxin.qth.dal.dao.impl;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 import org.springframework.orm.ibatis.support.SqlMapClientDaoSupport;
 import com.xhm.longxin.qth.dal.dao.UserDao;
 import com.xhm.longxin.qth.dal.dataobject.User;
@@ -186,6 +184,7 @@ public class UserDaoImpl extends SqlMapClientDaoSupport implements UserDao {
 	}
 
 
+	@SuppressWarnings("unchecked")
 	public List<User> query(UserQuery userQuery, int pageStart, int pageSize) {
 		userQuery.setPageSize(pageSize);
 		userQuery.setPageStart(pageStart);
@@ -234,5 +233,10 @@ public class UserDaoImpl extends SqlMapClientDaoSupport implements UserDao {
 		Integer res = (Integer) getSqlMapClientTemplate().update(
 				QTH_USER_INTEREST + "." + INSERT_INTEREST, userInterest);
 		return res > 0 ? true : false;
+	}
+
+	public User getUserByEmail(String email) {
+		//TODO ÌîÐ´¾ßÌåµÄsql
+		return null;
 	}
 }

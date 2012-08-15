@@ -13,5 +13,14 @@ public class UserServiceImpl implements UserService {
 	public User login(LoginVO vo) {
 		return userDao.getUserByLoginIdAndPass(vo.getName(), vo.getPassword());
 	}
+	public User getUserByLoginId(String loginId) {
+		return userDao.getUserByLoginId(loginId);
+	}
+	public User getUserByEmail(String email) {
+		return userDao.getUserByEmail(email);
+	}
+	public boolean addUser(User user) {
+		return userDao.addUser(user);
+	}
 
 }

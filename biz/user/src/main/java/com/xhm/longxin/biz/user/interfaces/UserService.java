@@ -15,4 +15,25 @@ public interface UserService {
 	 * @return User
 	 */
 	public User login(LoginVO vo);
+	
+	
+	/**
+	 * 根据id查询用户
+	 * @param loginId
+	 * @return
+	 */
+	public User getUserByLoginId(String loginId);
+	
+	
+	/**
+	 * 根据email获取用户
+	 * @param email
+	 * @return
+	 */
+	public User getUserByEmail(String email);
+	
+	/**
+	 * 新增用户
+	 * */
+	public boolean addUser(User user);
 }

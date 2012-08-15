@@ -4,10 +4,8 @@
 package com.xhm.longxin.qth.dal.dao;
 
 import java.util.List;
-import java.util.Map;
 
 import com.xhm.longxin.qth.dal.dataobject.User;
-import com.xhm.longxin.qth.dal.dataobject.UserInterest;
 import com.xhm.longxin.qth.dal.query.UserQuery;
 
 /**
@@ -58,5 +56,12 @@ public interface UserDao{
 	 * 删除用户，管理员用
 	 * */
 	public boolean deleteUserById(Long id);
+	
+	/**
+	 * 通过email查询用户
+	 * @param email
+	 * @return
+	 */
+	public User getUserByEmail(String email);
 
 }

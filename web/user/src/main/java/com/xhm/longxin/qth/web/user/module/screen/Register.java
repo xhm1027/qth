@@ -32,9 +32,9 @@ public class Register {
 	public void execute( Context context) {
 		/* 因为注册的都是园区外部用户，所以初始化感兴趣的采购产品类目是资源产品的类目 ,感兴趣的销售类目都是原材料产品的类目*/
 		List<ProductCategory> buyInterests = productCategoryService.getAllResourceCategory();
-		List<ProductCategory> saleInterests = productCategoryService.getAllMaterialCategory();
+		List<ProductCategory> sellInterests = productCategoryService.getAllMaterialCategory();
 		
 		context.put("buyInterests", buyInterests);
-		context.put("saleInterests", saleInterests);
+		context.put("sellInterests", sellInterests);
 	}
 }

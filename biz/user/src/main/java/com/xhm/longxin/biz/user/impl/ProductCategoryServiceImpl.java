@@ -3,9 +3,7 @@
  */
 package com.xhm.longxin.biz.user.impl;
 
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 
@@ -13,6 +11,7 @@ import com.xhm.longxin.biz.user.interfaces.ProductCategoryService;
 import com.xhm.longxin.qth.dal.constant.IS;
 import com.xhm.longxin.qth.dal.dao.ProductCategoryDao;
 import com.xhm.longxin.qth.dal.dataobject.ProductCategory;
+import com.xhm.longxin.qth.dal.query.CategoryQuery;
 
 /**
  * @author ren.zhangr
@@ -30,8 +29,8 @@ public class ProductCategoryServiceImpl implements ProductCategoryService {
 		return productCategoryDao.updateProductCategory(category);
 	}
 
-	public List<ProductCategory> queryCategory(Map param) {
-		return productCategoryDao.queryProductCategory(param);
+	public List<ProductCategory> queryCategory(CategoryQuery categoryQuery) {
+		return productCategoryDao.query(categoryQuery);
 	}
 
 	public boolean delCategoryById(Long id) {
@@ -39,15 +38,15 @@ public class ProductCategoryServiceImpl implements ProductCategoryService {
 	}
 
 	public List<ProductCategory> getAllMaterialCategory() {
-		Map<String,Object> param = new HashMap<String,Object>();
-		param.put("isMaterial", IS.Y);
-		return productCategoryDao.queryProductCategory(param);
+		CategoryQuery categoryQuery = new CategoryQuery();
+		categoryQuery.setIsMaterial(IS.Y);
+		return productCategoryDao.query(categoryQuery);
 	}
 
 	public List<ProductCategory> getAllResourceCategory() {
-		Map<String,Object> param = new HashMap<String,Object>();
-		param.put("isMaterial", IS.N);
-		return productCategoryDao.queryProductCategory(param);
+		CategoryQuery categoryQuery = new CategoryQuery();
+		categoryQuery.setIsMaterial(IS.N);
+		return productCategoryDao.query(categoryQuery);
 	}
 	
 }

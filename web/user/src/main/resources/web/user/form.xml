@@ -108,6 +108,9 @@
 				<required-validator>
 					<message>必须填写 ${displayName}</message>
 				</required-validator>
+                 <custom-error id="existError">
+                    <message>用户名已存在</message>
+                </custom-error>
 			</services:field>
 			<services:field name="password" displayName="登录密码">
 				<required-validator>
@@ -118,7 +121,7 @@
                 </string-length-validator>
 			</services:field>
 			<services:field name="confirmPassword" displayName="确认密码">
-				<string-compare-validator notEqualTo="password">
+				<string-compare-validator equalTo="password">
 					<message>2次输入的密码不一致</message>
 				</string-compare-validator>
 			</services:field>
@@ -131,7 +134,7 @@
 				<required-validator>
 					<message>必须选择 ${displayName}</message>
 				</required-validator>
-				<regexp-validator pattern="^[f|m][f|m]$">
+				<regexp-validator pattern="^[f|m]$">
 			        <message>必须选择 ${displayName}</message>
 			    </regexp-validator>
 			</services:field>
@@ -142,19 +145,11 @@
 				<mail-address-validator>
             		<message>不符合邮件格式</message>
             	</mail-address-validator>
+                 <custom-error id="existError">
+                    <message>邮箱已存在</message>
+                </custom-error>
 			</services:field>
 			<services:field name="phoneArea" displayName="区号">
-				<required-validator>
-					<message>必须填写 ${displayName}</message>
-				</required-validator>
-			    <number-validator>
-			        <message>${displayName}必须是数字</message>
-			    </number-validator>
-				 <string-byte-length-validator minLength="3" maxLength="4" >
-			        <message>${displayName}必须是${minLength}或${maxLength}位数字</message>
-			    </string-byte-length-validator>
-			</services:field>
-			<services:field name="phoneNumber" displayName="电话号码">
 				<required-validator>
 					<message>必须填写 ${displayName}</message>
 				</required-validator>
@@ -162,13 +157,18 @@
 			        <message>${displayName}错误</message>
 			    </regexp-validator>
 			</services:field>
-			<services:field name="mobilePhone" displayName="手机">
+			<services:field name="phoneNumber" displayName="电话号码">
 				<required-validator>
 					<message>必须填写 ${displayName}</message>
 				</required-validator>
-			    <number-validator>
-			        <message>${displayName}必须是数字</message>
-			    </number-validator>
+			    <regexp-validator pattern="^\d{7,8}$">
+			        <message>${displayName}错误</message>
+			    </regexp-validator>
+			</services:field>
+			<services:field name="mobilePhone" displayName="手机号">
+				<required-validator>
+					<message>必须填写 ${displayName}</message>
+				</required-validator>
 			    <regexp-validator pattern="^\d{11}$">
 			        <message>${displayName}错误</message>
 			    </regexp-validator>

@@ -63,7 +63,7 @@ $rundata.setLayoutEnabled(false)
 						<div class="controls">
 							<input type="text" class="input-xlarge" id="loginId" name="$group.loginId.key" value="$group.loginId.value"
 							placeholder="$group.loginId.displayName">
-							<p class="help-block">
+							<p class="help-inline">
 							#if(!$group.loginId.valid)$group.loginId.message #end
 							</p>
 						</div>
@@ -73,7 +73,7 @@ $rundata.setLayoutEnabled(false)
 						<div class="controls">
 							<input type="password" class="input-xlarge" id="password" name="$group.password.key" value="$group.password.value"
 							placeholder="$group.password.displayName">
-							<p class="help-block">
+							<p class="help-inline">
 							#if(!$group.password.valid)$group.password.message #end
 							</p>
 						</div>
@@ -83,7 +83,7 @@ $rundata.setLayoutEnabled(false)
 						<div class="controls">
 							<input type="password" class="input-xlarge" id="confirmPassword" name="$group.confirmPassword.key" value="$group.confirmPassword.value"
 							placeholder="$group.confirmPassword.displayName">
-							<p class="help-block">
+							<p class="help-inline">
 							#if(!$group.confirmPassword.valid)$group.confirmPassword.message #end
 							</p>
 						</div>
@@ -93,7 +93,7 @@ $rundata.setLayoutEnabled(false)
 						<div class="controls">
 							<input type="text" class="input-xlarge" id="name" name="$group.name.key" value="$group.name.value"
 							placeholder="$group.name.displayName">
-							<p class="help-block">
+							<p class="help-inline">
 							#if(!$group.name.valid)$group.name.message #end
 							</p>
 						</div>
@@ -102,18 +102,17 @@ $rundata.setLayoutEnabled(false)
 						<label class="control-label" for="gender">$group.gender.displayName<span style="color:red">*</span></label>
 						<div class="controls">
 							<label class="radio inline">
+								##$group.gender.getAbsentHiddenField("m")
 								<input type="radio"
-								name="$group.gender.key"" id="gender1" value="m"
-								checked="">
+								name="$group.gender.key" id="gender1" value="m" checked>
 								男
 							</label>
 							<label class="radio inline">
 								<input type="radio"
-								name="$group.gender.key"" id="gender2" value="f"
-								checked="">
+								name="$group.gender.key" id="gender2" value="f">
 								女
 							</label>
-							<p class="help-block">
+							<p class="help-inline">
 							#if(!$group.gender.valid)$group.gender.message #end
 							</p>
 						</div>
@@ -125,7 +124,7 @@ $rundata.setLayoutEnabled(false)
 						<div class="controls">
 							<input type="text" class="input-xlarge" id="email" name="$group.email.key" value="$group.email.value"
 							placeholder="$group.email.displayName">
-							<p class="help-block">
+							<p class="help-inline">
 							#if(!$group.email.valid)$group.email.message #end
 							</p>
 						</div>
@@ -138,10 +137,10 @@ $rundata.setLayoutEnabled(false)
 							<span class="badge">-</span>
 							<input type="text" class="input-medium" id="phoneNumber" name="$group.phoneNumber.key" value="$group.phoneNumber.value"
 							placeholder="$group.phoneNumber.displayName">
-							<p class="help-block">
+							<p class="help-inline">
 							#if(!$group.phoneArea.valid)$group.phoneArea.message #end
 							</p>
-							<p class="help-block">
+							<p class="help-inline">
 							#if(!$group.phoneNumber.valid)$group.phoneNumber.message #end
 							</p>
 						</div>
@@ -151,7 +150,7 @@ $rundata.setLayoutEnabled(false)
 						<div class="controls">
 							<input type="text" class="input-xlarge" id="mobilePhone" name="$group.mobilePhone.key" value="$group.mobilePhone.value"
 							placeholder="$group.mobilePhone.displayName">
-							<p class="help-block">
+							<p class="help-inline">
 							#if(!$group.mobilePhone.valid)$group.mobilePhone.message #end
 							</p>
 						</div>
@@ -161,7 +160,7 @@ $rundata.setLayoutEnabled(false)
 						<div class="controls">
 							<input type="text" class="input-xlarge" id="company" name="$group.company.key" value="$group.company.value"
 							placeholder="$group.company.displayName">
-							<p class="help-block">
+							<p class="help-inline">
 							#if(!$group.company.valid)$group.company.message #end
 							</p>
 						</div>
@@ -171,7 +170,7 @@ $rundata.setLayoutEnabled(false)
 						<div class="controls">
 							<textarea class="input-xlarge" id="companyAddress" rows="3" name="$group.companyAddress.key"
 							placeholder="$group.companyAddress.displayName">$!group.companyAddress.value</textarea>
-							<p class="help-block">
+							<p class="help-inline">
 							#if(!$group.companyAddress.valid)$group.companyAddress.message #end
 							</p>
 						</div>
@@ -183,7 +182,7 @@ $rundata.setLayoutEnabled(false)
 						<div class="controls">
 							<input type="text" class="input-xlarge" id="idCardNum" name="$group.idCardNum.key" value="$group.idCardNum.value"
 							placeholder="$group.idCardNum.displayName">
-							<p class="help-block">
+							<p class="help-inline">
 							#if(!$group.idCardNum.valid)$group.idCardNum.message #end
 							</p>
 						</div>
@@ -193,7 +192,7 @@ $rundata.setLayoutEnabled(false)
 						<div class="controls">
 							<input type="text" class="input-xlarge" id="busiLicense" name="$group.busiLicense.key" value="$group.busiLicense.value"
 							placeholder="$group.busiLicense.displayName">
-							<p class="help-block">
+							<p class="help-inline">
 							#if(!$group.busiLicense.valid)$group.busiLicense.message #end
 							</p>
 						</div>
@@ -212,18 +211,16 @@ $rundata.setLayoutEnabled(false)
 					</div>
 					<span class="label label-info">主营采购资源类别</span>
 					<div class="control-group">
-						#foreach($sale in $saleInterests)
+						#foreach($sell in $sellInterests)
 						<label class="checkbox inline">
 							<input type="checkbox"
-							name="saleInterests" value="$!sale.id">
-							$!sale.name
+							name="sellInterests" value="$!sell.id">
+							$!sell.name
 						</label>
 						#end
 					</div>
 					<div class="form-actions">
-						<button type="submit" class="btn btn-primary">
-						注册
-						</button>
+						<input type="submit" class="btn btn-primary" name="event_submit_do_register" value="注册"/>
 					</div>
 					</fieldset>
 				</form>
