@@ -3,12 +3,16 @@
 <sqlMap namespace="QTH_USER_INTEREST">
 	<typeAlias alias="INTEREST_POJO"
 		type="com.xhm.longxin.qth.dal.dataobject.UserInterest" />
+	<typeAlias alias="USER_INTEREST_VO"
+		type="com.xhm.longxin.qth.dal.query.UserInterestVo" />
 	<resultMap id="USER_INTEREST_RESULT_MAP" class="INTEREST_POJO">
 		<result property="id" column="ID" jdbcType="BIGINT" javaType="long" />
 		<result property="loginId" column="login_id" jdbcType="VARCHAR"
 			javaType="String" />
 		<result property="value" column="value" jdbcType="BIGINT"
 			javaType="long" />
+		<result property="name" column="name" jdbcType="VARCHAR"
+			javaType="String" />
 		<result property="interest" column="interest" jdbcType="VARCHAR"
 			javaType="String" />
 
@@ -33,7 +37,7 @@
 				now(),
 	            'system',
 	            'system',
-	            'n',
+	            'N',
 				#loginId#,
 				#interest#,
 				#value#
@@ -48,18 +52,18 @@
 		parameterClass="INTEREST_POJO">
 		 <![CDATA[
 				select
-				*
-				from qth_user_interest where  is_deleted='n'
-				AND login_id=#loginId#
-				and value=#value#
-				and interest=#interest#]]>
+				i.id,i.is_deleted,i.login_id,i.interest,i.value,c.name  as name
+				from qth_user_interest i,qth_pro_category c where  i.is_deleted='N' and c.is_deleted='N'
+				AND i.login_id=#loginId#
+				and i.value=#value#
+				and i.interest=#interest#]]>
 	</select>
 	<select id="SELECT_BUY_INST" resultMap="USER_INTEREST_RESULT_MAP"
 		parameterClass="java.lang.String">
 		 <![CDATA[
 				select
-				i.id,i.is_deleted,i.login_id,i.interest,i.value,c.name
-				from qth_user_interest i,qth_pro_category c where  i.is_deleted='n' and c.is_deleted='n'
+				i.id,i.is_deleted,i.login_id,i.interest,i.value,c.name as name
+				from qth_user_interest i,qth_pro_category c where  i.is_deleted='N' and c.is_deleted='N'
 				AND i.login_id=#loginId#
 				and c.id=i.value
 				and i.interest='buy']]>
@@ -68,31 +72,31 @@
 		parameterClass="java.lang.String">
 		 <![CDATA[
 				select
-				i.id,i.is_deleted,i.login_id,i.interest,i.value,c.name
-				from qth_user_interest i,qth_pro_category c where  i.is_deleted='n' and c.is_deleted='n'
+				i.id,i.is_deleted,i.login_id,i.interest,i.value,c.name  as name
+				from qth_user_interest i,qth_pro_category c where  i.is_deleted='N' and c.is_deleted='N'
 				AND i.login_id=#loginId#
 				and c.id=i.value
 				and i.interest='sale']]>
 	</select>
 
-	<update id="DELETE_INTEREST_BY_IDS" parameterClass="map"><![CDATA[
+	<update id="DELETE_INTEREST_NOT_IN_IDS" parameterClass="USER_INTEREST_VO"><![CDATA[
         update
                 qth_user_interest
         set
                 gmt_modified=now(),
-                is_deleted='y'
+                is_deleted='Y'
                 ]]>
 		where 1=0
-		<isNotNull property="buyInterests" prepend="OR">
+		<isNotNull property="buyInterestIds" prepend="OR">
 			<![CDATA[(login_id =#loginId#  and interest='buy' and value not IN]]>
-			<iterate property="buyInterests" open="(" close=")"
-				conjunction=","> #buyInterests[]#</iterate>
+			<iterate property="buyInterestIds" open="(" close=")"
+				conjunction=","> #buyInterestIds[]#</iterate>
 				<![CDATA[) ]]>
 		</isNotNull>
-		<isNotNull property="saleInterests" prepend="OR">
+		<isNotNull property="saleInterestIds" prepend="OR">
 			<![CDATA[(login_id =#loginId#  and interest='sale' and value not IN]]>
-			<iterate property="saleInterests" open="(" close=")"
-				conjunction=","> #saleInterests[]#</iterate>
+			<iterate property="saleInterestIds" open="(" close=")"
+				conjunction=","> #saleInterestIds[]#</iterate>
 				<![CDATA[) ]]>
 		</isNotNull>
 	</update>
@@ -102,7 +106,7 @@
                 qth_user_interest
         set
                 gmt_modified=now(),
-                is_deleted='y'
+                is_deleted='Y'
 		where id=#id#
 		]]>
 	</update>

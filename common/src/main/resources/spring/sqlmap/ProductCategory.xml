@@ -1,7 +1,10 @@
 <?xml version="1.0" encoding="GBK" ?>
 <!DOCTYPE sqlMap PUBLIC "-//iBATIS.com//DTD SQL Map 2.0//EN" "http://www.ibatis.com/dtd/sql-map-2.dtd">
 <sqlMap namespace="QTH_PRODUCT_CATEGORY">
-	<typeAlias alias="PRODUCT_CATEGORY_POJO" type="com.xhm.longxin.qth.dal.dataobject.ProductCategory" />
+	<typeAlias alias="PRODUCT_CATEGORY_POJO"
+		type="com.xhm.longxin.qth.dal.dataobject.ProductCategory" />
+	<typeAlias alias="PRODUCT_CATEGORY_QUERYVO"
+		type="com.xhm.longxin.qth.dal.query.CategoryQuery" />
 	<resultMap id="CATEGORY_RESULT_MAP" class="PRODUCT_CATEGORY_POJO">
 		<result property="id" column="ID" jdbcType="BIGINT" javaType="long" />
 		<result property="name" column="name" jdbcType="VARCHAR"
@@ -31,7 +34,7 @@
 				now(),
 	            'system',
 	            'system',
-	            'n',
+	            'N',
 				#name#,
                 #description#,
                 #isMaterial#
@@ -64,14 +67,15 @@
 		id = #id#
 	</update>
 
-	<select id="QUERY_PRODUCT_BYMAP" resultMap="CATEGORY_RESULT_MAP"
-		parameterClass="map">
+	<select id="QUERY_CATEGORY_BYVO" resultMap="CATEGORY_RESULT_MAP"
+		parameterClass="PRODUCT_CATEGORY_QUERYVO">
 		 <![CDATA[
 				select
 				*
-				from qth_pro_category where  is_deleted='n']]>
+				from qth_pro_category where  is_deleted='N']]>
 		<isNotNull property="name" prepend="AND">
-			name like CONCAT('%',#name#, '%')
+			name like
+			CONCAT('%',#name#, '%')
 		</isNotNull>
 		<isNotNull property="description" prepend="AND">
 			description=#description#
@@ -81,6 +85,24 @@
 		</isNotNull>
 		<![CDATA[order by gmt_modified desc ]]>
 		<include refid="ALICRM_COMMON.ALI_PAGING" />
+	</select>
+
+	<select id="QUERY_CATEGORY_COUNT" resultClass="int"
+		parameterClass="PRODUCT_CATEGORY_QUERYVO">
+		 <![CDATA[
+				select
+				count(*)
+				from qth_pro_category where  is_deleted='N']]>
+		<isNotNull property="name" prepend="AND">
+			name like
+			CONCAT('%',#name#, '%')
+		</isNotNull>
+		<isNotNull property="description" prepend="AND">
+			description=#description#
+		</isNotNull>
+		<isNotNull property="isMaterial" prepend="AND">
+			is_material=#isMaterial#
+		</isNotNull>
 	</select>
 </sqlMap>
 

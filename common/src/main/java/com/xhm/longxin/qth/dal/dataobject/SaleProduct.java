@@ -3,6 +3,8 @@
  */
 package com.xhm.longxin.qth.dal.dataobject;
 
+import java.util.List;
+
 /**
  * @author ren.zhangr
  *
@@ -18,6 +20,15 @@ public class SaleProduct extends BaseDo {
 	private String owner;
 	private String productType;
 	private String isSale;
+	private List<Attachment> imgs;
+
+	public List<Attachment> getImgs() {
+		return imgs;
+	}
+
+	public void setImgs(List<Attachment> imgs) {
+		this.imgs = imgs;
+	}
 
 	public String getName() {
 		return name;

@@ -2,6 +2,7 @@
 <!DOCTYPE sqlMap PUBLIC "-//iBATIS.com//DTD SQL Map 2.0//EN" "http://www.ibatis.com/dtd/sql-map-2.dtd">
 <sqlMap namespace="QTH_USER">
 	<typeAlias alias="USER_POJO" type="com.xhm.longxin.qth.dal.dataobject.User" />
+	<typeAlias alias="USER_QUERY_POJO" type="com.xhm.longxin.qth.dal.query.UserQuery" />
 	<resultMap id="USER_RESULT_MAP" class="USER_POJO">
 		<result property="id" column="ID" jdbcType="BIGINT" javaType="long" />
 		<result property="loginId" column="login_id" jdbcType="VARCHAR"
@@ -67,7 +68,7 @@
 				now(),
 	            'system',
 	            'system',
-	            'n',
+	            'N',
 				#loginId#,
 				md5(#password#),
 				#name#,
@@ -140,17 +141,17 @@
 		 <![CDATA[
 				select
 				*
-				from qth_user where  is_deleted='n' AND id=#id#]]>
+				from qth_user where  is_deleted='N' AND id=#id#]]>
 	</select>
 	<select id="QUERY_USER_BY_LOGINID" resultMap="USER_RESULT_MAP"
 		parameterClass="java.lang.String">
 		 <![CDATA[
 				select
 				*
-				from qth_user where  is_deleted='n' AND login_id=#loginId#]]>
+				from qth_user where  is_deleted='N' AND login_id=#loginId#]]>
 	</select>
-	<select id="QUERY_USER_BY_MAP" resultMap="USER_RESULT_MAP"
-		parameterClass="map">
+	<select id="QUERY_BY_QUERYVO_WITHINTEREST" resultMap="USER_RESULT_MAP"
+		parameterClass="USER_QUERY_POJO">
 		 <![CDATA[
 				select
 				u.is_deleted,
@@ -169,7 +170,7 @@
 				u.busi_license,
 				u.user_level,
 				u.status
-				from qth_user u,qth_user_interest i where  u.is_deleted='n' and i.is_deleted='n']]>
+				from qth_user u,qth_user_interest i where  u.is_deleted='N' and i.is_deleted='N']]>
 		<isNotNull property="name" prepend="AND">
 			u.name=#name#
 		</isNotNull>
@@ -213,18 +214,199 @@
 		<isNotNull property="busiLicense" prepend="AND">
 			u.busi_license=#busiLicense#
 		</isNotNull>
-		<isNotNull property="saleInterests" prepend="AND">
+		<isNotNull property="saleInterestIds" prepend="AND">
 			u.login_id=i.login_id and i.interest='sale' and i.value in
-			<iterate property="saleInterests" open="(" close=")"
-				conjunction=","> #saleInterests[]#</iterate>
+			<iterate property="saleInterestIds" open="(" close=")"
+				conjunction=","> #saleInterestIds[]#</iterate>
 		</isNotNull>
-		<isNotNull property="buyInterests" prepend="AND">
+		<isNotNull property="buyInterestIds" prepend="AND">
 			u.login_id=i.login_id and i.interest='buy' and i.value in
-			<iterate property="buyInterests" open="(" close=")"
-				conjunction=","> #buyInterests[]#</iterate>
+			<iterate property="buyInterestIds" open="(" close=")"
+				conjunction=","> #buyInterestIds[]#</iterate>
 		</isNotNull>
 		<![CDATA[group by u.id ]]>
+		order by u.login_id asc
 		<include refid="ALICRM_COMMON.ALI_PAGING" />
+	</select>
+
+	<select id="QUERY_BY_QUERYVO" resultMap="USER_RESULT_MAP"
+		parameterClass="USER_QUERY_POJO">
+		 <![CDATA[
+				select
+				u.is_deleted,
+				u.id,
+				u.login_id,
+				u.name,
+				u.gender,
+				u.email,
+				u.phone_area,
+				u.phone_number,
+				u.mobile_phone,
+				u.company,
+				u.company_address,
+				u.role,
+				u.id_card_num,
+				u.busi_license,
+				u.user_level,
+				u.status
+				from qth_user u where  u.is_deleted='N']]>
+		<isNotNull property="name" prepend="AND">
+			u.name=#name#
+		</isNotNull>
+		<isNotNull property="password" prepend="AND">
+			u.password=md5(#password#)
+		</isNotNull>
+		<isNotNull property="loginId" prepend="AND">
+			u.login_id=#loginId#
+		</isNotNull>
+		<isNotNull property="company" prepend="AND">
+			u.company like
+			CONCAT('%',#company#, '%')
+		</isNotNull>
+		<isNotNull property="userLevel" prepend="AND">
+			u.user_level=#userLevel#
+		</isNotNull>
+		<isNotNull property="status" prepend="AND">
+			u.status=#status#
+		</isNotNull>
+		<isNotNull property="gender" prepend="AND">
+			u.gender=#gender#
+		</isNotNull>
+		<isNotNull property="email" prepend="AND">
+			u.email=#email#
+		</isNotNull>
+		<isNotNull property="phoneNumber" prepend="AND">
+			u.phone_number=#phoneNumber#
+		</isNotNull>
+		<isNotNull property="phoneArea" prepend="AND">
+			u.phone_area=#phoneArea#
+		</isNotNull>
+		<isNotNull property="mobilePhone" prepend="AND">
+			u.mobile_phone=#mobilePhone#
+		</isNotNull>
+		<isNotNull property="role" prepend="AND">
+			u.role=#role#
+		</isNotNull>
+		<isNotNull property="idCardNum" prepend="AND">
+			u.id_card_num=#idCardNum#
+		</isNotNull>
+		<isNotNull property="busiLicense" prepend="AND">
+			u.busi_license=#busiLicense#
+		</isNotNull>
+		order by u.login_id asc
+		<include refid="ALICRM_COMMON.ALI_PAGING" />
+	</select>
+
+	<select id="QUERY_COUNT_QUERYVO_WITHINTEREST" resultClass="int"
+		parameterClass="USER_QUERY_POJO">
+		 <![CDATA[
+				select
+				count(distinct u.id)
+				from qth_user u,qth_user_interest i where  u.is_deleted='N' and i.is_deleted='N']]>
+		<isNotNull property="name" prepend="AND">
+			u.name=#name#
+		</isNotNull>
+		<isNotNull property="password" prepend="AND">
+			u.password=md5(#password#)
+		</isNotNull>
+		<isNotNull property="loginId" prepend="AND">
+			u.login_id=#loginId#
+		</isNotNull>
+		<isNotNull property="company" prepend="AND">
+			u.company like
+			CONCAT('%',#company#, '%')
+		</isNotNull>
+		<isNotNull property="userLevel" prepend="AND">
+			u.user_level=#userLevel#
+		</isNotNull>
+		<isNotNull property="status" prepend="AND">
+			u.status=#status#
+		</isNotNull>
+		<isNotNull property="gender" prepend="AND">
+			u.gender=#gender#
+		</isNotNull>
+		<isNotNull property="email" prepend="AND">
+			u.email=#email#
+		</isNotNull>
+		<isNotNull property="phoneNumber" prepend="AND">
+			u.phone_number=#phoneNumber#
+		</isNotNull>
+		<isNotNull property="phoneArea" prepend="AND">
+			u.phone_area=#phoneArea#
+		</isNotNull>
+		<isNotNull property="mobilePhone" prepend="AND">
+			u.mobile_phone=#mobilePhone#
+		</isNotNull>
+		<isNotNull property="role" prepend="AND">
+			u.role=#role#
+		</isNotNull>
+		<isNotNull property="idCardNum" prepend="AND">
+			u.id_card_num=#idCardNum#
+		</isNotNull>
+		<isNotNull property="busiLicense" prepend="AND">
+			u.busi_license=#busiLicense#
+		</isNotNull>
+		<isNotNull property="saleInterestIds" prepend="AND">
+			u.login_id=i.login_id and i.interest='sale' and i.value in
+			<iterate property="saleInterestIds" open="(" close=")"
+				conjunction=","> #saleInterestIds[]#</iterate>
+		</isNotNull>
+		<isNotNull property="buyInterestIds" prepend="AND">
+			u.login_id=i.login_id and i.interest='buy' and i.value in
+			<iterate property="buyInterestIds" open="(" close=")"
+				conjunction=","> #buyInterestIds[]#</iterate>
+		</isNotNull>
+	</select>
+
+	<select id="QUERY_COUNT_QUERYVO" resultClass="int"
+		parameterClass="USER_QUERY_POJO">
+		 <![CDATA[
+				select
+				count(distinct u.id)
+				from qth_user u where  u.is_deleted='N']]>
+		<isNotNull property="name" prepend="AND">
+			u.name=#name#
+		</isNotNull>
+		<isNotNull property="password" prepend="AND">
+			u.password=md5(#password#)
+		</isNotNull>
+		<isNotNull property="loginId" prepend="AND">
+			u.login_id=#loginId#
+		</isNotNull>
+		<isNotNull property="company" prepend="AND">
+			u.company like
+			CONCAT('%',#company#, '%')
+		</isNotNull>
+		<isNotNull property="userLevel" prepend="AND">
+			u.user_level=#userLevel#
+		</isNotNull>
+		<isNotNull property="status" prepend="AND">
+			u.status=#status#
+		</isNotNull>
+		<isNotNull property="gender" prepend="AND">
+			u.gender=#gender#
+		</isNotNull>
+		<isNotNull property="email" prepend="AND">
+			u.email=#email#
+		</isNotNull>
+		<isNotNull property="phoneNumber" prepend="AND">
+			u.phone_number=#phoneNumber#
+		</isNotNull>
+		<isNotNull property="phoneArea" prepend="AND">
+			u.phone_area=#phoneArea#
+		</isNotNull>
+		<isNotNull property="mobilePhone" prepend="AND">
+			u.mobile_phone=#mobilePhone#
+		</isNotNull>
+		<isNotNull property="role" prepend="AND">
+			u.role=#role#
+		</isNotNull>
+		<isNotNull property="idCardNum" prepend="AND">
+			u.id_card_num=#idCardNum#
+		</isNotNull>
+		<isNotNull property="busiLicense" prepend="AND">
+			u.busi_license=#busiLicense#
+		</isNotNull>
 	</select>
 </sqlMap>
 

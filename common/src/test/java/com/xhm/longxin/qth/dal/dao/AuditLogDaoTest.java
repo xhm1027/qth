@@ -3,7 +3,6 @@
  */
 package com.xhm.longxin.qth.dal.dao;
 
-
 import junit.framework.Assert;
 
 import org.jtester.annotations.SpringBeanByName;
@@ -13,6 +12,7 @@ import org.testng.annotations.Test;
 import com.xhm.longxin.qth.dal.constant.AuditResult;
 import com.xhm.longxin.qth.dal.constant.AuditType;
 import com.xhm.longxin.qth.dal.dataobject.AuditLog;
+import com.xhm.longxin.qth.dal.query.AuditLogQuery;
 
 /**
  * @author ren.zhangr
@@ -21,7 +21,6 @@ import com.xhm.longxin.qth.dal.dataobject.AuditLog;
 public class AuditLogDaoTest extends BaseDaoTest {
 	@SpringBeanByName
 	private AuditLogDao auditLogDao;
-
 
 	@BeforeMethod
 	public void setUp() {
@@ -39,13 +38,15 @@ public class AuditLogDaoTest extends BaseDaoTest {
 		//
 		Assert.assertTrue(auditLogDao.addAuditLog(log));
 		//
-		log = auditLogDao.getAuditLogByTypeAndId(AuditType.USER, 1L).get(0);
+		AuditLogQuery auditLogQuery = new AuditLogQuery();
+		auditLogQuery.setAuditType(AuditType.USER);
+		auditLogQuery.setAuditId(1L);
+		log = auditLogDao.query(auditLogQuery).get(0);
 		log.setAuditResult(AuditResult.FAIL);
 		//
 		auditLogDao.updateAuditLog(log);
-		Assert.assertEquals(AuditResult.FAIL, auditLogDao
-				.getAuditLogByTypeAndId(AuditType.USER, 1L).get(0)
-				.getAuditResult());
+		Assert.assertEquals(AuditResult.FAIL, auditLogDao.query(auditLogQuery)
+				.get(0).getAuditResult());
 	}
 
 }

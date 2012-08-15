@@ -2,7 +2,11 @@
  *
  */
 package com.xhm.longxin.qth.dal.dao;
+import java.util.List;
+
+import com.xhm.longxin.qth.dal.dataobject.BuyProduct;
 import com.xhm.longxin.qth.dal.dataobject.SaleProduct;
+import com.xhm.longxin.qth.dal.query.SaleProductQuery;
 
 /**
  * @author ren.zhangr
@@ -23,4 +27,21 @@ public interface SaleProductDao {
 	 * 删除记录
 	 * */
 	public boolean deleteSaleProductById(Long id);
+
+	/**
+	 * 查询记录
+	 * */
+	public List<SaleProduct> query(SaleProductQuery saleProductQuery);
+	/**
+	 * 分页查询记录
+	 * */
+	public List<SaleProduct> query(SaleProductQuery saleProductQuery,int pageStart,int pageSize);
+	/**
+	 * 记录数
+	 * */
+	public int queryCount(SaleProductQuery saleProductQuery);
+	/**
+	 * 根据id取记录
+	 * */
+	public SaleProduct getSaleProductById(Long id);
 }

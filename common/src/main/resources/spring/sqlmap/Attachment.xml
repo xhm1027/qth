@@ -3,8 +3,11 @@
 <sqlMap namespace="QTH_ATTACHMENT">
 	<typeAlias alias="ATTACHMENT_POJO"
 		type="com.xhm.longxin.qth.dal.dataobject.Attachment" />
+	<typeAlias alias="ATTACHMENT_UPDATEVO"
+		type="com.xhm.longxin.qth.dal.query.AttachmentUpdateVo" />
+
 	<resultMap id="ATTACHMENT_RESULT_MAP" class="ATTACHMENT_POJO">
-		<result property="id" column="ID" jdbcType="BIGINT" javaType="long" />
+		<result property="id" column="id" jdbcType="BIGINT" javaType="long" />
 		<result property="type" column="type" jdbcType="VARCHAR"
 			javaType="String" />
 		<result property="path" column="path" jdbcType="VARCHAR"
@@ -35,7 +38,7 @@
 				now(),
 	            'system',
 	            'system',
-	            'n',
+	            'N',
 				#type#,
 				#path#,
 				#key#,
@@ -61,13 +64,62 @@
 		<isNotNull property="path" prepend=",">
 			path=#path#</isNotNull>
 		<isNotNull property="key" prepend=",">
-			key=#key#
+			`key`=#key#
 		</isNotNull>
 		<isNotNull property="ownerId" prepend=",">
 			owner_id=#ownerId#
 		</isNotNull>
 		where
 		id = #id#
+	</update>
+
+	<select id="QUERY_BUY_IMG_ATTACHMENT" parameterClass="long"
+		resultMap="ATTACHMENT_RESULT_MAP"><![CDATA[
+        select id,
+        type,
+        path,
+        `key`,
+        owner_id
+        from
+                qth_attachment
+        where is_deleted='N'
+		and type='image'
+		and `key`='buy'
+		and owner_id=#ownerId#
+		]]>
+	</select>
+
+	<select id="QUERY_SALE_IMG_ATTACHMENT" parameterClass="long"
+		resultMap="ATTACHMENT_RESULT_MAP"><![CDATA[
+        select id,
+        type,
+        path,
+        `key`,
+        owner_id
+        from
+                qth_attachment
+        where is_deleted='N'
+		and type='image'
+		and `key`='sale'
+		and owner_id=#ownerId#
+		]]>
+	</select>
+
+
+	<update id="DELETE_ATTACHEMENT_NOT_IN_IDS" parameterClass="ATTACHMENT_UPDATEVO"><![CDATA[
+        update
+                qth_attachment
+        set
+                gmt_modified=now(),
+                is_deleted='Y'
+                ]]>
+		where 1=0
+		<isNotNull property="ownerId" prepend="OR">
+			<![CDATA[(`key` =#key#  and type='image' and  owner_id=#ownerId# and id not IN]]>
+			<iterate property="imgIds" open="(" close=")" conjunction=",">
+				#imgIds[]#</iterate>
+				<![CDATA[) ]]>
+		</isNotNull>
 	</update>
 </sqlMap>
 

@@ -2,6 +2,7 @@
 <!DOCTYPE sqlMap PUBLIC "-//iBATIS.com//DTD SQL Map 2.0//EN" "http://www.ibatis.com/dtd/sql-map-2.dtd">
 <sqlMap namespace="QTH_MESSAGE">
 	<typeAlias alias="MESSAGE_POJO" type="com.xhm.longxin.qth.dal.dataobject.Message" />
+	<typeAlias alias="MESSAGE_QUERY_VO" type="com.xhm.longxin.qth.dal.query.MessageQuery" />
 	<resultMap id="MESSAGE_RESULT_MAP" class="MESSAGE_POJO">
 		<result property="id" column="ID" jdbcType="BIGINT" javaType="long" />
 		<result property="title" column="msg_title" jdbcType="VARCHAR"
@@ -10,7 +11,7 @@
 			javaType="String" />
 		<result property="receiver" column="receiver" jdbcType="VARCHAR"
 			javaType="String" />
-		<result property="content" column="msgContent" jdbcType="VARCHAR"
+		<result property="content" column="msg_content" jdbcType="VARCHAR"
 			javaType="String" />
 		<result property="isOpened" column="is_opened" jdbcType="VARCHAR"
 			javaType="String" />
@@ -43,7 +44,7 @@
 				now(),
 	            'system',
 	            'system',
-	            'n',
+	            'N',
 				#title#,
                 #sender#,
                 #receiver#,
@@ -91,6 +92,61 @@
 		where
 		id = #id#
 	</update>
+
+	<select id="QUERY_BY_QUERYVO" resultMap="MESSAGE_RESULT_MAP"
+		parameterClass="MESSAGE_QUERY_VO">
+		 <![CDATA[
+				select
+				id,
+				msg_title,
+				sender,
+				receiver,
+				msg_content,
+				is_opened,
+				sender_deleted,
+				receiver_deleted
+				from qth_msg where  is_deleted='N']]>
+		<isNotNull property="receiver" prepend="AND">
+			receiver=#receiver#
+		</isNotNull>
+		<isNotNull property="sender" prepend="AND">
+			sender=#sender#
+		</isNotNull>
+		<isNotNull property="isOpened" prepend="AND">
+			is_opened=#isOpened#
+		</isNotNull>
+		<isNotNull property="senderDeleted" prepend="AND">
+			sender_deleted=#senderDeleted#
+		</isNotNull>
+		<isNotNull property="receiverDeleted" prepend="AND">
+			receiver_deleted=#receiverDeleted#
+		</isNotNull>
+		order by gmt_modified desc
+		<include refid="ALICRM_COMMON.ALI_PAGING" />
+	</select>
+
+	<select id="QUERY_COUNT_QUERYVO" resultClass="int"
+		parameterClass="MESSAGE_QUERY_VO">
+		 <![CDATA[
+				select
+				count(*)
+				from qth_msg where  is_deleted='N']]>
+		<isNotNull property="receiver" prepend="AND">
+			receiver=#receiver#
+		</isNotNull>
+		<isNotNull property="sender" prepend="AND">
+			sender=#sender#
+		</isNotNull>
+		<isNotNull property="isOpened" prepend="AND">
+			is_opened=#isOpened#
+		</isNotNull>
+		<isNotNull property="senderDeleted" prepend="AND">
+			sender_deleted=#senderDeleted#
+		</isNotNull>
+		<isNotNull property="receiverDeleted" prepend="AND">
+			receiver_deleted=#receiverDeleted#
+		</isNotNull>
+	</select>
 </sqlMap>
 
 

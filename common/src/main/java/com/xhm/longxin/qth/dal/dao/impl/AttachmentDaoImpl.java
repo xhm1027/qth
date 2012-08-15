@@ -40,7 +40,7 @@ public class AttachmentDaoImpl extends SqlMapClientDaoSupport implements
 	public boolean deleteAttachmentById(Long id) {
 		Attachment attachment = new Attachment();
 		attachment.setId(id);
-		attachment.setIsDeleted("y");
+		attachment.setIsDeleted("Y");
 		Integer res = (Integer) getSqlMapClientTemplate().delete(
 				NAMESPACE_ATTACHMENT + "." + UPDATE_ID, attachment);
 		return res > 0 ? true : false;

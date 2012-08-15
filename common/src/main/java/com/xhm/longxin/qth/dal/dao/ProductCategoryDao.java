@@ -7,6 +7,7 @@ import java.util.List;
 import java.util.Map;
 
 import com.xhm.longxin.qth.dal.dataobject.ProductCategory;
+import com.xhm.longxin.qth.dal.query.CategoryQuery;
 
 /**
  * @author ren.zhangr
@@ -33,6 +34,14 @@ public interface ProductCategoryDao {
 	/**
 	 * 查询记录
 	 * */
-	public List<ProductCategory> queryProductCategory(Map<String, Object> param);
+	public List<ProductCategory> query(CategoryQuery categoryQuery);
+	/**
+	 * 查询记录
+	 * */
+	public List<ProductCategory> query(CategoryQuery categoryQuery,int pageStart,int pageSize);
+	/**
+	 * 查询数量
+	 * */
+	public int queryCount(CategoryQuery categoryQuery);
 
 }

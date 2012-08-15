@@ -9,6 +9,7 @@ import java.util.Map;
 import org.springframework.orm.ibatis.support.SqlMapClientDaoSupport;
 import com.xhm.longxin.qth.dal.dao.ProductCategoryDao;
 import com.xhm.longxin.qth.dal.dataobject.ProductCategory;
+import com.xhm.longxin.qth.dal.query.CategoryQuery;
 
 /**
  * @author ren.zhangr
@@ -20,7 +21,8 @@ public class ProductCategoryDaoImpl extends SqlMapClientDaoSupport implements
 	private static final String NAMESPACE_PRODUCT_CATEGORY = "QTH_PRODUCT_CATEGORY";
 	private static final String INSERT_ID = "INSERT_PRODUCT_CATEGORY";
 	private static final String UPDATE_ID = "UPDATE_PRODUCT_CATEGORY";
-	private static final String QUERY_ID = "QUERY_PRODUCT_BYMAP";
+	private static final String QUERY_ID_BYVO = "QUERY_CATEGORY_BYVO";
+	private static final String QUERY_COUNT = "QUERY_CATEGORY_COUNT";
 
 	public boolean addProductCategory(ProductCategory cate) {
 		Integer res = (Integer) getSqlMapClientTemplate().update(
@@ -65,11 +67,29 @@ public class ProductCategoryDaoImpl extends SqlMapClientDaoSupport implements
 	 * .util.Map)
 	 */
 	@SuppressWarnings("unchecked")
-	public List<ProductCategory> queryProductCategory(Map<String, Object> param) {
+	public List<ProductCategory> query(CategoryQuery categoryQuery) {
 		List<ProductCategory> cateList = (List<ProductCategory>) getSqlMapClientTemplate()
-				.queryForList(NAMESPACE_PRODUCT_CATEGORY + "." + QUERY_ID,
-						param);
+				.queryForList(NAMESPACE_PRODUCT_CATEGORY + "." + QUERY_ID_BYVO,
+						categoryQuery);
 		return cateList;
+	}
+
+	@SuppressWarnings("unchecked")
+	public List<ProductCategory> query(CategoryQuery categoryQuery,
+			int pageStart, int pageSize) {
+		categoryQuery.setPageSize(pageSize);
+		categoryQuery.setPageStart(pageStart);
+		List<ProductCategory> cateList = (List<ProductCategory>) getSqlMapClientTemplate()
+				.queryForList(NAMESPACE_PRODUCT_CATEGORY + "." + QUERY_ID_BYVO,
+						categoryQuery);
+		return cateList;
+	}
+
+	@SuppressWarnings("unchecked")
+	public int queryCount(CategoryQuery categoryQuery) {
+		int count = (Integer) getSqlMapClientTemplate().queryForObject(
+				NAMESPACE_PRODUCT_CATEGORY + "." + QUERY_COUNT, categoryQuery);
+		return count;
 	}
 
 }

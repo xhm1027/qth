@@ -8,12 +8,13 @@ import java.util.Map;
 
 import com.xhm.longxin.qth.dal.dataobject.User;
 import com.xhm.longxin.qth.dal.dataobject.UserInterest;
+import com.xhm.longxin.qth.dal.query.UserQuery;
 
 /**
  * @author ren.zhangr
  *
  */
-public interface UserDao {
+public interface UserDao{
 
 	/**
 	 * 通过id查询用户
@@ -38,7 +39,15 @@ public interface UserDao {
 	/**
 	 * 查询用户，可通过各类条件查询，如用户名，邮箱，用户等级等等，管理员使用
 	 * */
-	public List<User> queryUser(Map<String, Object> param);
+	public List<User> query(UserQuery userQuery);
+	/**
+	 * 查询用户，可通过各类条件查询，如用户名，邮箱，用户等级等等，管理员使用
+	 * */
+	public List<User> query(UserQuery userQuery,int pageStart,int pageSize);
+	/**
+	 * 查询用户数
+	 * */
+	public int queryCount(UserQuery userQuery);
 
 	/**
 	 * 更新用户，修改信息或管理员修改用户信息时用
@@ -49,10 +58,5 @@ public interface UserDao {
 	 * 删除用户，管理员用
 	 * */
 	public boolean deleteUserById(Long id);
-
-	/**
-	 * 新增
-	 * */
-	public boolean addOrUpdateUserInterest(UserInterest userInterest);
 
 }

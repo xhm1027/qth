@@ -9,6 +9,7 @@ import java.util.Map;
 import org.springframework.orm.ibatis.support.SqlMapClientDaoSupport;
 import com.xhm.longxin.qth.dal.dao.AuditLogDao;
 import com.xhm.longxin.qth.dal.dataobject.AuditLog;
+import com.xhm.longxin.qth.dal.query.AuditLogQuery;
 
 /**
  * @author ren.zhangr
@@ -28,12 +29,9 @@ public class AuditLogDaoImpl extends SqlMapClientDaoSupport implements
 		return res > 0 ? true : false;
 	}
 
-	public List<AuditLog> getAuditLogByTypeAndId(String auditType, Long auditId) {
-		Map<String, Object> param = new HashMap<String, Object>();
-		param.put("auditType", auditType);
-		param.put("auditId", auditId);
+	public List<AuditLog> query(AuditLogQuery auditLogQuery){
 		List<AuditLog> logList = (List<AuditLog>) getSqlMapClientTemplate()
-				.queryForList(NAMESPACE_AUDIT_LOG + "." + QUERY_BY_MAP, param);
+				.queryForList(NAMESPACE_AUDIT_LOG + "." + QUERY_BY_MAP, auditLogQuery);
 		return logList;
 	}
 

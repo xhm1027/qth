@@ -3,6 +3,8 @@
 <sqlMap namespace="QTH_AUDIT_LOG">
 	<typeAlias alias="AUDIT_LOG_POJO"
 		type="com.xhm.longxin.qth.dal.dataobject.AuditLog" />
+	<typeAlias alias="AUDIT_QUERY_VO"
+		type="com.xhm.longxin.qth.dal.query.AuditLogQuery" />
 	<resultMap id="LOG_RESULT_MAP" class="AUDIT_LOG_POJO">
 		<result property="id" column="ID" jdbcType="BIGINT" javaType="long" />
 		<result property="auditor" column="auditor" jdbcType="VARCHAR"
@@ -38,7 +40,7 @@
 				now(),
 	            'system',
 	            'system',
-	            'n',
+	            'N',
 				#auditor#,
                 #auditType#,
                 #auditId#,
@@ -78,11 +80,11 @@
 		id = #id#
 	</update>
 	<select id="QUERY_AUDIT_LOG_BYMAP" resultMap="LOG_RESULT_MAP"
-		parameterClass="map">
+		parameterClass="AUDIT_QUERY_VO">
 		 <![CDATA[
 				select
 				*
-				from qth_audit_log where  is_deleted='n' and audit_id=#auditId#]]>
+				from qth_audit_log where  is_deleted='N' and audit_id=#auditId#]]>
 		<isNotNull property="auditType" prepend="AND">
 			audit_type=#auditType#
 		</isNotNull>
