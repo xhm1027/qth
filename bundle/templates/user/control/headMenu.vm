@@ -19,7 +19,7 @@
 					<span class="caret"></span>
 				</a>
 				<ul class="dropdown-menu">
-					<li><a href="profile.html">我的资料</a></li>
+					<li><a href="$userModule.setTarget("profile")">编辑资料</a></li>
 					<li class="divider"></li>
 					<li><a href="$userLogoutLink">注销</a></li>
 				</ul>

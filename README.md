@@ -12,6 +12,7 @@ xhm的记录事宜
 -----------
 
 * screen的vm中不需要再加html及body标签了，jquery。js的引用也在layout/default。vm中加了
+* userDao的updateUser操作有对应的test用例可以参照吗?
 
 
 

@@ -3,13 +3,13 @@ package com.xhm.longxin.qth.web.admin.common;
 public interface AdminConstant {
 	public final String QTH_ADMIN_SESSION_KEY = "qthAdmin";
 	
-	/** æ³¨å†Œè¿”å› */
+	/** Ö÷Ò³Ãæ */
     String LOGIN_ADMIN_LOGIN_LINK = "qthAdminLoginLink";
     
-    /** LoginÒ³ï¿½æ·µï¿½ï¿½URLï¿½ï¿½keyï¿½ï¿½ */
+    /** LoginÒ³·µ»Ø²ÎÊı */
     String LOGIN_RETURN_KEY = "return";
     
-    /** ç®¡ç†å‘˜ä¸»é¡µï¿½ï¿½ */
+    /** Ä¬ÈÏ·µ»ØÒ³Ãæ*/
     String LOGIN_RETURN_DEFAULT_LINK = "qthAdminHomeLink";
     
     public final String VALIDATE_CODE="adminValidateCode";
