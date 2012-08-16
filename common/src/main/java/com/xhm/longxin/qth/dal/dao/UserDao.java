@@ -56,7 +56,7 @@ public interface UserDao{
 	 * 删除用户，管理员用
 	 * */
 	public boolean deleteUserById(Long id);
-	
+
 	/**
 	 * 通过email查询用户
 	 * @param email

@@ -28,7 +28,7 @@ public class UserDaoImpl extends SqlMapClientDaoSupport implements UserDao {
 	private static final String QUERY_COUNT_QUERYVO = "QUERY_COUNT_QUERYVO";
 	private static final String QUERY_COUNT_QUERYVO_WITHINTEREST = "QUERY_COUNT_QUERYVO_WITHINTEREST";
 
-	//对user_interest表的关联操作
+	// 对user_interest表的关联操作
 	private static final String QTH_USER_INTEREST = "QTH_USER_INTEREST";
 	private static final String INSERT_INTEREST = "INSERT_INTEREST";
 	private static final String GET_EXIST_INTEREST = "GET_EXIST_INTEREST";
@@ -41,7 +41,7 @@ public class UserDaoImpl extends SqlMapClientDaoSupport implements UserDao {
 	public boolean addUser(User user) {
 		Integer res = (Integer) getSqlMapClientTemplate().update(
 				NAMESPACE_USER + "." + INSERT_ID, user);
-		//插入关联内容
+		// 插入关联内容
 		if (user.getBuyInterests() != null) {
 			for (UserInterest interest : user.getBuyInterests()) {
 				this.addOrUpdateUserInterest(interest);
@@ -64,7 +64,7 @@ public class UserDaoImpl extends SqlMapClientDaoSupport implements UserDao {
 		user.setIsDeleted("Y");
 		Integer res = (Integer) getSqlMapClientTemplate().delete(
 				NAMESPACE_USER + "." + UPDATE_ID, user);
-		//删除关联内容
+		// 删除关联内容
 		if (user.getBuyInterests() != null) {
 			for (UserInterest interest : user.getBuyInterests()) {
 				getSqlMapClientTemplate().update(
@@ -106,11 +106,12 @@ public class UserDaoImpl extends SqlMapClientDaoSupport implements UserDao {
 	 * */
 	@SuppressWarnings("unchecked")
 	public User getUserByLoginIdAndPass(String loginId, String password) {
-		UserQuery userQuery=new UserQuery();
+		UserQuery userQuery = new UserQuery();
 		userQuery.setLoginId(loginId);
 		userQuery.setPassword(password);
 		List<User> userList = (List<User>) getSqlMapClientTemplate()
-				.queryForList(NAMESPACE_USER + "." + QUERY_BY_QUERYVO, userQuery);
+				.queryForList(NAMESPACE_USER + "." + QUERY_BY_QUERYVO,
+						userQuery);
 		if (userList.size() != 1) {
 			return null;
 		}
@@ -122,17 +123,18 @@ public class UserDaoImpl extends SqlMapClientDaoSupport implements UserDao {
 	 * */
 	@SuppressWarnings("unchecked")
 	public List<User> query(UserQuery userQuery) {
-		//分成两个sql，如果有兴趣点，则关联user_interest表
+		// 分成两个sql，如果有兴趣点，则关联user_interest表
 		if ((userQuery.getBuyInterestIds() != null && userQuery
 				.getBuyInterestIds().size() > 0)
 				|| (userQuery.getSaleInterestIds() != null && userQuery
 						.getSaleInterestIds().size() > 0)) {
 			List<User> userList = (List<User>) getSqlMapClientTemplate()
-					.queryForList(NAMESPACE_USER + "." + QUERY_BY_QUERYVO_WITHINTEREST,
-							userQuery);
+					.queryForList(
+							NAMESPACE_USER + "."
+									+ QUERY_BY_QUERYVO_WITHINTEREST, userQuery);
 			return userList;
 		} else {
-			//没有兴趣点，只需要查user表即可
+			// 没有兴趣点，只需要查user表即可
 			List<User> userList = (List<User>) getSqlMapClientTemplate()
 					.queryForList(NAMESPACE_USER + "." + QUERY_BY_QUERYVO,
 							userQuery);
@@ -146,10 +148,10 @@ public class UserDaoImpl extends SqlMapClientDaoSupport implements UserDao {
 	 * 这个方法比较复杂一些
 	 * */
 	public boolean updateUser(User user) {
-		//更新user表
+		// 更新user表
 		Integer res = (Integer) getSqlMapClientTemplate().update(
 				NAMESPACE_USER + "." + UPDATE_ID, user);
-		//感兴趣的求购类目id列表
+		// 感兴趣的求购类目id列表
 		List<Long> buyInterestIds = null;
 		if (user.getBuyInterests() != null && user.getBuyInterests().size() > 0) {
 			buyInterestIds = new ArrayList<Long>();
@@ -157,7 +159,7 @@ public class UserDaoImpl extends SqlMapClientDaoSupport implements UserDao {
 				buyInterestIds.add(inst.getValue());
 			}
 		}
-		//感兴趣的销售类目id列表
+		// 感兴趣的销售类目id列表
 		List<Long> saleInterestIds = null;
 		if (user.getSaleInterests() != null
 				&& user.getSaleInterests().size() > 0) {
@@ -172,7 +174,8 @@ public class UserDaoImpl extends SqlMapClientDaoSupport implements UserDao {
 		userInterests.setLoginId(user.getLoginId());
 		// delete不存在的
 		getSqlMapClientTemplate().update(
-				QTH_USER_INTEREST + "." + DELETE_INTEREST_NOT_IN_IDS, userInterests);
+				QTH_USER_INTEREST + "." + DELETE_INTEREST_NOT_IN_IDS,
+				userInterests);
 		// 插入或不动
 		for (UserInterest interest : user.getBuyInterests()) {
 			this.addOrUpdateUserInterest(interest);
@@ -183,7 +186,6 @@ public class UserDaoImpl extends SqlMapClientDaoSupport implements UserDao {
 		return res > 0 ? true : false;
 	}
 
-
 	@SuppressWarnings("unchecked")
 	public List<User> query(UserQuery userQuery, int pageStart, int pageSize) {
 		userQuery.setPageSize(pageSize);
@@ -193,8 +195,9 @@ public class UserDaoImpl extends SqlMapClientDaoSupport implements UserDao {
 				|| (userQuery.getSaleInterestIds() != null && userQuery
 						.getSaleInterestIds().size() > 0)) {
 			List<User> userList = (List<User>) getSqlMapClientTemplate()
-					.queryForList(NAMESPACE_USER + "." + QUERY_BY_QUERYVO_WITHINTEREST,
-							userQuery);
+					.queryForList(
+							NAMESPACE_USER + "."
+									+ QUERY_BY_QUERYVO_WITHINTEREST, userQuery);
 			return userList;
 		} else {
 			List<User> userList = (List<User>) getSqlMapClientTemplate()
@@ -204,8 +207,12 @@ public class UserDaoImpl extends SqlMapClientDaoSupport implements UserDao {
 		}
 	}
 
-	/* (non-Javadoc)
-	 * @see com.xhm.longxin.qth.dal.dao.UserDao#queryCount(com.xhm.longxin.qth.dal.query.UserQuery)
+	/*
+	 * (non-Javadoc)
+	 *
+	 * @see
+	 * com.xhm.longxin.qth.dal.dao.UserDao#queryCount(com.xhm.longxin.qth.dal
+	 * .query.UserQuery)
 	 */
 	public int queryCount(UserQuery userQuery) {
 		if ((userQuery.getBuyInterestIds() != null && userQuery
@@ -213,7 +220,8 @@ public class UserDaoImpl extends SqlMapClientDaoSupport implements UserDao {
 				|| (userQuery.getSaleInterestIds() != null && userQuery
 						.getSaleInterestIds().size() > 0)) {
 			int count = (Integer) getSqlMapClientTemplate().queryForObject(
-					NAMESPACE_USER + "." + QUERY_COUNT_QUERYVO_WITHINTEREST, userQuery);
+					NAMESPACE_USER + "." + QUERY_COUNT_QUERYVO_WITHINTEREST,
+					userQuery);
 			return count;
 		} else {
 			int count = (Integer) getSqlMapClientTemplate().queryForObject(
@@ -236,7 +244,15 @@ public class UserDaoImpl extends SqlMapClientDaoSupport implements UserDao {
 	}
 
 	public User getUserByEmail(String email) {
-		//TODO 填写具体的sql
-		return null;
+		UserQuery userQuery = new UserQuery();
+		userQuery.setEmail(email);
+		List<User> userList = (List<User>) getSqlMapClientTemplate()
+				.queryForList(NAMESPACE_USER + "." + QUERY_BY_QUERYVO,
+						userQuery);
+		if (userList != null && userList.size() > 0) {
+			return userList.get(0);
+		} else {
+			return null;
+		}
 	}
 }
