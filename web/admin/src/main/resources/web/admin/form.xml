@@ -131,8 +131,14 @@
                 <required-validator>
                     <message>必须填写 ${displayName}</message>
                 </required-validator>
+                <string-length-validator minLength="1" maxLength="20">
+                    <message>${displayName} 最少必须由${minLength}个字组成，最多不能超过${maxLength}个字</message>
+                </string-length-validator>
             </services:field>
             <services:field name="description" displayName="类别描述">
+            <string-length-validator  maxLength="500">
+                    <message>${displayName} 最多不能超过${maxLength}个字</message>
+                </string-length-validator>
             </services:field>
              <services:field name="isMaterial" displayName="是否资源类别">
                 <required-validator>
