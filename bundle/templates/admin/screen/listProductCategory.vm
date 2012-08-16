@@ -1,15 +1,13 @@
-<html>
-<body>
 <div class="container-fluid">
 		<div class="row">
 			<div class="span12">
 				<ul class="nav nav-pills">
-				#if($!isMaterial != 0)
-					<li><a href="listProductCategory.htm?isMaterial=0">资源类别</a></li>
-					<li class="active"><a href="listProductCategory.htm?isMaterial=1">废旧原料类别</a></li>
+				#if($!isMaterial == 'Y')
+					<li><a href="listProductCategory.htm?isMaterial=N">资源类别</a></li>
+					<li class="active"><a href="listProductCategory.htm?isMaterial=Y">废旧原料类别</a></li>
 				#else
-					<li class="active"><a href="listProductCategory.htm?isMaterial=0">资源类别</a></li>
-					<li><a href="listProductCategory.htm?isMaterial=1">废旧原料类别</a></li>
+					<li class="active"><a href="listProductCategory.htm?isMaterial=N">资源类别</a></li>
+					<li><a href="listProductCategory.htm?isMaterial=Y">废旧原料类别</a></li>
 				#end
 
 				</ul>
@@ -22,13 +20,23 @@
 				<div class="row-fluid">
 					<div class="input-append span9">
 						<span class="add-on">名称</span><input type="text" class="span3"
-							id="categoryName" name="name" />
+							id="categoryName" name="name" value="$!name"/>
 							<input type="hidden" name="isMaterial" value="$!isMaterial" />
 							<button type="submit" class="btn" >查询</button>
 							<button class="btn" type="button" onClick="addCategory();">新增</button>
 					</div>
 				</div>
 			</form>
+		</div>
+		<div class="pagination">
+			  <ul>
+			  	<li#if($!page == 1) class="active"#end><a href="listProductCategory.htm?isMaterial=$!isMaterial&name=$!name&page=1&pageSize=20">第1页</a></li>
+			 	 #if($!totalPage != 1)
+			 	 #foreach($pageIndex in [2 .. $!totalPage])
+					<li#if($!page == $!pageIndex) class="active"#end><a href="listProductCategory.htm?isMaterial=$!isMaterial&name=$!name&page=$!pageIndex&pageSize=$!pageSize">$!pageIndex</a></li>
+			 	 #end
+			 	 #end
+			  </ul>
 		</div>
 		<div class="row">
 			<div class="span12">
@@ -56,21 +64,21 @@
 				</table>
 			</div>
 		</div>
+		<div class="pagination">
+			  <ul>
+			  	<li#if($!page == 1) class="active"#end><a href="listProductCategory.htm?isMaterial=$!isMaterial&name=$!name&page=1&pageSize=20">第1页</a></li>
+			 	 #if($!totalPage != 1)
+			 	 #foreach($pageIndex in [2 .. $!totalPage])
+					<li#if($!page == $!pageIndex) class="active"#end><a href="listProductCategory.htm?isMaterial=$!isMaterial&name=$!name&page=$!pageIndex&pageSize=$!pageSize">$!pageIndex</a></li>
+			 	 #end
+			 	 #end
+			  </ul>
+		</div>
 		<hr>
 	</div>
-	<script src="$!{qthServer}assets/js/jquery.js"></script>
 	<script>
-		function queryCategory(){
-			var name = document.getElementById("categoryName");
-			//var name = $("#categoryName");
-			//alert(name.value);
-			var url="listProductCategory.htm?isMaterial=c&name="+name.value;
-			alert(url);
-			window.location.href="listProductCategory.htm?isMaterial=$!isMaterial&name="+name.value;
-		}
 		function addCategory(){
+			//alert('1');
 			window.location.href="addCategory.htm";
 		}
 	</script>
-</body>
-</html>

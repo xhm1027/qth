@@ -10,9 +10,18 @@ package com.xhm.longxin.qth.dal.query;
 public class CategoryQuery extends QueryObject{
 
 	private String name;
+	private Long id;
 
 	private String isMaterial;
 	private String description;
+
+	public Long getId() {
+		return id;
+	}
+
+	public void setId(Long id) {
+		this.id = id;
+	}
 
 	public String getDescription() {
 		return description;

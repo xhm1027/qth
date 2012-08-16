@@ -15,6 +15,19 @@
 					<input type="hidden" name="action" value="category_action"/>
 					#set ($group = $form.category.defaultInstance)
 					<fieldset>
+					<legend>类目添加</legend>
+					#if(!$group.saveCategoryInfo.valid)
+					<div class="alert alert-success">
+						<button type="button" class="close" data-dismiss="alert">&times;</button>
+						 <strong>Oh snap!</strong> $group.saveCategoryInfo.message
+					</div>
+					#end
+					#if(!$group.categoryErr.valid)
+					<div class="alert alert-error">
+						<button type="button" class="close" data-dismiss="alert">&times;</button>
+						 $group.categoryErr.message
+					</div>
+					#end
 					<div class="control-group #if(!$group.name.valid)error #else success #end">
 						<label class="control-label" for="name">$group.name.displayName</label>
 						<div class="controls">
@@ -25,33 +38,28 @@
 							</p>
 						</div>
 					</div>
-					<div class="control-group success">
-						<label class="control-label" for="description">$group.description.displayName</label>
+					<div class="control-group">
+						<label class="control-label" for="description">描述</label>
 						<div class="controls">
-							<input type="text" class="input-xlarge" id="name" name="$group.description.key" value="$group.description.value"
-							placeholder="类别描述">
+							<textarea class="input-xlarge" id="description" rows="3" name="$group.description.key"
+												placeholder="描述">$group.description.value</textarea>
 						</div>
 					</div>
-					<div class="control-group error">
-						<label class="control-label" for="input01">类目类型</label>
+					<div class="control-group">
+						<label class="control-label" for="isMaterial">类目类型</label>
 						<div class="controls">
 							<select id="isMaterial" name="$group.isMaterial.key">
-								<option selected="true" value="1">废旧原料类别</option>
-								<option value="0">资源类别</option>
+								<option value="Y" #if($group.isMaterial.value!='N') selected=true #end>废旧原料类别</option>
+								<option value="N" #if($group.isMaterial.value=='N') selected=true #end>资源类别</option>
 							</select>
 						</div>
 					</div>
-					#if(!$group.categoryErr.valid)
-					<div class="alert alert-error">
-						<button type="button" class="close" data-dismiss="alert">&times;</button>
-						 $group.categoryErr.message
-					</div>
-					#end
 					</fieldset>
 					<div class="form-actions">
-						<button type="submit" class="btn btn-primary">保存</button>
-						<button type="submit" class="btn btn-primary">取消</button>
+						<input type="submit" class="btn btn-primary" name="event_submit_do_add" value="保存"/>
+						<input type="button" class="btn btn-primary" value="取消" onClick="history.go(-1)"/>
 					</div>
 				</form>
 			</div>
 		</div>
+</div>

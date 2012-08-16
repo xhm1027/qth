@@ -29,10 +29,19 @@ public class ProductCategoryServiceImpl implements ProductCategoryService {
 		return productCategoryDao.updateProductCategory(category);
 	}
 
-	public List<ProductCategory> queryCategory(CategoryQuery categoryQuery) {
+	public List<ProductCategory> query(CategoryQuery categoryQuery) {
 		return productCategoryDao.query(categoryQuery);
 	}
 
+	public List<ProductCategory> query(CategoryQuery categoryQuery,int pageStart,int pageSize) {
+		return productCategoryDao.query(categoryQuery,pageStart,pageSize);
+	}
+	public ProductCategory getCategoryById(Long id){
+		return productCategoryDao.getCategoryById(id);
+	}
+	public int queryCount(CategoryQuery categoryQuery) {
+		return productCategoryDao.queryCount(categoryQuery);
+	}
 	public boolean delCategoryById(Long id) {
 		return productCategoryDao.deleteProductCategoryById(id);
 	}
@@ -48,5 +57,12 @@ public class ProductCategoryServiceImpl implements ProductCategoryService {
 		categoryQuery.setIsMaterial(IS.N);
 		return productCategoryDao.query(categoryQuery);
 	}
-	
+
+	/* (non-Javadoc)
+	 * @see com.xhm.longxin.biz.user.interfaces.ProductCategoryService#isCategoryExist(com.xhm.longxin.qth.dal.query.CategoryQuery)
+	 */
+	public boolean isCategoryExist(CategoryQuery categoryQuery) {
+		return productCategoryDao.isCategoryExist(categoryQuery);
+	}
+
 }

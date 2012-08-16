@@ -22,6 +22,7 @@ public class ProductCategoryDaoImpl extends SqlMapClientDaoSupport implements
 	private static final String INSERT_ID = "INSERT_PRODUCT_CATEGORY";
 	private static final String UPDATE_ID = "UPDATE_PRODUCT_CATEGORY";
 	private static final String QUERY_ID_BYVO = "QUERY_CATEGORY_BYVO";
+	private static final String QUERY_CATEGORY_EXIST = "QUERY_CATEGORY_EXIST";
 	private static final String QUERY_COUNT = "QUERY_CATEGORY_COUNT";
 
 	public boolean addProductCategory(ProductCategory cate) {
@@ -40,7 +41,7 @@ public class ProductCategoryDaoImpl extends SqlMapClientDaoSupport implements
 	public boolean deleteProductCategoryById(Long id) {
 		ProductCategory cate = new ProductCategory();
 		cate.setId(id);
-		cate.setIsDeleted("y");
+		cate.setIsDeleted("Y");
 		Integer res = (Integer) getSqlMapClientTemplate().delete(
 				NAMESPACE_PRODUCT_CATEGORY + "." + UPDATE_ID, cate);
 		return res > 0 ? true : false;
@@ -90,6 +91,44 @@ public class ProductCategoryDaoImpl extends SqlMapClientDaoSupport implements
 		int count = (Integer) getSqlMapClientTemplate().queryForObject(
 				NAMESPACE_PRODUCT_CATEGORY + "." + QUERY_COUNT, categoryQuery);
 		return count;
+	}
+
+	/*
+	 * (non-Javadoc)
+	 *
+	 * @see
+	 * com.xhm.longxin.qth.dal.dao.ProductCategoryDao#getCategoryById(java.lang
+	 * .Long)
+	 */
+	public ProductCategory getCategoryById(Long id) {
+		CategoryQuery categoryQuery = new CategoryQuery();
+		categoryQuery.setId(id);
+		List<ProductCategory> cateList = (List<ProductCategory>) getSqlMapClientTemplate()
+				.queryForList(NAMESPACE_PRODUCT_CATEGORY + "." + QUERY_ID_BYVO,
+						categoryQuery);
+		if (cateList == null || cateList.isEmpty()) {
+			return null;
+		} else {
+			return cateList.get(0);
+		}
+	}
+
+	/*
+	 * (non-Javadoc)
+	 *
+	 * @see
+	 * com.xhm.longxin.qth.dal.dao.ProductCategoryDao#isCategoryExist(com.xhm
+	 * .longxin.qth.dal.query.CategoryQuery)
+	 */
+	public boolean isCategoryExist(CategoryQuery categoryQuery) {
+		List<ProductCategory> cateList = (List<ProductCategory>) getSqlMapClientTemplate()
+				.queryForList(
+						NAMESPACE_PRODUCT_CATEGORY + "." + QUERY_CATEGORY_EXIST,
+						categoryQuery);
+		if (cateList != null && !cateList.isEmpty()) {
+			return true;
+		}
+		return false;
 	}
 
 }

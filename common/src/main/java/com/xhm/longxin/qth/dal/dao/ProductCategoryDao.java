@@ -34,6 +34,11 @@ public interface ProductCategoryDao {
 	 * 查询记录
 	 * */
 	public List<ProductCategory> query(CategoryQuery categoryQuery);
+
+	/**
+	 * 查询记录
+	 * */
+	public ProductCategory getCategoryById(Long id);
 	/**
 	 * 查询记录
 	 * */
@@ -42,5 +47,10 @@ public interface ProductCategoryDao {
 	 * 查询数量
 	 * */
 	public int queryCount(CategoryQuery categoryQuery);
+
+	/**
+	 * 查询是否存在类别
+	 * */
+	public boolean isCategoryExist(CategoryQuery categoryQuery);
 
 }

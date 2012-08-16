@@ -38,7 +38,7 @@
                 </required-validator>
             </services:field>
         </services:group>
-        
+
         <!--
           - ===============================================
           - login form
@@ -69,7 +69,7 @@
                 </custom-error>
             </services:field>
         </services:group>
-        
+
         <!--
           - ===============================================
           - profile form
@@ -100,7 +100,45 @@
             </services:field>
             <services:field name="name" displayName="姓名">
             </services:field>
-           
+
+        </services:group>
+
+        <!--
+          - ===============================================
+          - category form
+          - ===============================================
+         -->
+        <services:group name="category" extends="csrfCheck">
+        	<services:field name="id" displayName="ID">
+            </services:field>
+        	<services:field name="saveCategoryInfo">
+                <custom-error id="addSuccess">
+                    <message>类目添加成功</message>
+                </custom-error>
+                <custom-error id="editSuccess">
+                    <message>类目修改成功</message>
+                </custom-error>
+            </services:field>
+        	<services:field name="categoryErr">
+                <custom-error id="saveCategoryErr">
+                    <message>类别保存出现异常</message>
+                </custom-error>
+                 <custom-error id="categoryExist">
+                    <message>同名类别已经存在</message>
+                </custom-error>
+            </services:field>
+            <services:field name="name" displayName="类别名称">
+                <required-validator>
+                    <message>必须填写 ${displayName}</message>
+                </required-validator>
+            </services:field>
+            <services:field name="description" displayName="类别描述">
+            </services:field>
+             <services:field name="isMaterial" displayName="是否资源类别">
+                <required-validator>
+                    <message> ${displayName}必须选择</message>
+                </required-validator>
+            </services:field>
         </services:group>
     </services:form>
 

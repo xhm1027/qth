@@ -83,8 +83,31 @@
 		<isNotNull property="isMaterial" prepend="AND">
 			is_material=#isMaterial#
 		</isNotNull>
+		<isNotNull property="id" prepend="AND">
+			id=#id#
+		</isNotNull>
 		<![CDATA[order by gmt_modified desc ]]>
 		<include refid="ALICRM_COMMON.ALI_PAGING" />
+	</select>
+
+	<select id="QUERY_CATEGORY_EXIST" resultMap="CATEGORY_RESULT_MAP"
+		parameterClass="PRODUCT_CATEGORY_QUERYVO">
+		 <![CDATA[
+				select
+				*
+				from qth_pro_category where  is_deleted='N']]>
+		<isNotNull property="name" prepend="AND">
+			name = #name#
+		</isNotNull>
+		<isNotNull property="description" prepend="AND">
+			description=#description#
+		</isNotNull>
+		<isNotNull property="isMaterial" prepend="AND">
+			is_material=#isMaterial#
+		</isNotNull>
+		<isNotNull property="id" prepend="AND">
+			id!=#id#
+		</isNotNull>
 	</select>
 
 	<select id="QUERY_CATEGORY_COUNT" resultClass="int"

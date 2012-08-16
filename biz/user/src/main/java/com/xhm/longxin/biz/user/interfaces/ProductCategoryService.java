@@ -18,19 +18,22 @@ public interface ProductCategoryService {
 
 	public boolean updateCategory(ProductCategory category);
 
-	public List<ProductCategory> queryCategory(CategoryQuery categoryQuery);
+	public List<ProductCategory> query(CategoryQuery categoryQuery);
+	public List<ProductCategory> query(CategoryQuery categoryQuery,int pageStart,int pageSize);
+	public int queryCount(CategoryQuery categoryQuery);
 
 	public boolean delCategoryById(Long id);
-
+	public ProductCategory getCategoryById(Long id);
 	/**
 	 * 获取所有原材料的类别
 	 * @return
 	 */
 	public List<ProductCategory> getAllMaterialCategory();
-	
+
 	/**
 	 * 获取所有资源的类别
 	 * @return
 	 */
 	public List<ProductCategory> getAllResourceCategory();
+	public boolean isCategoryExist(CategoryQuery categoryQuery);
 }
