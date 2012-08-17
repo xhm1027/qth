@@ -15,13 +15,15 @@ import com.xhm.longxin.qth.dal.dao.UserDao;
 import com.xhm.longxin.qth.dal.dataobject.AuditLog;
 import com.xhm.longxin.qth.dal.dataobject.User;
 import com.xhm.longxin.qth.dal.query.UserQuery;
+import com.xhm.longxin.qth.email.EmailSender;
 
 public class UserServiceImpl implements UserService {
 	@Autowired
 	private UserDao userDao;
-
 	@Autowired
 	private AuditLogDao aditLogDao;
+	@Autowired
+	private EmailSender emailSender;
 
 	public User login(LoginVO vo) {
 		return userDao.getUserByLoginIdAndPass(vo.getName(), vo.getPassword());
@@ -80,8 +82,7 @@ public class UserServiceImpl implements UserService {
 		auditLog.setAuditId(userAuditVO.getId());
 		if (AuditResult.PASS.equalsIgnoreCase(userAuditVO.getAuditResult())) {
 			auditLog.setAuditResult(AuditResult.PASS);
-		}
-		else {
+		} else {
 			auditLog.setAuditResult(AuditResult.FAIL);
 		}
 		auditLog.setDescription(userAuditVO.getDescription());
@@ -91,11 +92,36 @@ public class UserServiceImpl implements UserService {
 		return true;
 	}
 
-	/* (non-Javadoc)
-	 * @see com.xhm.longxin.biz.user.interfaces.UserService#getUserById(java.lang.Long)
+	/*
+	 * (non-Javadoc)
+	 *
+	 * @see
+	 * com.xhm.longxin.biz.user.interfaces.UserService#getUserById(java.lang
+	 * .Long)
 	 */
 	public User getUserById(Long id) {
 		return userDao.getUserById(id);
+	}
+
+	/*
+	 * (non-Javadoc)
+	 *
+	 * @see
+	 * com.xhm.longxin.biz.user.interfaces.UserService#resetUserPass(java.lang
+	 * .Long)
+	 */
+	public String resetUserPass(Long id) {
+		// TODO Auto-generated method stub，这里要用Java
+		// mail发邮件；配置在antx中，同时改写passowrd
+		User user = userDao.getUserById(id);
+		String newPass = String.valueOf(System.currentTimeMillis())
+				.substring(9);
+		user.setPassword(newPass);
+		if (!emailSender.sendPasswordResetEmail(user, newPass)) {
+			return EmailSender.EMAIL_SEND_ERR;
+		}
+		userDao.updateUser(user);
+		return newPass;
 	}
 
 }

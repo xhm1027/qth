@@ -19,7 +19,7 @@
 	<bean id="sqlMapClient" class="org.springframework.orm.ibatis.SqlMapClientFactoryBean">
 		<property name="dataSource" ref="dataSource" />
 		<property name="configLocation" value="classpath:/spring/sqlmap-config.xml" />
-		
+
 	</bean>
 
 	<bean id="adminUserDao" class="com.xhm.longxin.qth.dal.dao.impl.AdminUserDaoImpl" />
@@ -30,7 +30,12 @@
 	<bean id="saleProductDao" class="com.xhm.longxin.qth.dal.dao.impl.SaleProductDaoImpl" />
 	<bean id="messageDao" class="com.xhm.longxin.qth.dal.dao.impl.MessageDaoImpl" />
 	<bean id="productCategoryDao" class="com.xhm.longxin.qth.dal.dao.impl.ProductCategoryDaoImpl" />
-
+	<bean id="emaiSender" class="com.xhm.longxin.qth.email.impl.JavaEmailSender">
+		<property name="mailServerHost" value="${qth_admin_email_server_host}"></property>
+		<property name="mailServerPort" value="${qth_admin_email_server_port}"></property>
+		<property name="userName" value="${qth_admin_email_server_username}"></property>
+		<property name="password" value="${qth_admin_email_server_password}"></property>
+	</bean>
     <!-- ======================================================================== -->
     <!--  TransactionManager定义。                                                -->
     <!-- ======================================================================== -->

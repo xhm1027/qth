@@ -60,4 +60,11 @@ public interface UserService {
 	 *…Û∫À”√ªß
 	 * */
 	public boolean auditUser(UserAuditVO userAuditVO);
+
+
+	/**
+	 * @param id
+	 * @return
+	 */
+	public String resetUserPass(Long id);
 }

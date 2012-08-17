@@ -82,7 +82,7 @@
 							<td>
 								#if($!user.status=='new')<a href="auditUser.htm?id=$!user.id">审核</a>#end
 								<a href="editUser.htm?id=$!user.id">编辑</a>
-								<a href="#" onClick="resetPass($!user.id,'$!user.name')">重置密码</a>
+								<a href="resetUserPassword.htm?id=$!user.id">重置密码</a>
 								#if($!user.status!='freese')<a href="#" onClick="unFreese($!user.id,'$!user.name')">解冻</a>#else<a href="#" onClick="freese($!user.id,'$!user.name')">冻结</a>#end
 							</td>
 						</tr>

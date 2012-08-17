@@ -17,6 +17,9 @@
 
 package com.xhm.longxin.qth.web.admin.module.action;
 
+import java.util.HashMap;
+import java.util.Map;
+
 import javax.servlet.http.HttpSession;
 
 import org.apache.commons.lang.StringUtils;
@@ -35,8 +38,10 @@ import com.xhm.longxin.biz.user.interfaces.UserService;
 import com.xhm.longxin.biz.user.vo.UserAuditVO;
 import com.xhm.longxin.qth.dal.dataobject.AdminUser;
 import com.xhm.longxin.qth.dal.dataobject.User;
+import com.xhm.longxin.qth.email.EmailSender;
 import com.xhm.longxin.qth.web.admin.common.AdminConstant;
 import com.xhm.longxin.qth.web.admin.common.QthAdmin;
+
 public class AdminAction {
 	@Autowired
 	private AdminService adminService;
@@ -45,14 +50,16 @@ public class AdminAction {
 	@Autowired
 	HttpSession session;
 
-	public void doLogin(@FormGroup("login") LoginVO vo,
+	public void doLogin(
+			@FormGroup("login") LoginVO vo,
 			@FormField(name = "validateStr", group = "login") CustomErrors validateField,
 			@FormField(name = "loginError", group = "login") CustomErrors err,
-			 Navigator nav, ParameterParser params) {
+			Navigator nav, ParameterParser params) {
 		String validateCode = (String) session
 				.getAttribute(AdminConstant.VALIDATE_CODE);
 		if (validateCode == null
-				|| StringUtils.equalsIgnoreCase(validateCode, vo.getValidateStr()) == false) {
+				|| StringUtils.equalsIgnoreCase(validateCode, vo
+						.getValidateStr()) == false) {
 			validateField.setMessage("validateError");
 			return;
 		}
@@ -68,7 +75,7 @@ public class AdminAction {
 
 	}
 
-	private void setSession(AdminUser admin){
+	private void setSession(AdminUser admin) {
 		QthAdmin qthAdmin = (QthAdmin) session
 				.getAttribute(AdminConstant.QTH_ADMIN_SESSION_KEY);
 
@@ -103,32 +110,60 @@ public class AdminAction {
 			@FormField(name = "editError", group = "profile") CustomErrors err,
 			HttpSession session, Navigator nav, ParameterParser params) {
 		boolean editResult = adminService.updateAdminUser(user);
-		if(editResult){
+		if (editResult) {
 			setSession(adminService.getAdminUserById(user.getId()));
 			info.setMessage("editInfo");
-		}else{
+		} else {
 			err.setMessage("editError");
 		}
 
 	}
 
-	public void doAuditUser(@FormGroup("userAudit") UserAuditVO userAuditVO,
+	public void doAuditUser(
+			@FormGroup("userAudit") UserAuditVO userAuditVO,
 			@FormField(name = "auditUserInfo", group = "userAudit") CustomErrors info,
 			@FormField(name = "auditUserErr", group = "userAudit") CustomErrors err,
 			HttpSession session, Navigator nav, ParameterParser params) {
 		QthAdmin qthAdmin = (QthAdmin) session
-		.getAttribute(AdminConstant.QTH_ADMIN_SESSION_KEY);
-		if(qthAdmin==null){
+				.getAttribute(AdminConstant.QTH_ADMIN_SESSION_KEY);
+		if (qthAdmin == null) {
 			err.setMessage("auditFail");
 			return;
 		}
 		userAuditVO.setAuditor(qthAdmin.getId());
 		boolean editResult = userService.auditUser(userAuditVO);
-		if(editResult){
+		if (editResult) {
 			info.setMessage("auditSuccess");
-		}else{
+		} else {
 			err.setMessage("auditFail");
 		}
 
+	}
+
+	public void doResetUserPass(
+			@FormGroup("userPasswordReset") User user,
+			@FormField(name = "resetUserInfo", group = "userPasswordReset") CustomErrors info,
+			@FormField(name = "resetUserErr", group = "userPasswordReset") CustomErrors err,
+			Navigator nav, ParameterParser params) {
+		// 这里加入重设密码逻辑
+		user = userService.getUserById(user.getId());
+		String newPass = userService.resetUserPass(user.getId());
+		if (!StringUtil.isBlank(newPass)
+				&& newPass.equalsIgnoreCase(EmailSender.EMAIL_SEND_ERR)) {
+			err.setMessage("resetFailEmailError");
+			return;
+		}
+		if (!StringUtil.isBlank(newPass)) {
+			if (StringUtil.isBlank(user.getEmail())) {
+				info.setMessage("resetSuccessNoEmail");
+			} else {
+				Map<String, String> param = new HashMap<String, String>();
+				param.put("newPass", newPass);
+				param.put("email", user.getEmail());
+				info.setMessage("resetSuccess", param);
+			}
+		} else {
+			err.setMessage("resetFail");
+		}
 	}
 }
