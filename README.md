@@ -17,9 +17,7 @@ xhm的记录事宜
 zhangren记录事宜
 -----------
 * UserService已实现重置密码及发邮件的功能。发送邮件的地址，密码及端口等信息在antx中配置即可。用户没有邮箱时，不发送邮件！
-qth.admin.email.server.host=smtp.163.com
-qth.admin.email.server.port=25
-qth.admin.email.server.username=zhangrencnic@163.com
-qth.admin.email.server.password=xxxxxxxxx
-
+* 8.18：完成账号冻结、解冻及用户等级评定
+* 8.19：完成前台邮箱重置密码功能
+* 下周：完成公司搜索功能
 
