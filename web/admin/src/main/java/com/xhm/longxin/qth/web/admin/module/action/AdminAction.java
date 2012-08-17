@@ -147,7 +147,7 @@ public class AdminAction {
 			Navigator nav, ParameterParser params) {
 		// 这里加入重设密码逻辑
 		user = userService.getUserById(user.getId());
-		String newPass = userService.resetUserPass(user.getId());
+		String newPass = userService.resetUserPass(user);
 		if (!StringUtil.isBlank(newPass)
 				&& newPass.equalsIgnoreCase(EmailSender.EMAIL_SEND_ERR)) {
 			err.setMessage("resetFailEmailError");

@@ -66,5 +66,5 @@ public interface UserService {
 	 * @param id
 	 * @return
 	 */
-	public String resetUserPass(Long id);
+	public String resetUserPass(User user);
 }

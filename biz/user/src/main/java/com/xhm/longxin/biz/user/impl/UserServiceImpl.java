@@ -4,6 +4,7 @@ import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 
+import com.alibaba.citrus.util.StringUtil;
 import com.xhm.longxin.biz.user.interfaces.UserService;
 import com.xhm.longxin.biz.user.vo.LoginVO;
 import com.xhm.longxin.biz.user.vo.UserAuditVO;
@@ -110,15 +111,16 @@ public class UserServiceImpl implements UserService {
 	 * com.xhm.longxin.biz.user.interfaces.UserService#resetUserPass(java.lang
 	 * .Long)
 	 */
-	public String resetUserPass(Long id) {
+	public String resetUserPass(User user) {
 		// TODO Auto-generated method stub，这里要用Java
 		// mail发邮件；配置在antx中，同时改写passowrd
-		User user = userDao.getUserById(id);
 		String newPass = String.valueOf(System.currentTimeMillis())
 				.substring(9);
 		user.setPassword(newPass);
-		if (!emailSender.sendPasswordResetEmail(user, newPass)) {
-			return EmailSender.EMAIL_SEND_ERR;
+		if (!StringUtil.isEmpty(user.getEmail())) {//用户有邮箱时发邮件
+			if (!emailSender.sendPasswordResetEmail(user, newPass)) {
+				return EmailSender.EMAIL_SEND_ERR;
+			}
 		}
 		userDao.updateUser(user);
 		return newPass;
