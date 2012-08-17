@@ -13,6 +13,8 @@
 			javaType="String" />
 		<result property="email" column="email" jdbcType="VARCHAR"
 			javaType="String" />
+		<result property="mobilePhone" column="mobile_phone" jdbcType="VARCHAR"
+			javaType="String" />
 		<result property="phoneArea" column="phone_area" jdbcType="VARCHAR"
 			javaType="String" />
 		<result property="phoneNumber" column="phone_number" jdbcType="VARCHAR"
@@ -172,7 +174,8 @@
 				u.status
 				from qth_user u,qth_user_interest i where  u.is_deleted='N' and i.is_deleted='N']]>
 		<isNotNull property="name" prepend="AND">
-			u.name=#name#
+			u.name like
+			CONCAT('%',#name#, '%')
 		</isNotNull>
 		<isNotNull property="password" prepend="AND">
 			u.password=md5(#password#)
@@ -251,7 +254,8 @@
 				u.status
 				from qth_user u where  u.is_deleted='N']]>
 		<isNotNull property="name" prepend="AND">
-			u.name=#name#
+			u.name like
+			CONCAT('%',#name#, '%')
 		</isNotNull>
 		<isNotNull property="password" prepend="AND">
 			u.password=md5(#password#)

@@ -16,7 +16,7 @@
 		</div>
 		<!--/row-->
 		<div class="row">
-			<form class="well form-search span12" method="post">
+			<form class="well form-search span12">
 				<div class="row-fluid">
 					<div class="input-append span9">
 						<span class="add-on">名称</span><input type="text" class="span3"

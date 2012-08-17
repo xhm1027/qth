@@ -146,6 +146,35 @@
                 </required-validator>
             </services:field>
         </services:group>
-    </services:form>
 
+    <!--
+          - ===============================================
+          - user audit form
+          - ===============================================
+         -->
+        <services:group name="userAudit" extends="csrfCheck">
+        	<services:field name="id" displayName="ID">
+            </services:field>
+        	<services:field name="auditUserInfo">
+                <custom-error id="auditSuccess">
+                    <message>用户审核操作成功</message>
+                </custom-error>
+            </services:field>
+        	<services:field name="auditUserErr">
+                <custom-error id="auditFail">
+                    <message>用户审核操作失败</message>
+                </custom-error>
+            </services:field>
+            <services:field name="description" displayName="审核信息备注">
+            <string-length-validator  maxLength="500">
+                    <message>${displayName} 最多不能超过${maxLength}个字</message>
+                </string-length-validator>
+            </services:field>
+             <services:field name="auditResult" displayName="审核结果">
+                <required-validator>
+                    <message> ${displayName}必须选择</message>
+                </required-validator>
+            </services:field>
+        </services:group>
+    </services:form>
 </beans:beans>

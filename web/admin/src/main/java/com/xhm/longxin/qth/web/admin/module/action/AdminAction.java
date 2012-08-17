@@ -31,12 +31,17 @@ import com.alibaba.citrus.util.StringUtil;
 
 import com.xhm.longxin.biz.admin.interfaces.AdminService;
 import com.xhm.longxin.biz.admin.vo.LoginVO;
+import com.xhm.longxin.biz.user.interfaces.UserService;
+import com.xhm.longxin.biz.user.vo.UserAuditVO;
 import com.xhm.longxin.qth.dal.dataobject.AdminUser;
+import com.xhm.longxin.qth.dal.dataobject.User;
 import com.xhm.longxin.qth.web.admin.common.AdminConstant;
 import com.xhm.longxin.qth.web.admin.common.QthAdmin;
 public class AdminAction {
 	@Autowired
 	private AdminService adminService;
+	@Autowired
+	private UserService userService;
 	@Autowired
 	HttpSession session;
 
@@ -51,7 +56,7 @@ public class AdminAction {
 			validateField.setMessage("validateError");
 			return;
 		}
-		
+
 		AdminUser admin = adminService.login(vo);
 		if (admin != null) {
 			setSession(admin);
@@ -62,7 +67,7 @@ public class AdminAction {
 		}
 
 	}
-	
+
 	private void setSession(AdminUser admin){
 		QthAdmin qthAdmin = (QthAdmin) session
 				.getAttribute(AdminConstant.QTH_ADMIN_SESSION_KEY);
@@ -92,7 +97,7 @@ public class AdminAction {
 			nav.redirectToLocation(returnURL);
 		}
 	}
-	
+
 	public void doEdit(@FormGroup("profile") AdminUser user,
 			@FormField(name = "editInfo", group = "profile") CustomErrors info,
 			@FormField(name = "editError", group = "profile") CustomErrors err,
@@ -103,6 +108,26 @@ public class AdminAction {
 			info.setMessage("editInfo");
 		}else{
 			err.setMessage("editError");
+		}
+
+	}
+
+	public void doAuditUser(@FormGroup("userAudit") UserAuditVO userAuditVO,
+			@FormField(name = "auditUserInfo", group = "userAudit") CustomErrors info,
+			@FormField(name = "auditUserErr", group = "userAudit") CustomErrors err,
+			HttpSession session, Navigator nav, ParameterParser params) {
+		QthAdmin qthAdmin = (QthAdmin) session
+		.getAttribute(AdminConstant.QTH_ADMIN_SESSION_KEY);
+		if(qthAdmin==null){
+			err.setMessage("auditFail");
+			return;
+		}
+		userAuditVO.setAuditor(qthAdmin.getId());
+		boolean editResult = userService.auditUser(userAuditVO);
+		if(editResult){
+			info.setMessage("auditSuccess");
+		}else{
+			err.setMessage("auditFail");
 		}
 
 	}
