@@ -157,7 +157,7 @@ public class AdminAction {
 			if (StringUtil.isBlank(user.getEmail())) {
 				Map<String, String> param = new HashMap<String, String>();
 				param.put("newPass", newPass);
-				info.setMessage("resetSuccessNoEmail");
+				info.setMessage("resetSuccessNoEmail", param);
 			} else {
 				Map<String, String> param = new HashMap<String, String>();
 				param.put("newPass", newPass);
