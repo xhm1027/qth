@@ -1,103 +1,97 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <beans:beans xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-             xmlns:services="http://www.alibaba.com/schema/services"
-             xmlns:fm-conditions="http://www.alibaba.com/schema/services/form/conditions"
-             xmlns:fm-validators="http://www.alibaba.com/schema/services/form/validators"
-             xmlns="http://www.alibaba.com/schema/services/form/validators"
-             xmlns:beans="http://www.springframework.org/schema/beans"
-             xmlns:p="http://www.springframework.org/schema/p"
-             xsi:schemaLocation="
+	xmlns:services="http://www.alibaba.com/schema/services"
+	xmlns:fm-conditions="http://www.alibaba.com/schema/services/form/conditions"
+	xmlns:fm-validators="http://www.alibaba.com/schema/services/form/validators"
+	xmlns="http://www.alibaba.com/schema/services/form/validators"
+	xmlns:beans="http://www.springframework.org/schema/beans" xmlns:p="http://www.springframework.org/schema/p"
+	xsi:schemaLocation="
                 http://www.alibaba.com/schema/services http://localhost:8080/schema/services.xsd
                 http://www.alibaba.com/schema/services/form/conditions http://localhost:8080/schema/services-form-conditions.xsd
                 http://www.alibaba.com/schema/services/form/validators http://localhost:8080/schema/services-form-validators.xsd
                 http://www.springframework.org/schema/beans http://localhost:8080/schema/www.springframework.org/schema/beans/spring-beans.xsd
              ">
 
-    <services:form postOnlyByDefault="true">
-        <!--
-          - ===============================================
-          - 用来检查csrf token。
-          - ===============================================
-         -->
-        <services:group name="csrfCheck">
-            <services:field name="csrfToken">
-                <csrf-validator>
-                    <message>提交的数据已过期</message>
-                </csrf-validator>
-            </services:field>
-        </services:group>
-        <!--
-          - ===============================================
-          - Simple form
-          - ===============================================
-         -->
-        <services:group name="simple" extends="csrfCheck">
-            <services:field name="name" displayName="你的名字">
-                <required-validator>
-                    <message>必须填写 ${displayName}</message>
-                </required-validator>
-            </services:field>
-        </services:group>
+	<services:form postOnlyByDefault="true">
+		<!--
+			- =============================================== - 用来检查csrf token。 -
+			===============================================
+		-->
+		<services:group name="csrfCheck">
+			<services:field name="csrfToken">
+				<csrf-validator>
+					<message>提交的数据已过期</message>
+				</csrf-validator>
+			</services:field>
+		</services:group>
+		<!--
+			- =============================================== - Simple form -
+			===============================================
+		-->
+		<services:group name="simple" extends="csrfCheck">
+			<services:field name="name" displayName="你的名字">
+				<required-validator>
+					<message>必须填写 ${displayName}</message>
+				</required-validator>
+			</services:field>
+		</services:group>
 
-        <!--
-          - ===============================================
-          - login form
-          - ===============================================
-         -->
-        <services:group name="login" extends="csrfCheck">
-        	<services:field name="loginError">
-                <custom-error id="invalidUserOrPassword">
-                    <message>用户名或密码不正确,请重新输入</message>
-                </custom-error>
-            </services:field>
-            <services:field name="name" displayName="用户名">
-                <required-validator>
-                    <message>必须填写 ${displayName}</message>
-                </required-validator>
-            </services:field>
-            <services:field name="password" displayName="密码">
-                <required-validator>
-                    <message>必须填写 ${displayName}</message>
-                </required-validator>
-            </services:field>
-            <services:field name="validateStr" displayName="验证码">
-                <required-validator>
-                    <message>必须填写 ${displayName}</message>
-                </required-validator>
-                 <custom-error id="validateError">
-                    <message>验证码不正确</message>
-                </custom-error>
-            </services:field>
-        </services:group>
-        <!--
-          - ===============================================
-          - category form
-          - ===============================================
-         -->
-        <services:group name="category" extends="csrfCheck">
-        	<services:field name="categoryErr">
-                <custom-error id="addCategoryErr">
-                    <message>类别添加出现异常</message>
-                </custom-error>
-            </services:field>
-            <services:field name="name" displayName="类别名称">
-                <required-validator>
-                    <message>必须填写 ${displayName}</message>
-                </required-validator>
-            </services:field>
-            <services:field name="description" displayName="类别描述">
-            </services:field>
-             <services:field name="isMaterial" displayName="是否资源类别">
-                <required-validator>
-                    <message> ${displayName}必须选择</message>
-                </required-validator>
-            </services:field>
-        </services:group>
-        <!--
-        - ===============================================
-        - register form
-        - ===============================================
-       -->
+		<!--
+			- =============================================== - login form -
+			===============================================
+		-->
+		<services:group name="login" extends="csrfCheck">
+			<services:field name="loginError">
+				<custom-error id="invalidUserOrPassword">
+					<message>用户名或密码不正确,请重新输入</message>
+				</custom-error>
+			</services:field>
+			<services:field name="name" displayName="用户名">
+				<required-validator>
+					<message>必须填写 ${displayName}</message>
+				</required-validator>
+			</services:field>
+			<services:field name="password" displayName="密码">
+				<required-validator>
+					<message>必须填写 ${displayName}</message>
+				</required-validator>
+			</services:field>
+			<services:field name="validateStr" displayName="验证码">
+				<required-validator>
+					<message>必须填写 ${displayName}</message>
+				</required-validator>
+				<custom-error id="validateError">
+					<message>验证码不正确</message>
+				</custom-error>
+			</services:field>
+		</services:group>
+		<!--
+			- =============================================== - category form -
+			===============================================
+		-->
+		<services:group name="category" extends="csrfCheck">
+			<services:field name="categoryErr">
+				<custom-error id="addCategoryErr">
+					<message>类别添加出现异常</message>
+				</custom-error>
+			</services:field>
+			<services:field name="name" displayName="类别名称">
+				<required-validator>
+					<message>必须填写 ${displayName}</message>
+				</required-validator>
+			</services:field>
+			<services:field name="description" displayName="类别描述">
+			</services:field>
+			<services:field name="isMaterial" displayName="是否资源类别">
+				<required-validator>
+					<message> ${displayName}必须选择</message>
+				</required-validator>
+			</services:field>
+		</services:group>
+		<!--
+			- =============================================== - register form -
+			===============================================
+		-->
 		<services:group name="register" extends="csrfCheck">
 			<services:field name="registerError">
 				<custom-error id="registerFail">
@@ -108,17 +102,19 @@
 				<required-validator>
 					<message>必须填写 ${displayName}</message>
 				</required-validator>
-                 <custom-error id="existError">
-                    <message>用户名已存在</message>
-                </custom-error>
+				<custom-error id="existError">
+					<message>用户名已存在</message>
+				</custom-error>
 			</services:field>
 			<services:field name="password" displayName="登录密码">
 				<required-validator>
 					<message>必须填写 ${displayName}</message>
 				</required-validator>
-				<string-length-validator minLength="6" maxLength="16">
-                    <message>${displayName} 最少必须由${minLength}个字组成，最多不能超过${maxLength}个字</message>
-                </string-length-validator>
+				<string-length-validator minLength="6"
+					maxLength="16">
+					<message>${displayName} 最少必须由${minLength}个字组成，最多不能超过${maxLength}个字
+					</message>
+				</string-length-validator>
 			</services:field>
 			<services:field name="confirmPassword" displayName="确认密码">
 				<string-compare-validator equalTo="password">
@@ -135,44 +131,44 @@
 					<message>必须选择 ${displayName}</message>
 				</required-validator>
 				<regexp-validator pattern="^[f|m]$">
-			        <message>必须选择 ${displayName}</message>
-			    </regexp-validator>
+					<message>必须选择 ${displayName}</message>
+				</regexp-validator>
 			</services:field>
 			<services:field name="email" displayName="邮箱">
 				<required-validator>
 					<message>必须填写 ${displayName}</message>
 				</required-validator>
 				<mail-address-validator>
-            		<message>不符合邮件格式</message>
-            	</mail-address-validator>
-                 <custom-error id="existError">
-                    <message>邮箱已存在</message>
-                </custom-error>
+					<message>不符合邮件格式</message>
+				</mail-address-validator>
+				<custom-error id="existError">
+					<message>邮箱已存在</message>
+				</custom-error>
 			</services:field>
 			<services:field name="phoneArea" displayName="区号">
 				<required-validator>
 					<message>必须填写 ${displayName}</message>
 				</required-validator>
-			    <regexp-validator pattern="^\d{3,4}$">
-			        <message>${displayName}错误</message>
-			    </regexp-validator>
+				<regexp-validator pattern="^\d{3,4}$">
+					<message>${displayName}错误</message>
+				</regexp-validator>
 			</services:field>
 			<services:field name="phoneNumber" displayName="电话号码">
 				<required-validator>
 					<message>必须填写 ${displayName}</message>
 				</required-validator>
-			    <regexp-validator pattern="^\d{7,8}$">
-			        <message>${displayName}错误</message>
-			    </regexp-validator>
+				<regexp-validator pattern="^\d{7,8}$">
+					<message>${displayName}错误</message>
+				</regexp-validator>
 			</services:field>
 			<services:field name="mobilePhone" displayName="手机号">
 				<required-validator>
 					<message>必须填写 ${displayName}</message>
 				</required-validator>
-			    <regexp-validator pattern="^\d{11}$">
-			        <message>${displayName}错误</message>
-			    </regexp-validator>
-			    
+				<regexp-validator pattern="^\d{11}$">
+					<message>${displayName}错误</message>
+				</regexp-validator>
+
 			</services:field>
 			<services:field name="company" displayName="公司名称">
 				<required-validator>
@@ -188,9 +184,10 @@
 				<required-validator>
 					<message>必须填写 ${displayName}</message>
 				</required-validator>
-				<regexp-validator pattern="^(\d{6})(18|19|20)?(\d{2})([01]\d)([0123]\d)(\d{3})(\d|X)?$">
-			        <message>${displayName}错误</message>
-			    </regexp-validator>
+				<regexp-validator
+					pattern="^(\d{6})(18|19|20)?(\d{2})([01]\d)([0123]\d)(\d{3})(\d|X)?$">
+					<message>${displayName}错误</message>
+				</regexp-validator>
 			</services:field>
 			<services:field name="busiLicense" displayName="营业执照号">
 				<required-validator>
@@ -199,10 +196,9 @@
 			</services:field>
 		</services:group>
 		<!--
-        - ===============================================
-        - 兴趣点
-        - ===============================================
-       -->
+			- =============================================== - 兴趣点 -
+			===============================================
+		-->
 		<services:group name="userInterest" extends="csrfCheck">
 			<services:field name="loginId" displayName="用户ID">
 			</services:field>
@@ -214,19 +210,48 @@
 			</services:field>
 		</services:group>
 		<!--
-        - ===============================================
-        - 购买兴趣点
-        - ===============================================
-       -->
+			- =============================================== - 购买兴趣点 -
+			===============================================
+		-->
 		<services:group name="buyInterest" extends="userInterest">
 		</services:group>
 		<!--
-        - ===============================================
-        - 售卖兴趣点
-        - ===============================================
-       -->
+			- =============================================== - 售卖兴趣点 -
+			===============================================
+		-->
 		<services:group name="sellInterest" extends="userInterest">
 		</services:group>
-    </services:form>
+
+		<!--
+			- =============================================== - user password
+			reset form - ===============================================
+		-->
+		<services:group name="userPasswordForget" extends="csrfCheck">
+			<services:field name="email" displayName="邮箱">
+				<required-validator>
+					<message>必须填写 ${displayName}</message>
+				</required-validator>
+				<mail-address-validator>
+					<message>不符合邮件格式</message>
+				</mail-address-validator>
+			</services:field>
+			<services:field name="resetUserInfo">
+				<custom-error id="resetSuccess">
+					<message>重置密码操作成功，新密码已发送邮件至邮箱${email}，请登录邮箱查看。</message>
+				</custom-error>
+			</services:field>
+			<services:field name="resetUserErr">
+				<custom-error id="resetFail">
+					<message>重置密码操作失败</message>
+				</custom-error>
+				<custom-error id="resetFailEmailError">
+					<message>重置密码操作失败，邮件发送失败</message>
+				</custom-error>
+				<custom-error id="resetFailUserNotExist">
+					<message>重置密码操作失败，该邮箱未在本站注册会员，您可以使用该邮箱进行注册</message>
+				</custom-error>
+			</services:field>
+		</services:group>
+	</services:form>
 
 </beans:beans>

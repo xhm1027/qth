@@ -18,7 +18,9 @@
 package com.xhm.longxin.qth.web.user.module.action;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import javax.servlet.http.HttpSession;
 
@@ -41,6 +43,7 @@ import com.xhm.longxin.qth.dal.constant.UserRole;
 import com.xhm.longxin.qth.dal.constant.UserStatus;
 import com.xhm.longxin.qth.dal.dataobject.User;
 import com.xhm.longxin.qth.dal.dataobject.UserInterest;
+import com.xhm.longxin.qth.email.EmailSender;
 import com.xhm.longxin.qth.web.user.common.QthUser;
 import com.xhm.longxin.qth.web.user.common.UserConstant;
 
@@ -54,11 +57,12 @@ public class UserAction {
 			@FormGroup("login") LoginVO vo,
 			@FormField(name = "validateStr", group = "login") CustomErrors validateField,
 			@FormField(name = "loginError", group = "login") CustomErrors err,
-			Navigator nav,ParameterParser params) {
+			Navigator nav, ParameterParser params) {
 		String validateCode = (String) session
 				.getAttribute(UserConstant.VALIDATE_CODE);
 		if (validateCode == null
-				|| StringUtils.equalsIgnoreCase(validateCode, vo.getValidateStr()) == false) {
+				|| StringUtils.equalsIgnoreCase(validateCode, vo
+						.getValidateStr()) == false) {
 			validateField.setMessage("validateError");
 			return;
 		}
@@ -72,8 +76,8 @@ public class UserAction {
 		}
 
 	}
-	
-	private void setSession(User user){
+
+	private void setSession(User user) {
 		QthUser qthUser = (QthUser) session
 				.getAttribute(UserConstant.QTH_USER_SESSION_KEY);
 
@@ -87,10 +91,9 @@ public class UserAction {
 
 	public void doLogout(HttpSession session, Navigator nav,
 			ParameterParser params) throws Exception {
-		
+
 		session.removeAttribute(UserConstant.QTH_USER_SESSION_KEY);
 
-		
 		redirectToReturnPage(nav, params);
 	}
 
@@ -103,8 +106,7 @@ public class UserAction {
 			nav.redirectToLocation(returnURL);
 		}
 	}
-	
-	
+
 	public void doRegister(
 			@FormGroup("register") User user,
 			@Param("buyInterests") Long[] buyInterests,
@@ -113,53 +115,79 @@ public class UserAction {
 			@FormField(name = "loginId", group = "register") CustomErrors loginField,
 			@FormField(name = "email", group = "register") CustomErrors emailField,
 			Navigator nav, ParameterParser params) {
-		User checkUserByLoginId = userService.getUserByLoginId(user.getLoginId());
+		User checkUserByLoginId = userService.getUserByLoginId(user
+				.getLoginId());
 		User checkUserByEmail = userService.getUserByEmail(user.getEmail());
-		if(checkUserByLoginId != null){
+		if (checkUserByLoginId != null) {
 			loginField.setMessage("existError");
 		}
-		if(checkUserByEmail != null){
+		if (checkUserByEmail != null) {
 			emailField.setMessage("existError");
 		}
-		if(checkUserByLoginId != null||checkUserByEmail!=null){
+		if (checkUserByLoginId != null || checkUserByEmail != null) {
 			return;
 		}
-		
-		//设置兴趣点
-		List<UserInterest> buyInsterestList=new ArrayList<UserInterest>();
-		List<UserInterest> sellInsterestList=new ArrayList<UserInterest>();
-		if(buyInterests!=null){
-			for(Long catorgyId:buyInterests){
-				UserInterest buyInterest =new UserInterest();
+
+		// 设置兴趣点
+		List<UserInterest> buyInsterestList = new ArrayList<UserInterest>();
+		List<UserInterest> sellInsterestList = new ArrayList<UserInterest>();
+		if (buyInterests != null) {
+			for (Long catorgyId : buyInterests) {
+				UserInterest buyInterest = new UserInterest();
 				buyInterest.setInterest(UserInterestType.BUY);
 				buyInterest.setValue(catorgyId);
 				buyInterest.setLoginId(user.getLoginId());
 				buyInsterestList.add(buyInterest);
 			}
 		}
-		if(sellInterests!=null){
-			for(Long catorgyId:sellInterests){
-				UserInterest buyInterest =new UserInterest();
+		if (sellInterests != null) {
+			for (Long catorgyId : sellInterests) {
+				UserInterest buyInterest = new UserInterest();
 				buyInterest.setInterest(UserInterestType.BUY);
 				buyInterest.setValue(catorgyId);
 				buyInterest.setLoginId(user.getLoginId());
 				sellInsterestList.add(buyInterest);
 			}
 		}
-		
+
 		user.setBuyInterests(buyInsterestList);
 		user.setSaleInterests(sellInsterestList);
-		//设置用户状态、级别、类型
-		user.setStatus(UserStatus.NEW);//新注册
-		user.setUserLevel(UserLevel.COMMON);//普通会员
-		user.setRole(UserRole.OUTER_USER);//用户类型
+		// 设置用户状态、级别、类型
+		user.setStatus(UserStatus.NEW);// 新注册
+		user.setUserLevel(UserLevel.COMMON);// 普通会员
+		user.setRole(UserRole.OUTER_USER);// 用户类型
 		boolean result = userService.addUser(user);
-		if(result){
+		if (result) {
 			setSession(user);
 			redirectToReturnPage(nav, params);
-		}else{
+		} else {
 			err.setMessage("registerFail");
 		}
 
+	}
+
+	public void doResetUserPass(
+			@FormGroup("userPasswordForget") User user,
+			@FormField(name = "resetUserInfo", group = "userPasswordForget") CustomErrors info,
+			@FormField(name = "resetUserErr", group = "userPasswordForget") CustomErrors err,
+			Navigator nav, ParameterParser params) {
+		// 重设密码逻辑
+		user = userService.getUserByEmail(user.getEmail());
+		if (user == null) {// 不存在会员
+			err.setMessage("resetFailUserNotExist");
+		} else {
+			String newPass = userService.resetUserPass(user);
+			if (!StringUtil.isBlank(newPass)// 发送邮件失败
+					&& newPass.equalsIgnoreCase(EmailSender.EMAIL_SEND_ERR)) {
+				err.setMessage("resetFailEmailError");
+			}
+			else if (!StringUtil.isBlank(newPass)) {//成功
+				Map<String, String> param = new HashMap<String, String>();
+				param.put("email", user.getEmail());
+				info.setMessage("resetSuccess", param);
+			} else {// 其它异常
+				err.setMessage("resetFail");
+			}
+		}
 	}
 }

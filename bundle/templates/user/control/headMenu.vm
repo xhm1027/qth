@@ -34,8 +34,9 @@
 				<ul class="nav">
 					<li><a href="$userModule.setTarget("login")">登录</a></li>
 					<li><a href="$userModule.setTarget("register")">注册</a></li>
+					<li><a href="$userModule.setTarget("forgetPassword")">忘记密码</a></li>
 				</ul>
-			</div>	
+			</div>
 			#end
 			<div class="nav-collapse">
 				<ul class="nav">
