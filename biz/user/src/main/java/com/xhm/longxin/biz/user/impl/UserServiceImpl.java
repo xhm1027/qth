@@ -126,4 +126,29 @@ public class UserServiceImpl implements UserService {
 		return newPass;
 	}
 
+	/* (non-Javadoc)
+	 * @see com.xhm.longxin.biz.user.interfaces.UserService#updateUser(com.xhm.longxin.qth.dal.dataobject.User)
+	 */
+	public boolean updateUser(User user) {
+		return userDao.updateUser(user);
+	}
+
+	/* (non-Javadoc)
+	 * @see com.xhm.longxin.biz.user.interfaces.UserService#freeseUser(java.lang.Long)
+	 */
+	public boolean freeseUser(Long id) {
+		User user=userDao.getUserById(id);
+		user.setStatus(UserStatus.FREESE);
+		return userDao.updateUser(user);
+	}
+
+	/* (non-Javadoc)
+	 * @see com.xhm.longxin.biz.user.interfaces.UserService#unFreeseUser(java.lang.Long)
+	 */
+	public boolean unFreeseUser(Long id) {
+		User user=userDao.getUserById(id);
+		user.setStatus(UserStatus.NORMAL);
+		return userDao.updateUser(user);
+	}
+
 }

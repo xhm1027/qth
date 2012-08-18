@@ -30,6 +30,24 @@
 						 $group.auditUserErr.message
 					</div>
 					#end
+					<div class="span12">
+						<div class="row">
+							<div class="span2">登录ID:</div>
+							<div class="span10">$!user.loginId</div>
+						</div>
+						<div class="row">
+							<div class="span2">姓名:</div>
+							<div class="span10">$!user.name</div>
+						</div>
+						<div class="row">
+							<div class="span2">公司：</div>
+							<div class="span10">$!user.company</div>
+						</div>
+						<div class="row">
+							<div class="span2">邮箱：</div>
+							<div class="span10">$!user.email</div>
+						</div>
+					</div>
 					<div class="control-group">
 						<label class="control-label" for="description">描述</label>
 						<div class="controls">

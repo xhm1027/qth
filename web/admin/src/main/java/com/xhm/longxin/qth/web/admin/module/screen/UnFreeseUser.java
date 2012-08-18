@@ -8,19 +8,20 @@ import org.springframework.beans.factory.annotation.Autowired;
 import com.alibaba.citrus.turbine.Context;
 import com.alibaba.citrus.turbine.dataresolver.Param;
 import com.xhm.longxin.biz.user.interfaces.UserService;
-import com.xhm.longxin.qth.dal.dataobject.User;
 
 /**
  * @author ren.zhangr
  *
  */
-public class AuditUser {
+public class UnFreeseUser {
 	@Autowired
 	private UserService userService;
-	public void execute(
-			@Param(name = "id") Long id,
-			@Param(name = "name") String name, Context context) {
-		User user=userService.getUserById(id);
-		context.put("user", user);
+
+	public void execute(@Param(name = "id") Long id, Context context) {
+		if (userService.unFreeseUser(id)) {
+			context.put("result", "success");
+		} else {
+			context.put("result", "fail");
+		}
 	}
 }

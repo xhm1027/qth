@@ -14,7 +14,7 @@ import com.xhm.longxin.qth.dal.dataobject.User;
  * @author ren.zhangr
  *
  */
-public class ResetUserPassword {
+public class Default {
 	@Autowired
 	private UserService userService;
 	public void execute(

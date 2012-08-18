@@ -4,7 +4,7 @@
 				<ul class="nav nav-pills">
 					<li><a href="listUser.htm">用户列表</a></li>
 					<li><a href="addInnerUser.htm">新增园区内部用户</a></li>
-					<li class="active"><a href="#">重置密码</a></li>
+					<li class="active"><a href="#">等级评定</a></li>
 				</ul>
 			</div>
 		</div>
@@ -13,23 +13,23 @@
 			<form class="well form-horizontal" method="post">
 					$csrfToken.hiddenField
 					<input type="hidden" name="action" value="admin_action"/>
-					#set ($group = $form.userPasswordReset.defaultInstance)
+					#set ($group = $form.userLevelSet.defaultInstance)
 					$group.mapTo($user)
 					<input type="hidden" name="$group.id.key" value="$!group.id.value"/>
 					<fieldset>
-					#if(!$group.resetUserInfo.valid)
+					#if(!$group.setUserLevelInfo.valid)
 					<div class="alert alert-success">
 						<button type="button" class="close" data-dismiss="alert">&times;</button>
-						 <strong></strong> $group.resetUserInfo.message
+						 <strong></strong> $group.setUserLevelInfo.message
 					</div>
 					#end
-					#if(!$group.resetUserErr.valid)
+					#if(!$group.setUserLevelErr.valid)
 					<div class="alert alert-error">
 						<button type="button" class="close" data-dismiss="alert">&times;</button>
-						 $group.resetUserErr.message
+						 $group.setUserLevelErr.message
 					</div>
 					#end
-					<legend>重置密码</legend>
+					<legend>等级评定</legend>
 					<div class="span12">
 						<div class="row">
 							<div class="span2">登录ID:</div>
@@ -47,18 +47,30 @@
 							<div class="span2">邮箱：</div>
 							<div class="span10">$!user.email</div>
 						</div>
+						<div class="row">
+							<div class="span2">用户等级：</div>
+							<div class="span10">#if($!user.userLevel=='common')普通会员 #elseif($!user.userLevel=='golden')金牌会员#else $!user.userLevel#end</div>
+						</div>
+						<div class="row">
+							<div class="span2">评定结果：</div>
+							<div class="controls">
+								<select id="userLevel" name="$group.userLevel.key">
+									<option value="common" #if($group.userLevel.value=='common') selected=true #end>普通用户</option>
+									<option value="golden" #if($group.userLevel.value=='golden') selected=true #end>金牌用户</option>
+								</select>
+							</div>
+						</div>
 					</div>
 					<div class="span12">
 						<p>
-						重置密码为用户随机生成一个新密码，
-						#if($!user.email)并发送到用户邮箱:$!user.email
-						#else由于用户邮箱为空，因此请重置密码后以电话、短信或其它通讯方式联系用户
-						#end
+						用户等级评定，分为两个等级，分别介绍如下<br>
+						金牌用户：金牌用户提交产品后产品的状态为已上架；金牌用户编辑后产品的状态不变。<br>
+						普通用户：普通用户提交产品后产品的状态为待审核，需要由管理员审核之后才转变为上架状态；普通用户编辑后产品的状态为待审核。<br>
 						</p>
 					</div>
 					<div class="span4">
 						<div class="form-actions">
-							<input type="submit" class="btn btn-primary" name="event_submit_do_reset_user_pass" value="重置密码"/>
+							<input type="submit" class="btn btn-primary" name="event_submit_do_set_user_level" value="评定"/>
 							<input type="button" class="btn btn-primary" value="取消" onClick="history.go(-1)"/>
 						</div>
 					</div>

@@ -67,4 +67,19 @@ public interface UserService {
 	 * @return
 	 */
 	public String resetUserPass(User user);
+
+	/**
+	 * 更新用户
+	 * */
+	public boolean updateUser(User user);
+
+	/**
+	 * 冻结用户
+	 * */
+	public boolean freeseUser(Long id);
+
+	/**
+	 * 解结用户
+	 * */
+	public boolean unFreeseUser(Long id);
 }

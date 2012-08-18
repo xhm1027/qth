@@ -145,7 +145,7 @@ public class AdminAction {
 			@FormField(name = "resetUserInfo", group = "userPasswordReset") CustomErrors info,
 			@FormField(name = "resetUserErr", group = "userPasswordReset") CustomErrors err,
 			Navigator nav, ParameterParser params) {
-		// 这里加入重设密码逻辑
+		// 重设密码逻辑
 		user = userService.getUserById(user.getId());
 		String newPass = userService.resetUserPass(user);
 		if (!StringUtil.isBlank(newPass)
@@ -155,6 +155,8 @@ public class AdminAction {
 		}
 		if (!StringUtil.isBlank(newPass)) {
 			if (StringUtil.isBlank(user.getEmail())) {
+				Map<String, String> param = new HashMap<String, String>();
+				param.put("newPass", newPass);
 				info.setMessage("resetSuccessNoEmail");
 			} else {
 				Map<String, String> param = new HashMap<String, String>();
@@ -164,6 +166,23 @@ public class AdminAction {
 			}
 		} else {
 			err.setMessage("resetFail");
+		}
+	}
+
+	public void doSetUserLevel(
+			@FormGroup("userLevelSet") User user,
+			@FormField(name = "setUserLevelInfo", group = "userLevelSet") CustomErrors info,
+			@FormField(name = "setUserLevelErr", group = "userLevelSet") CustomErrors err,
+			Navigator nav, ParameterParser params) {
+		// 等级评定
+		String userLevel = user.getUserLevel();
+		user = userService.getUserById(user.getId());
+		user.setUserLevel(userLevel);
+		if (userService.updateUser(user)) {
+			info.setMessage("success");
+
+		} else {
+			err.setMessage("fail");
 		}
 	}
 }

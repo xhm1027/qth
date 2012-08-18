@@ -189,7 +189,7 @@
 					<message>重置密码操作成功，新密码为:${newPass}，新密码已发送邮件至用户邮箱${email}。</message>
 				</custom-error>
 				<custom-error id="resetSuccessNoEmail">
-					<message>重置密码操作成功，由于用户邮箱为空，请以电话、短信或其它通讯方式告知用户新的密码信息。</message>
+					<message>重置密码操作成功，新密码为:${newPass}，由于用户邮箱为空，请以电话、短信或其它通讯方式告知用户新的密码信息。</message>
 				</custom-error>
 			</services:field>
 			<services:field name="resetUserErr">
@@ -199,6 +199,30 @@
 				<custom-error id="resetFailEmailError">
 					<message>重置密码操作失败，邮件发送失败</message>
 				</custom-error>
+			</services:field>
+		</services:group>
+
+		<!--
+			- =============================================== - user status set form -
+			===============================================
+		-->
+		<services:group name="userLevelSet" extends="csrfCheck">
+			<services:field name="id" displayName="ID">
+			</services:field>
+			<services:field name="setUserLevelInfo">
+				<custom-error id="success">
+					<message>用户等级评定成功</message>
+				</custom-error>
+			</services:field>
+			<services:field name="setUserLevelErr">
+				<custom-error id="fail">
+					<message>用户等级评定失败</message>
+				</custom-error>
+			</services:field>
+			<services:field name="userLevel" displayName="用户等级">
+				<required-validator>
+					<message> ${displayName}必须选择</message>
+				</required-validator>
 			</services:field>
 		</services:group>
 	</services:form>
