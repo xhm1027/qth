@@ -53,7 +53,7 @@
 					  #end
 					<li><a href="saleProduct.html">我要采购</a></li>
 					<li><a href="procureProduct.html">我要销售</a></li>
-					<li><a href="enterprises.html">查找企业</a></li>
+					<li><a href="listEnterprise.htm">查找企业</a></li>
 				</ul>
 			</div>
 			<!--/.nav-collapse -->

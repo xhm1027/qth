@@ -218,17 +218,32 @@
 			u.busi_license=#busiLicense#
 		</isNotNull>
 		<isNotNull property="saleInterestIds" prepend="AND">
-			u.login_id=i.login_id and i.interest='sale' and i.value in
+			(u.login_id=i.login_id and i.value in
 			<iterate property="saleInterestIds" open="(" close=")"
 				conjunction=","> #saleInterestIds[]#</iterate>
+			<isNotNull property="buyInterestIds" prepend="OR">
+				u.login_id=i.login_id and i.value in
+				<iterate property="buyInterestIds" open="(" close=")"
+					conjunction=","> #buyInterestIds[]#</iterate>
+			</isNotNull>
+			)
 		</isNotNull>
 		<isNotNull property="buyInterestIds" prepend="AND">
-			u.login_id=i.login_id and i.interest='buy' and i.value in
+			(u.login_id=i.login_id and i.value in
 			<iterate property="buyInterestIds" open="(" close=")"
 				conjunction=","> #buyInterestIds[]#</iterate>
+			<isNotNull property="saleInterestIds" prepend="OR">
+				u.login_id=i.login_id and i.value in
+				<iterate property="saleInterestIds" open="(" close=")"
+					conjunction=","> #saleInterestIds[]#</iterate>
+			</isNotNull>
+			)
 		</isNotNull>
 		<![CDATA[group by u.id ]]>
-		order by u.login_id asc
+		<isNotNull property="orderModified" prepend=" ">
+			order by
+			u.gmt_modified desc
+		</isNotNull>
 		<include refid="ALICRM_COMMON.ALI_PAGING" />
 	</select>
 
@@ -297,7 +312,10 @@
 		<isNotNull property="busiLicense" prepend="AND">
 			u.busi_license=#busiLicense#
 		</isNotNull>
-		order by u.login_id asc
+		<isNotNull property="orderModified" prepend=" ">
+			order by
+			u.gmt_modified desc
+		</isNotNull>
 		<include refid="ALICRM_COMMON.ALI_PAGING" />
 	</select>
 
@@ -351,15 +369,28 @@
 			u.busi_license=#busiLicense#
 		</isNotNull>
 		<isNotNull property="saleInterestIds" prepend="AND">
-			u.login_id=i.login_id and i.interest='sale' and i.value in
+			(u.login_id=i.login_id and i.value in
 			<iterate property="saleInterestIds" open="(" close=")"
 				conjunction=","> #saleInterestIds[]#</iterate>
+			<isNotNull property="buyInterestIds" prepend="OR">
+				u.login_id=i.login_id and i.value in
+				<iterate property="buyInterestIds" open="(" close=")"
+					conjunction=","> #buyInterestIds[]#</iterate>
+			</isNotNull>
+			)
 		</isNotNull>
 		<isNotNull property="buyInterestIds" prepend="AND">
-			u.login_id=i.login_id and i.interest='buy' and i.value in
+			(u.login_id=i.login_id and i.value in
 			<iterate property="buyInterestIds" open="(" close=")"
 				conjunction=","> #buyInterestIds[]#</iterate>
+			<isNotNull property="saleInterestIds" prepend="OR">
+				u.login_id=i.login_id and i.value in
+				<iterate property="saleInterestIds" open="(" close=")"
+					conjunction=","> #saleInterestIds[]#</iterate>
+			</isNotNull>
+			)
 		</isNotNull>
+
 	</select>
 
 	<select id="QUERY_COUNT_QUERYVO" resultClass="int"
