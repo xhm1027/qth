@@ -13,6 +13,7 @@ xhm的记录事宜
 
 * screen的vm中不需要再加html及body标签了，jquery。js的引用也在layout/default。vm中加了----ok
 * userDao的updateUser操作有对应的test用例可以参照吗?----已经增加了示例，在UserDaoTest类中，顺便使用时帮我验证一下完整逻辑是否有遗漏。
+* 列表显示的页面中采用post方式看下能不能做到，类似“http://ic.qth.com/admin/listUser.htm?name=&company=&status=&userLevel=&page=1&pageSize=20”这种感觉可能会有问题，可以放在9月中旬以后再优化
 
 zhangren记录事宜
 -----------

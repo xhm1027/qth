@@ -17,7 +17,9 @@
 
 package com.xhm.longxin.qth.web.admin.module.action;
 
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import javax.servlet.http.HttpSession;
@@ -27,17 +29,24 @@ import org.springframework.beans.factory.annotation.Autowired;
 
 import com.alibaba.citrus.service.form.CustomErrors;
 import com.alibaba.citrus.service.requestcontext.parser.ParameterParser;
+import com.alibaba.citrus.turbine.Context;
 import com.alibaba.citrus.turbine.Navigator;
 import com.alibaba.citrus.turbine.dataresolver.FormField;
 import com.alibaba.citrus.turbine.dataresolver.FormGroup;
+import com.alibaba.citrus.turbine.dataresolver.Param;
 import com.alibaba.citrus.util.StringUtil;
 
 import com.xhm.longxin.biz.admin.interfaces.AdminService;
 import com.xhm.longxin.biz.admin.vo.LoginVO;
 import com.xhm.longxin.biz.user.interfaces.UserService;
 import com.xhm.longxin.biz.user.vo.UserAuditVO;
+import com.xhm.longxin.qth.dal.constant.UserInterestType;
+import com.xhm.longxin.qth.dal.constant.UserLevel;
+import com.xhm.longxin.qth.dal.constant.UserRole;
+import com.xhm.longxin.qth.dal.constant.UserStatus;
 import com.xhm.longxin.qth.dal.dataobject.AdminUser;
 import com.xhm.longxin.qth.dal.dataobject.User;
+import com.xhm.longxin.qth.dal.dataobject.UserInterest;
 import com.xhm.longxin.qth.email.EmailSender;
 import com.xhm.longxin.qth.web.admin.common.AdminConstant;
 import com.xhm.longxin.qth.web.admin.common.QthAdmin;
@@ -184,5 +193,63 @@ public class AdminAction {
 		} else {
 			err.setMessage("fail");
 		}
+	}
+	
+	public void doAddInnerUser(
+			@FormGroup("addUser") User user,
+			@Param("buyInterests") Long[] buyInterests,
+			@Param("saleInterests") Long[] sellInterests,
+			@FormField(name = "addUserError", group = "addUser") CustomErrors err,
+			@FormField(name = "loginId", group = "addUser") CustomErrors loginField,
+			@FormField(name = "email", group = "addUser") CustomErrors emailField,
+			Navigator nav, ParameterParser params, Context context) {
+		User checkUserByLoginId = userService.getUserByLoginId(user
+				.getLoginId());
+		User checkUserByEmail = userService.getUserByEmail(user.getEmail());
+		if (checkUserByLoginId != null) {
+			loginField.setMessage("existError");
+		}
+		if (checkUserByEmail != null) {
+			emailField.setMessage("existError");
+		}
+		if (checkUserByLoginId != null || checkUserByEmail != null) {
+			return;
+		}
+
+		// 设置兴趣点
+		List<UserInterest> buyInsterestList = new ArrayList<UserInterest>();
+		List<UserInterest> sellInsterestList = new ArrayList<UserInterest>();
+		if (buyInterests != null) {
+			for (Long catorgyId : buyInterests) {
+				UserInterest buyInterest = new UserInterest();
+				buyInterest.setInterest(UserInterestType.BUY);
+				buyInterest.setValue(catorgyId);
+				buyInterest.setLoginId(user.getLoginId());
+				buyInsterestList.add(buyInterest);
+			}
+		}
+		if (sellInterests != null) {
+			for (Long catorgyId : sellInterests) {
+				UserInterest buyInterest = new UserInterest();
+				buyInterest.setInterest(UserInterestType.BUY);
+				buyInterest.setValue(catorgyId);
+				buyInterest.setLoginId(user.getLoginId());
+				sellInsterestList.add(buyInterest);
+			}
+		}
+
+		user.setBuyInterests(buyInsterestList);
+		user.setSaleInterests(sellInsterestList);
+		// 设置用户状态、级别、类型
+		user.setStatus(UserStatus.NORMAL);// 普通用户，不需审批
+		user.setUserLevel(UserLevel.COMMON);// 普通会员
+		user.setRole(UserRole.INNER_USER);// 用户类型
+		boolean result = userService.addUser(user);
+		if (result) {
+			context.put("result", "success");
+		} else {
+			err.setMessage("registerFail");
+		}
+
 	}
 }

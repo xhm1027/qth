@@ -1,0 +1,199 @@
+<div class="container-fluid">
+	<div class="row-fluid">
+		<div class="row-fluid">
+			<form class="well form-horizontal" method="post">
+				$csrfToken.hiddenField
+				<input type="hidden" name="action" value="admin_action"/>
+				#set ($group = $form.addUser.defaultInstance)
+				<fieldset>
+				<legend><h2>添加内部用户</h2></legend>
+				#if(!$group.addUserError.valid)
+					<div class="alert alert-error">
+						<button type="button" class="close" data-dismiss="alert">
+						&times;
+						</button>
+						<strong>Oh snap!</strong>
+						$group.addUserError.message
+					</div>
+				#end
+				#if(!$result=="success")
+					<div class="alert alert-success">
+						<button type="button" class="close" data-dismiss="alert">
+						&times;
+						</button>
+						<strong>Oh snap!</strong>
+						内部用户添加成功！
+					</div>
+				#end
+				<h2>基本信息</h2>
+				<div class="control-group #if(!$group.loginId.valid)error  #end" >
+					<label class="control-label" for="loginId">$group.loginId.displayName<span style="color:red">*</span></label>
+					<div class="controls">
+						<input type="text" class="input-xlarge" id="loginId" name="$group.loginId.key" value="$group.loginId.value"
+						placeholder="$group.loginId.displayName">
+						<p class="help-inline">
+						#if(!$group.loginId.valid)$group.loginId.message #end
+						</p>
+					</div>
+				</div>
+				<div class="control-group #if(!$group.password.valid)error  #end" >
+					<label class="control-label" for="password">$group.password.displayName<span style="color:red">*</span></label>
+					<div class="controls">
+						<input type="password" class="input-xlarge" id="password" name="$group.password.key" value="$group.password.value"
+						placeholder="$group.password.displayName">
+						<p class="help-inline">
+						#if(!$group.password.valid)$group.password.message #end
+						</p>
+					</div>
+				</div>
+				<div class="control-group #if(!$group.confirmPassword.valid)error  #end" >
+					<label class="control-label" for="confirmPassword">$group.confirmPassword.displayName<span style="color:red">*</span></label>
+					<div class="controls">
+						<input type="password" class="input-xlarge" id="confirmPassword" name="$group.confirmPassword.key" value="$group.confirmPassword.value"
+						placeholder="$group.confirmPassword.displayName">
+						<p class="help-inline">
+						#if(!$group.confirmPassword.valid)$group.confirmPassword.message #end
+						</p>
+					</div>
+				</div>
+				<div class="control-group #if(!$group.name.valid)error  #end" >
+					<label class="control-label" for="name">$group.name.displayName<span style="color:red">*</span></label>
+					<div class="controls">
+						<input type="text" class="input-xlarge" id="name" name="$group.name.key" value="$group.name.value"
+						placeholder="$group.name.displayName">
+						<p class="help-inline">
+						#if(!$group.name.valid)$group.name.message #end
+						</p>
+					</div>
+				</div>
+				<div class="control-group #if(!$group.gender.valid)error  #end" >
+					<label class="control-label" for="gender">$group.gender.displayName<span style="color:red">*</span></label>
+					<div class="controls">
+						<label class="radio inline">
+							##$group.gender.getAbsentHiddenField("m")
+							<input type="radio"
+							name="$group.gender.key" id="gender1" value="m" checked>
+							男
+						</label>
+						<label class="radio inline">
+							<input type="radio"
+							name="$group.gender.key" id="gender2" value="f">
+							女
+						</label>
+						<p class="help-inline">
+						#if(!$group.gender.valid)$group.gender.message #end
+						</p>
+					</div>
+				</div>
+				<hr>
+				<h2>企业信息</h2>
+				<div class="control-group #if(!$group.email.valid)error  #end" >
+					<label class="control-label" for="email">$group.email.displayName<span style="color:red">*</span></label>
+					<div class="controls">
+						<input type="text" class="input-xlarge" id="email" name="$group.email.key" value="$group.email.value"
+						placeholder="$group.email.displayName">
+						<p class="help-inline">
+						#if(!$group.email.valid)$group.email.message #end
+						</p>
+					</div>
+				</div>
+				<div class="control-group #if(!$group.phoneArea.valid||!$group.phoneNumber.valid)error  #end" >
+					<label class="control-label" for="phone">电话<span style="color:red">*</span></label>
+					<div class="controls">
+						<input type="text" class="input-mini" id="phoneArea" name="$group.phoneArea.key" value="$group.phoneArea.value"
+						placeholder="$group.phoneArea.displayName">
+						<span class="badge">-</span>
+						<input type="text" class="input-medium" id="phoneNumber" name="$group.phoneNumber.key" value="$group.phoneNumber.value"
+						placeholder="$group.phoneNumber.displayName">
+						<p class="help-inline">
+						#if(!$group.phoneArea.valid)$group.phoneArea.message #end
+						</p>
+						<p class="help-inline">
+						#if(!$group.phoneNumber.valid)$group.phoneNumber.message #end
+						</p>
+					</div>
+				</div>
+				<div class="control-group #if(!$group.mobilePhone.valid)error  #end" >
+					<label class="control-label" for="mobilePhone">$group.mobilePhone.displayName<span style="color:red">*</span></label>
+					<div class="controls">
+						<input type="text" class="input-xlarge" id="mobilePhone" name="$group.mobilePhone.key" value="$group.mobilePhone.value"
+						placeholder="$group.mobilePhone.displayName">
+						<p class="help-inline">
+						#if(!$group.mobilePhone.valid)$group.mobilePhone.message #end
+						</p>
+					</div>
+				</div>
+				<div class="control-group #if(!$group.company.valid)error  #end" >
+					<label class="control-label" for="company">$group.company.displayName<span style="color:red">*</span></label>
+					<div class="controls">
+						<input type="text" class="input-xlarge" id="company" name="$group.company.key" value="$group.company.value"
+						placeholder="$group.company.displayName">
+						<p class="help-inline">
+						#if(!$group.company.valid)$group.company.message #end
+						</p>
+					</div>
+				</div>
+				<div class="control-group #if(!$group.companyAddress.valid)error  #end" >
+					<label class="control-label" for="companyAddress">$group.companyAddress.displayName<span style="color:red">*</span></label>
+					<div class="controls">
+						<textarea class="input-xlarge" id="companyAddress" rows="3" name="$group.companyAddress.key"
+						placeholder="$group.companyAddress.displayName">$!group.companyAddress.value</textarea>
+						<p class="help-inline">
+						#if(!$group.companyAddress.valid)$group.companyAddress.message #end
+						</p>
+					</div>
+				</div>
+				<hr>
+				<h2>私密信息</h2>
+				<div class="control-group #if(!$group.idCardNum.valid)error  #end" >
+					<label class="control-label" for="idCardNum">$group.idCardNum.displayName<span style="color:red">*</span></label>
+					<div class="controls">
+						<input type="text" class="input-xlarge" id="idCardNum" name="$group.idCardNum.key" value="$group.idCardNum.value"
+						placeholder="$group.idCardNum.displayName">
+						<p class="help-inline">
+						#if(!$group.idCardNum.valid)$group.idCardNum.message #end
+						</p>
+					</div>
+				</div>
+				<div class="control-group #if(!$group.busiLicense.valid)error  #end" >
+					<label class="control-label" for="busiLicense">$group.busiLicense.displayName<span style="color:red">*</span></label>
+					<div class="controls">
+						<input type="text" class="input-xlarge" id="busiLicense" name="$group.busiLicense.key" value="$group.busiLicense.value"
+						placeholder="$group.busiLicense.displayName">
+						<p class="help-inline">
+						#if(!$group.busiLicense.valid)$group.busiLicense.message #end
+						</p>
+					</div>
+				</div>
+				<hr>
+				<h2>产品信息</h2>
+				<span class="label label-important">主营采购废旧原料类别</span>
+				<div class="control-group">
+					#foreach($buy in $buyInterests)
+						<label class="checkbox inline">
+							<input type="checkbox"
+							name="buyInterests" value="$!buy.id">
+							$!buy.name
+						</label>
+					#end
+				</div>
+				<span class="label label-info">主营销售资源类别</span>
+				<div class="control-group">
+					#foreach($sell in $sellInterests)
+						<label class="checkbox inline">
+							<input type="checkbox"
+							name="sellInterests" value="$!sell.id">
+							$!sell.name
+						</label>
+					#end
+				</div>
+				<div class="form-actions">
+					<input type="submit" class="btn btn-primary" name="event_submit_do_add_inner_user" value="添加"/>
+				</div>
+				</fieldset>
+			</form>
+		</div>
+		<!--/row-->
+	</div>
+	<!--/span-->
+</div>
