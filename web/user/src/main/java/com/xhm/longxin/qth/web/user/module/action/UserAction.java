@@ -29,6 +29,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 
 import com.alibaba.citrus.service.form.CustomErrors;
 import com.alibaba.citrus.service.requestcontext.parser.ParameterParser;
+import com.alibaba.citrus.turbine.Context;
 import com.alibaba.citrus.turbine.Navigator;
 import com.alibaba.citrus.turbine.dataresolver.FormField;
 import com.alibaba.citrus.turbine.dataresolver.FormGroup;
@@ -110,7 +111,7 @@ public class UserAction {
 	public void doRegister(
 			@FormGroup("register") User user,
 			@Param("buyInterests") Long[] buyInterests,
-			@Param("saleInterests") Long[] sellInterests,
+			@Param("sellInterests") Long[] sellInterests,
 			@FormField(name = "registerError", group = "register") CustomErrors err,
 			@FormField(name = "loginId", group = "register") CustomErrors loginField,
 			@FormField(name = "email", group = "register") CustomErrors emailField,
@@ -143,7 +144,7 @@ public class UserAction {
 		if (sellInterests != null) {
 			for (Long catorgyId : sellInterests) {
 				UserInterest buyInterest = new UserInterest();
-				buyInterest.setInterest(UserInterestType.BUY);
+				buyInterest.setInterest(UserInterestType.SALE);
 				buyInterest.setValue(catorgyId);
 				buyInterest.setLoginId(user.getLoginId());
 				sellInsterestList.add(buyInterest);
@@ -189,5 +190,62 @@ public class UserAction {
 				err.setMessage("resetFail");
 			}
 		}
+	}
+	
+	public void doEditProfile(
+			@FormGroup("profile") User user,
+			@Param("buyInterests") Long[] buyInterests,
+			@Param("sellInterests") Long[] sellInterests,
+			@FormField(name = "profileError", group = "profile") CustomErrors err,
+			@FormField(name = "id", group = "profile") CustomErrors idField,
+			@FormField(name = "email", group = "profile") CustomErrors emailField,
+			Navigator nav, ParameterParser params, Context context) {
+		User checkUserById = userService.getUserById(user.getId());
+		if (checkUserById == null) {
+			idField.setMessage("existError");
+			return;
+		}
+		User checkUserByEmail = userService.getUserByEmail(user.getEmail());
+		if (checkUserByEmail != null&&checkUserByEmail.getLoginId().equals(user.getLoginId())) {
+			emailField.setMessage("existError");
+			return;
+		}
+
+		// 设置兴趣点
+		List<UserInterest> buyInsterestList = new ArrayList<UserInterest>();
+		List<UserInterest> sellInsterestList = new ArrayList<UserInterest>();
+		if (buyInterests != null) {
+			for (Long catorgyId : buyInterests) {
+				UserInterest buyInterest = new UserInterest();
+				buyInterest.setInterest(UserInterestType.BUY);
+				buyInterest.setValue(catorgyId);
+				buyInterest.setLoginId(checkUserById.getLoginId());
+				buyInsterestList.add(buyInterest);
+			}
+		}
+		if (sellInterests != null) {
+			for (Long catorgyId : sellInterests) {
+				UserInterest buyInterest = new UserInterest();
+				buyInterest.setInterest(UserInterestType.SALE);
+				buyInterest.setValue(catorgyId);
+				buyInterest.setLoginId(checkUserById.getLoginId());
+				sellInsterestList.add(buyInterest);
+			}
+		}
+
+		user.setBuyInterests(buyInsterestList);
+		user.setSaleInterests(sellInsterestList);
+		// 设置用户状态、级别、类型
+		user.setStatus(UserStatus.NEW);// 新注册
+		user.setLoginId(checkUserById.getLoginId());
+		user.setRole(checkUserById.getRole());
+		boolean result = userService.updateUser(user);
+		if (result) {
+			setSession(user);
+			context.put("result", "success");
+		} else {
+			err.setMessage("profileFail");
+		}
+
 	}
 }

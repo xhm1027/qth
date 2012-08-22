@@ -231,7 +231,7 @@ public class AdminAction {
 		if (sellInterests != null) {
 			for (Long catorgyId : sellInterests) {
 				UserInterest buyInterest = new UserInterest();
-				buyInterest.setInterest(UserInterestType.BUY);
+				buyInterest.setInterest(UserInterestType.SALE);
 				buyInterest.setValue(catorgyId);
 				buyInterest.setLoginId(user.getLoginId());
 				sellInsterestList.add(buyInterest);

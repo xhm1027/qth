@@ -16,7 +16,7 @@
 						$group.addUserError.message
 					</div>
 				#end
-				#if(!$result=="success")
+				#if($result=="success")
 					<div class="alert alert-success">
 						<button type="button" class="close" data-dismiss="alert">
 						&times;

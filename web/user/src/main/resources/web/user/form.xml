@@ -195,6 +195,103 @@
 				</required-validator>
 			</services:field>
 		</services:group>
+		
+		<!--
+			- =============================================== - 便捷个人资料 form -
+			===============================================
+		-->
+		<services:group name="profile" extends="csrfCheck">
+			<services:field name="profileError">
+				<custom-error id="profileFail">
+					<message>编辑个人资料失败</message>
+				</custom-error>
+			</services:field>
+			<services:field name="id" displayName="id">
+				<custom-error id="existError">
+					<message>该用户不存在</message>
+				</custom-error>
+			</services:field>
+			<services:field name="password" displayName="登录密码">
+				<string-length-validator minLength="6"
+					maxLength="16">
+					<message>${displayName} 最少必须由${minLength}个字组成，最多不能超过${maxLength}个字
+					</message>
+				</string-length-validator>
+			</services:field>
+			<services:field name="name" displayName="姓名">
+				<required-validator>
+					<message>必须填写 ${displayName}</message>
+				</required-validator>
+			</services:field>
+			<services:field name="gender" displayName="性别">
+				<required-validator>
+					<message>必须选择 ${displayName}</message>
+				</required-validator>
+				<regexp-validator pattern="^[f|m]$">
+					<message>必须选择 ${displayName}</message>
+				</regexp-validator>
+			</services:field>
+			<services:field name="email" displayName="邮箱">
+				<required-validator>
+					<message>必须填写 ${displayName}</message>
+				</required-validator>
+				<mail-address-validator>
+					<message>不符合邮件格式</message>
+				</mail-address-validator>
+				<custom-error id="existError">
+					<message>邮箱已占用</message>
+				</custom-error>
+			</services:field>
+			<services:field name="phoneArea" displayName="区号">
+				<required-validator>
+					<message>必须填写 ${displayName}</message>
+				</required-validator>
+				<regexp-validator pattern="^\d{3,4}$">
+					<message>${displayName}错误</message>
+				</regexp-validator>
+			</services:field>
+			<services:field name="phoneNumber" displayName="电话号码">
+				<required-validator>
+					<message>必须填写 ${displayName}</message>
+				</required-validator>
+				<regexp-validator pattern="^\d{7,8}$">
+					<message>${displayName}错误</message>
+				</regexp-validator>
+			</services:field>
+			<services:field name="mobilePhone" displayName="手机号">
+				<required-validator>
+					<message>必须填写 ${displayName}</message>
+				</required-validator>
+				<regexp-validator pattern="^\d{11}$">
+					<message>${displayName}错误</message>
+				</regexp-validator>
+
+			</services:field>
+			<services:field name="company" displayName="公司名称">
+				<required-validator>
+					<message>必须填写 ${displayName}</message>
+				</required-validator>
+			</services:field>
+			<services:field name="companyAddress" displayName="公司地址">
+				<required-validator>
+					<message>必须填写 ${displayName}</message>
+				</required-validator>
+			</services:field>
+			<services:field name="idCardNum" displayName="身份证">
+				<required-validator>
+					<message>必须填写 ${displayName}</message>
+				</required-validator>
+				<regexp-validator
+					pattern="^(\d{6})(18|19|20)?(\d{2})([01]\d)([0123]\d)(\d{3})(\d|X)?$">
+					<message>${displayName}错误</message>
+				</regexp-validator>
+			</services:field>
+			<services:field name="busiLicense" displayName="营业执照号">
+				<required-validator>
+					<message>必须填写 ${displayName}</message>
+				</required-validator>
+			</services:field>
+		</services:group>
 		<!--
 			- =============================================== - 兴趣点 -
 			===============================================
