@@ -94,4 +94,14 @@ public class MessageDaoImpl extends SqlMapClientDaoSupport implements
 		return count;
 	}
 
+	public Message getMessageById(Long id) {
+		MessageQuery messageQuery = new MessageQuery();
+		messageQuery.setId(id);
+		List<Message> msgList = this.query(messageQuery);
+		if (msgList == null || msgList.isEmpty()) {
+			return null;
+		}
+		return msgList.get(0);
+	}
+
 }

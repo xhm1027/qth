@@ -49,9 +49,9 @@
                 #sender#,
                 #receiver#,
                 #content#,
-                #isOpened#,
-                #senderDeleted#,
-                #receiverDeleted#
+                'N',
+                'N',
+                'N'
 	        )
         ]]>
 		<selectKey resultClass="Integer" keyProperty="id">
@@ -109,6 +109,9 @@
 		<isNotNull property="receiver" prepend="AND">
 			receiver=#receiver#
 		</isNotNull>
+		<isNotNull property="id" prepend="AND">
+			id=#id#
+		</isNotNull>
 		<isNotNull property="sender" prepend="AND">
 			sender=#sender#
 		</isNotNull>
@@ -121,7 +124,7 @@
 		<isNotNull property="receiverDeleted" prepend="AND">
 			receiver_deleted=#receiverDeleted#
 		</isNotNull>
-		order by gmt_modified desc
+		order by gmt_created desc
 		<include refid="ALICRM_COMMON.ALI_PAGING" />
 	</select>
 

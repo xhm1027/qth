@@ -1,0 +1,36 @@
+<div class="container-fluid">
+    <div class="row">
+    	<div class="span2">
+        	<div class="well" style="padding: 8px 0;">
+        		<ul class="nav nav-list">
+        			<li class="nav-header">站内信</li>
+					<li class="divider">
+        			<li><a href="inbox.htm"><i	class="icon-inbox"></i> 收件箱</a></li>
+        			<li class="active"><a href="sendMessage.htm"><i class="icon-envelope"></i>发信</a></li>
+        			<li><a href="outbox.htm"><i class="icon-folder-open"></i>发件箱</a></li>
+        		</ul>
+        	</div>
+        </div>
+		<div class="span10">
+				<form class="form-horizontal">
+					<div class="row-fluid">
+						<label class="control-label" for="input01">标题：</label>
+						<input	type="text" name="messageTitle" class="span6" placeholder="标题"/>
+					</div>
+					<div class="row-fluid">
+						<label class="control-label" for="input01">收件人：</label>
+						<input	type="text" name="receiver"  class="span6" placeholder="收件人ID"/>
+						<input type="checkbox" name="isAdmin" onClick="toAdmin();"/>
+						<label class="control-label" for="isAdmin">发给管理员</label>
+					</div>
+					<div class="row-fluid">
+						<textarea class="textarea span10" placeholder="信息 ..."
+							style="height: 400px"></textarea>
+						<p style="text-align: center; margin-top: 20px">
+							<a class="btn btn-large btn-primary jumbo pull-right" href="#">发送</a>
+					</div>
+				</form>
+			</div>
+    </div>
+</div>
+

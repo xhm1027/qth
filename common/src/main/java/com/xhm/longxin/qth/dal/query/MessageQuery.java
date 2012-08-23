@@ -13,6 +13,14 @@ public class MessageQuery extends QueryObject{
 	private String isOpened;
 	private String senderDeleted;
 	private String receiverDeleted;
+	private Long id;
+
+	public Long getId() {
+		return id;
+	}
+	public void setId(Long id) {
+		this.id = id;
+	}
 	public String getReceiver() {
 		return receiver;
 	}

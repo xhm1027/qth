@@ -37,4 +37,11 @@ public interface MessageDao  {
 	 * 记录数
 	 * */
 	public int queryCount(MessageQuery messageQuery);
+
+	/**
+	 * 获取记录
+	 * */
+	public Message getMessageById(Long id);
+
+
 }
