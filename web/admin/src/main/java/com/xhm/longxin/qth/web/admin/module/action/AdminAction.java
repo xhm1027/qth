@@ -250,6 +250,61 @@ public class AdminAction {
 		} else {
 			err.setMessage("registerFail");
 		}
+ 
+	}
+	
+	public void doEditUser(
+			@FormGroup("editUser") User user,
+			@Param("buyInterests") Long[] buyInterests,
+			@Param("sellInterests") Long[] sellInterests,
+			@FormField(name = "editUserError", group = "editUser") CustomErrors err,
+			@FormField(name = "id", group = "editUser") CustomErrors idField,
+			@FormField(name = "email", group = "editUser") CustomErrors emailField,
+			Navigator nav, ParameterParser params, Context context) {
+		User checkUserById = userService.getUserById(user.getId());
+		if (checkUserById == null) {
+			idField.setMessage("existError");
+			return;
+		}
+		User checkUserByEmail = userService.getUserByEmail(user.getEmail());
+		if (checkUserByEmail != null&&checkUserByEmail.getLoginId().equals(user.getLoginId())) {
+			emailField.setMessage("existError");
+			return;
+		}
+
+		// 设置兴趣点
+		List<UserInterest> buyInsterestList = new ArrayList<UserInterest>();
+		List<UserInterest> sellInsterestList = new ArrayList<UserInterest>();
+		if (buyInterests != null) {
+			for (Long catorgyId : buyInterests) {
+				UserInterest buyInterest = new UserInterest();
+				buyInterest.setInterest(UserInterestType.BUY);
+				buyInterest.setValue(catorgyId);
+				buyInterest.setLoginId(checkUserById.getLoginId());
+				buyInsterestList.add(buyInterest);
+			}
+		}
+		if (sellInterests != null) {
+			for (Long catorgyId : sellInterests) {
+				UserInterest buyInterest = new UserInterest();
+				buyInterest.setInterest(UserInterestType.SALE);
+				buyInterest.setValue(catorgyId);
+				buyInterest.setLoginId(checkUserById.getLoginId());
+				sellInsterestList.add(buyInterest);
+			}
+		}
+
+		user.setBuyInterests(buyInsterestList);
+		user.setSaleInterests(sellInsterestList);
+		// 设置用户的级别、类型
+		user.setLoginId(checkUserById.getLoginId());
+		user.setRole(checkUserById.getRole());
+		boolean result = userService.updateUser(user);
+		if (result) {
+			context.put("result", "success");
+		} else {
+			err.setMessage("editUserFail");
+		}
 
 	}
 }

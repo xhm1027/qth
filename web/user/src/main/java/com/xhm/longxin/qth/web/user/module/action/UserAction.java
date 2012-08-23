@@ -62,8 +62,8 @@ public class UserAction {
 		String validateCode = (String) session
 				.getAttribute(UserConstant.VALIDATE_CODE);
 		if (validateCode == null
-				|| StringUtils.equalsIgnoreCase(validateCode, vo
-						.getValidateStr()) == false) {
+				|| StringUtils.equalsIgnoreCase(validateCode,
+						vo.getValidateStr()) == false) {
 			validateField.setMessage("validateError");
 			return;
 		}
@@ -181,8 +181,7 @@ public class UserAction {
 			if (!StringUtil.isBlank(newPass)// 发送邮件失败
 					&& newPass.equalsIgnoreCase(EmailSender.EMAIL_SEND_ERR)) {
 				err.setMessage("resetFailEmailError");
-			}
-			else if (!StringUtil.isBlank(newPass)) {//成功
+			} else if (!StringUtil.isBlank(newPass)) {// 成功
 				Map<String, String> param = new HashMap<String, String>();
 				param.put("email", user.getEmail());
 				info.setMessage("resetSuccess", param);
@@ -191,7 +190,7 @@ public class UserAction {
 			}
 		}
 	}
-	
+
 	public void doEditProfile(
 			@FormGroup("profile") User user,
 			@Param("buyInterests") Long[] buyInterests,
@@ -206,7 +205,8 @@ public class UserAction {
 			return;
 		}
 		User checkUserByEmail = userService.getUserByEmail(user.getEmail());
-		if (checkUserByEmail != null&&checkUserByEmail.getLoginId().equals(user.getLoginId())) {
+		if (checkUserByEmail != null
+				&& checkUserByEmail.getLoginId().equals(user.getLoginId())) {
 			emailField.setMessage("existError");
 			return;
 		}
@@ -236,7 +236,9 @@ public class UserAction {
 		user.setBuyInterests(buyInsterestList);
 		user.setSaleInterests(sellInsterestList);
 		// 设置用户状态、级别、类型
-		user.setStatus(UserStatus.NEW);// 新注册
+		if (hasToReAudit(checkUserById, user)) {
+			user.setStatus(UserStatus.NEW);// 新注册
+		}
 		user.setLoginId(checkUserById.getLoginId());
 		user.setRole(checkUserById.getRole());
 		boolean result = userService.updateUser(user);
@@ -247,5 +249,50 @@ public class UserAction {
 			err.setMessage("profileFail");
 		}
 
+	}
+
+	/**
+	 * 判断用户是否需要重新审核
+	 * 
+	 * @param oldUser
+	 * @param newUser
+	 * @return
+	 */
+	private boolean hasToReAudit(User oldUser, User newUser) {
+		// 要求邮箱、电话、手机号、公司名称、公司地址、身份证、营业执照变化则需要重新审核
+		if (StringUtils.isNotBlank(newUser.getEmail())
+				&& oldUser.getEmail().equals(newUser.getEmail()) == false) {
+			return true;
+		}
+		if (StringUtils.isNotBlank(newUser.getPhoneArea())
+				&& oldUser.getPhoneArea().equals(newUser.getPhoneArea()) == false) {
+			return true;
+		}
+		if (StringUtils.isNotBlank(newUser.getPhoneNumber())
+				&& oldUser.getPhoneNumber().equals(newUser.getPhoneNumber()) == false) {
+			return true;
+		}
+		if (StringUtils.isNotBlank(newUser.getMobilePhone())
+				&& oldUser.getMobilePhone().equals(newUser.getMobilePhone()) == false) {
+			return true;
+		}
+		if (StringUtils.isNotBlank(newUser.getCompany())
+				&& oldUser.getCompany().equals(newUser.getCompany()) == false) {
+			return true;
+		}
+		if (StringUtils.isNotBlank(newUser.getCompanyAddress())
+				&& oldUser.getCompanyAddress().equals(
+						newUser.getCompanyAddress()) == false) {
+			return true;
+		}
+		if (StringUtils.isNotBlank(newUser.getIdCardNum())
+				&& oldUser.getIdCardNum().equals(newUser.getIdCardNum()) == false) {
+			return true;
+		}
+		if (StringUtils.isNotBlank(newUser.getBusiLicense())
+				&& oldUser.getBusiLicense().equals(newUser.getBusiLicense()) == false) {
+			return true;
+		}
+		return false;
 	}
 }

@@ -1,0 +1,199 @@
+<div class="container-fluid">
+	<div class="row-fluid">
+		<div class="row-fluid">
+			<form class="well form-horizontal" method="post">
+				$csrfToken.hiddenField
+				#set ($group = $form.editUser.defaultInstance)
+				<input type="hidden" name="action" value="admin_action"/>
+				<input type="hidden" name="$group.id.key" value="$!user.id"/>
+				<input type="hidden" name="id" value="$!user.id"/>
+				<fieldset>
+				<legend><h2>编辑用户资料</h2></legend>
+				#if(!$group.editUserError.valid)
+					<div class="alert alert-error">
+						<button type="button" class="close" data-dismiss="alert">
+						&times;
+						</button>
+						<strong>Oh snap!</strong>
+						$group.editUserError.message
+					</div>
+				#end
+				#if(!$group.id.valid)
+					<div class="alert alert-error">
+						<button type="button" class="close" data-dismiss="alert">
+						&times;
+						</button>
+						<strong>Oh snap!</strong>
+						$group.id.message
+					</div>
+				#end
+				#if($result=="success")
+					<div class="alert alert-success">
+						<button type="button" class="close" data-dismiss="alert">
+						&times;
+						</button>
+						<strong>Oh snap!</strong>
+						资料编辑成功！
+					</div>
+				#end
+				#if($result=="error")
+					<div class="alert alert-error">
+						<button type="button" class="close" data-dismiss="alert">
+						&times;
+						</button>
+						<strong>Oh snap!</strong>
+						$!resultMessage
+					</div>
+				#end
+				<h2>基本信息</h2>
+				<div class="control-group #if(!$group.password.valid)error  #end" >
+					<label class="control-label" for="password">$group.password.displayName<span style="color:red">*</span></label>
+					<div class="controls">
+						<input type="password" class="input-xlarge" id="password" name="$group.password.key"
+						placeholder="$group.password.displayName">
+						<p class="help-inline">
+						#if(!$group.password.valid)$group.password.message #end
+						</p>
+					</div>
+				</div>
+				<div class="control-group #if(!$group.name.valid)error  #end" >
+					<label class="control-label" for="name">$group.name.displayName<span style="color:red">*</span></label>
+					<div class="controls">
+						<input type="text" class="input-xlarge" id="name" name="$group.name.key" value="$!user.name"
+						placeholder="$group.name.displayName">
+						<p class="help-inline">
+						#if(!$group.name.valid)$group.name.message #end
+						</p>
+					</div>
+				</div>
+				<div class="control-group #if(!$group.gender.valid)error  #end" >
+					<label class="control-label" for="gender">$group.gender.displayName<span style="color:red">*</span></label>
+					<div class="controls">
+						<label class="radio inline">
+							##$group.gender.getAbsentHiddenField("m")
+							<input type="radio"
+							name="$group.gender.key" id="gender1" value="m" #if($!user.gender=='m') checked #end>
+							男
+						</label>
+						<label class="radio inline">
+							<input type="radio"
+							name="$group.gender.key" id="gender2" value="f" #if($!user.gender=='f') checked #end>
+							女
+						</label>
+						<p class="help-inline">
+						#if(!$group.gender.valid)$group.gender.message #end
+						</p>
+					</div>
+				</div>
+				<hr>
+				<h2>企业信息</h2>
+				<div class="control-group #if(!$group.email.valid)error  #end" >
+					<label class="control-label" for="email">$group.email.displayName<span style="color:red">*</span></label>
+					<div class="controls">
+						<input type="text" class="input-xlarge" id="email" name="$group.email.key" value="$!user.email"
+						placeholder="$group.email.displayName">
+						<p class="help-inline">
+						#if(!$group.email.valid)$group.email.message #end
+						</p>
+					</div>
+				</div>
+				<div class="control-group #if(!$group.phoneArea.valid||!$group.phoneNumber.valid)error  #end" >
+					<label class="control-label" for="phone">电话<span style="color:red">*</span></label>
+					<div class="controls">
+						<input type="text" class="input-mini" id="phoneArea" name="$group.phoneArea.key" value="$!user.phoneArea"
+						placeholder="$group.phoneArea.displayName">
+						<span class="badge">-</span>
+						<input type="text" class="input-medium" id="phoneNumber" name="$group.phoneNumber.key" value="$!user.phoneNumber"
+						placeholder="$group.phoneNumber.displayName">
+						<p class="help-inline">
+						#if(!$group.phoneArea.valid)$group.phoneArea.message #end
+						</p>
+						<p class="help-inline">
+						#if(!$group.phoneNumber.valid)$group.phoneNumber.message #end
+						</p>
+					</div>
+				</div>
+				<div class="control-group #if(!$group.mobilePhone.valid)error  #end" >
+					<label class="control-label" for="mobilePhone">$group.mobilePhone.displayName<span style="color:red">*</span></label>
+					<div class="controls">
+						<input type="text" class="input-xlarge" id="mobilePhone" name="$group.mobilePhone.key" value="$!user.mobilePhone"
+						placeholder="$group.mobilePhone.displayName">
+						<p class="help-inline">
+						#if(!$group.mobilePhone.valid)$group.mobilePhone.message #end
+						</p>
+					</div>
+				</div>
+				<div class="control-group #if(!$group.company.valid)error  #end" >
+					<label class="control-label" for="company">$group.company.displayName<span style="color:red">*</span></label>
+					<div class="controls">
+						<input type="text" class="input-xlarge" id="company" name="$group.company.key" value="$!user.company"
+						placeholder="$group.company.displayName">
+						<p class="help-inline">
+						#if(!$group.company.valid)$group.company.message #end
+						</p>
+					</div>
+				</div>
+				<div class="control-group #if(!$group.companyAddress.valid)error  #end" >
+					<label class="control-label" for="companyAddress">$group.companyAddress.displayName<span style="color:red">*</span></label>
+					<div class="controls">
+						<textarea class="input-xlarge" id="companyAddress" rows="3" name="$group.companyAddress.key"
+						placeholder="$group.companyAddress.displayName">$!user.companyAddress</textarea>
+						<p class="help-inline">
+						#if(!$group.companyAddress.valid)$group.companyAddress.message #end
+						</p>
+					</div>
+				</div>
+				<hr>
+				<h2>私密信息</h2>
+				<div class="control-group #if(!$group.idCardNum.valid)error  #end" >
+					<label class="control-label" for="idCardNum">$group.idCardNum.displayName<span style="color:red">*</span></label>
+					<div class="controls">
+						<input type="text" class="input-xlarge" id="idCardNum" name="$group.idCardNum.key" value="$!user.idCardNum"
+						placeholder="$group.idCardNum.displayName">
+						<p class="help-inline">
+						#if(!$group.idCardNum.valid)$group.idCardNum.message #end
+						</p>
+					</div>
+				</div>
+				<div class="control-group #if(!$group.busiLicense.valid)error  #end" >
+					<label class="control-label" for="busiLicense">$group.busiLicense.displayName<span style="color:red">*</span></label>
+					<div class="controls">
+						<input type="text" class="input-xlarge" id="busiLicense" name="$group.busiLicense.key" value="$!user.busiLicense"
+						placeholder="$group.busiLicense.displayName">
+						<p class="help-inline">
+						#if(!$group.busiLicense.valid)$group.busiLicense.message #end
+						</p>
+					</div>
+				</div>
+				<hr>
+				<h2>产品信息</h2>
+				<span class="label label-important">主营采购类别</span>
+				<div class="control-group">
+					#foreach($buy in $buyInterestList)
+						<label class="checkbox inline">
+							<input type="checkbox"
+							name="buyInterests" value="$!buy.category.id" #if($!buy.has)checked=true  #end>
+							$!buy.category.name
+						</label>
+					#end
+				</div>
+				<span class="label label-info">主营销售类别</span>
+				<div class="control-group">
+					#foreach($sell in $sellInterestList)
+						<label class="checkbox inline">
+							<input type="checkbox"
+							name="sellInterests" value="$!sell.category.id"  #if($!sell.has)checked=true  #end>
+							$!sell.category.name
+						</label>
+					#end
+				</div>
+				<div class="form-actions">
+					<input type="submit" class="btn btn-primary" name="event_submit_do_edit_user" value="提交"/>
+				</div>
+				</fieldset>
+			</form>
+		</div>
+		<!--/row-->
+	</div>
+	<!--/span-->
+</div>
