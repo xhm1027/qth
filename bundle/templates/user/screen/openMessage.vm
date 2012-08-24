@@ -1,0 +1,45 @@
+<div class="container-fluid">
+	<div class="row">
+		<div class="span2">
+        	<div class="well" style="padding: 8px 0;">
+        		<ul class="nav nav-list">
+        			<li class="nav-header">站内信</li>
+					<li class="divider">
+        			<li><a href="inbox.htm"><i	class="icon-inbox"></i> 收件箱</a></li>
+        			<li><a href="sendMessage.htm"><i class="icon-envelope"></i>发信</a></li>
+        			<li><a href="outbox.htm"><i class="icon-folder-open"></i>发件箱</a></li>
+        		</ul>
+        	</div>
+        </div>
+		<div class="row-fluid">
+			<form class="well form-horizontal" method="post">
+				$csrfToken.hiddenField
+				#set ($group = $form.profile.defaultInstance)
+				<input type="hidden" name="action" value="user_action"/>
+				<input type="hidden" name="$group.id.key" value="$!user.id"/>
+				<fieldset>
+				<legend><h2>查看消息</h2></legend>
+				<div class="span12">
+					<div class="row">
+						<div class="span2">标题：</div>
+						<div class="span10">$!message.title</div>
+					</div>
+					<div class="row">
+						<div class="span2">发件人：</div>
+						<div class="span10">$!message.sender</div>
+					</div>
+					<div class="row">
+						<div class="span2">时间：</div>
+						<div class="span10">$!message.gmtCreated</div>
+					</div>
+					<div class="row">
+						<div class="span2">内容</div>
+					</div>
+					<div class="span10">$!message.content</div>
+				</div>
+				#if ($qthUser.id==$message.receiver)
+				<a class="btn btn-large btn-primary jumbo pull-left" href="#">回复</a>
+				#end
+		</div>
+	</div>
+</div>

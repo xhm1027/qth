@@ -78,7 +78,7 @@ public class ListEnterprise {
 		}
 		// 查询结果
 		context.put("userList", userService.queryUser(userQuery,
-				(page - 1) * 20, pageSize));
+				(page - 1) * pageSize, pageSize));
 		// 查询参数
 		context.put("company", company);
 		context.put("order", order);

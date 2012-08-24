@@ -11,23 +11,37 @@
         		</ul>
         	</div>
         </div>
+        <div class="pagination">
+			  <ul>
+			  	<li#if($!page == 1) class="active"#end><a href="outbox.htm?page=1&pageSize=$!pageSize">第1页</a></li>
+			 	 #if($!totalPage != 1)
+				 	 #foreach($pageIndex in [2 .. $!totalPage])
+						<li#if($!page == $!pageIndex) class="active"#end><a href="outbox.htm?page=$!pageIndex&pageSize=$!pageSize">$!pageIndex</a></li>
+				 	 #end
+			 	 #end
+			  </ul>
+		</div>
 		<div class="span10">
 				<table class="table table-bordered">
 					<thead>
 						<tr>
-							<th>#</th>
-							<th>标题</th>
-							<th>收件人</th>
-							<th>操作</th>
+							<th width="15%">#</th>
+							<th width="30%">标题</th>
+							<th width="25%">收件人</th>
+							<th width="30%">操作</th>
 						</tr>
 					</thead>
 					<tbody>
+					#set($_rowIndex = 0)
+					#foreach($message in $messageList)
+					#set($_rowIndex = $_rowIndex+1)
 						<tr>
-							<td>1</td>
-							<td>标题1</td>
-							<td>收件人1</td>
-							<td><a href="#">查看</a> <a	href="#">回复</a> <a href="#">删除</a></td>
+							<td>$!_rowIndex</td>
+							<td>$!message.title</td>
+							<td>$!message.receiver</td>
+							<td><a href="openMessage.htm?id=$!message.id">查看</a> <a href="#">删除</a></td>
 						</tr>
+					#end
 					</tbody>
 				</table>
 			</div>

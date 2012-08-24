@@ -21,12 +21,17 @@ public interface MessageService {
 	public Message openMessage(Long id,String receiver);
 
 	/**
+	 * 获取消息
+	 * */
+	public Message getMessageById(Long id);
+
+	/**
 	 * 收件箱列表
 	 * */
 	public List<Message> getInboxMessageList(String receiver,int pageStart,int pageSize);
 
 	/**
-	 * 发件人删除
+	 * 发件箱列表
 	 * */
 	public List<Message> getOutboxMessageList(String sender,int pageStart,int pageSize);
 
@@ -34,5 +39,15 @@ public interface MessageService {
 	 * 发信
 	 * */
 	public boolean sendMessage(Message message);
+
+	/**
+	 * 收件数
+	 * */
+	public int getInboxMessageCount(String receiver);
+
+	/**
+	 * 发件数
+	 * */
+	public int getOutboxMessageCount(String receiver);
 
 }

@@ -13,6 +13,7 @@ public class QueryObject {
 	private Integer pageSize;
 	public static final int maxPageSize = 100;
 	public static final int defaultPageSize = 20;
+	public static final int messagePageSize = 10;
 	private Boolean orderDesc=null;
 	private Boolean orderModified=null;
 
