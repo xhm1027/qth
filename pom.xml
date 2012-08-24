@@ -206,6 +206,12 @@ xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/ma
 				<version>1.1.6</version>
 				<scope>test</scope>
 			</dependency>
+			
+			<dependency>
+				<groupId>com.alibaba.external</groupId>
+				<artifactId>jakarta.commons.fileupload</artifactId>
+				<version>1.2.1</version>
+			</dependency>
 		</dependencies>
 	</dependencyManagement>
 	<build>

@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<config description="自动配置：lpscm.biz.refund">
+	
+	<group name="qth">
+		<property name="qth.upload.path"
+			 description="上传文件保存路径" />
+	</group>
+	
+	<script>
+		<generate template="spring-biz-user.xml.vm" destfile="spring/spring-biz-user.xml"
+			charset="UTF-8" />
+	</script>
+</config>

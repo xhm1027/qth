@@ -17,25 +17,34 @@
 
 package com.xhm.longxin.qth.web.user.module.action;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import javax.servlet.http.HttpSession;
 
+import org.apache.commons.fileupload.FileItem;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import com.alibaba.citrus.service.form.CustomErrors;
 import com.alibaba.citrus.service.requestcontext.parser.ParameterParser;
+import com.alibaba.citrus.service.requestcontext.parser.ParserRequestContext;
 import com.alibaba.citrus.turbine.Context;
 import com.alibaba.citrus.turbine.Navigator;
 import com.alibaba.citrus.turbine.dataresolver.FormField;
 import com.alibaba.citrus.turbine.dataresolver.FormGroup;
+import com.alibaba.citrus.turbine.dataresolver.Param;
 
 import com.xhm.longxin.biz.user.interfaces.BuyProductService;
+import com.xhm.longxin.biz.user.interfaces.FileService;
 import com.xhm.longxin.biz.user.interfaces.ProductCategoryService;
 import com.xhm.longxin.biz.user.interfaces.UserService;
+import com.xhm.longxin.qth.dal.constant.AttachmentType;
 import com.xhm.longxin.qth.dal.constant.IS;
 import com.xhm.longxin.qth.dal.constant.ProductStatus;
 import com.xhm.longxin.qth.dal.constant.ProductType;
 import com.xhm.longxin.qth.dal.constant.UserLevel;
 import com.xhm.longxin.qth.dal.constant.UserStatus;
+import com.xhm.longxin.qth.dal.dataobject.Attachment;
 import com.xhm.longxin.qth.dal.dataobject.BuyProduct;
 import com.xhm.longxin.qth.dal.dataobject.ProductCategory;
 import com.xhm.longxin.qth.dal.dataobject.User;
@@ -53,12 +62,15 @@ public class BuyProductAction {
 	private ProductCategoryService productCategoryService;
 	@Autowired
 	HttpSession session;
+	@Autowired
+	ParserRequestContext parser;
 
-	public void doAdd(
-			@FormGroup("addBuyProduct") BuyProduct buyProduct,
+	@Autowired
+	FileService fileService;
+
+	public void doAdd(@FormGroup("addBuyProduct") BuyProduct buyProduct,
 			@FormField(name = "addBuyProductError", group = "addBuyProduct") CustomErrors err,
 			Navigator nav, ParameterParser params, Context context) {
-
 		QthUser qthUser = (QthUser) session
 				.getAttribute(UserConstant.QTH_USER_SESSION_KEY);
 		if(qthUser==null){
@@ -90,9 +102,24 @@ public class BuyProductAction {
 			buyProduct.setStatus(ProductStatus.NEW);
 			buyProduct.setIsSale(IS.N);
 		}
+		List<Attachment> imgs=new ArrayList<Attachment>();
+
+		FileItem[] imageItems = parser.getParameters().getFileItems("productImages");
+		try{
+			for(FileItem file:imageItems){
+				String path = fileService.saveFile(file, user.getId().toString());
+				Attachment image=new Attachment();
+				image.setPath(path);
+				image.setType(AttachmentType.IMG);
+				imgs.add(image);
+			}
+		}catch(Exception e){
+			err.setMessage("saveImageFail");
+			return;
+		}
+		buyProduct.setImgs(imgs);
 		
 		boolean result = buyProductService.addBuyProduct(buyProduct);
-		
 		if(result){
 			context.put("result", "success");
 		}else{

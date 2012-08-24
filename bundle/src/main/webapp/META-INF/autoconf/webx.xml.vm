@@ -83,7 +83,7 @@ http://www.springframework.org/schema/beans http://localhost:8080/schema/www.spr
 			</request-contexts:filters>
 		</parser>
 	</services:request-contexts>
-	<services:upload sizeMax="10M" />
+	<services:upload sizeMax="2M" />
 	<services:module-loader />
 	
 	<!-- 将beans暴露给模板。这里定义的tools可被所有components之间共享。 -->

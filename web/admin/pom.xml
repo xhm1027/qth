@@ -35,6 +35,10 @@
 			<artifactId>qth.biz.user</artifactId>
 			<version>${pom.version}</version>
 		</dependency>
+		<dependency>
+			<groupId>com.alibaba.external</groupId>
+			<artifactId>jakarta.commons.fileupload</artifactId>
+		</dependency>
     </dependencies>
     <build>
 		<plugins>

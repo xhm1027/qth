@@ -362,6 +362,9 @@
 				<custom-error id="noPermissionFail">
 					<message>没有权限添加采购产品</message>
 				</custom-error>
+				<custom-error id="saveImageFail">
+					<message>保存图片失败</message>
+				</custom-error>
 			</services:field>
 			<services:field name="name" displayName="名称">
 				<required-validator>

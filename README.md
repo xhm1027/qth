@@ -2,6 +2,7 @@
 ------------
 
 * 将biz.admin下面的产品类目service移动到biz.user下，在web.admin下增加了biz。user的依赖。原因是user也需要用产品类目，如果biz中各自写的话，service方法就会重复很多。=----ok
+* 增加了antx配置项，上传文件的保存路径
 
 todo list
 ------------
@@ -15,6 +16,7 @@ xhm的记录事宜
 * userDao的updateUser操作有对应的test用例可以参照吗?----已经增加了示例，在UserDaoTest类中，顺便使用时帮我验证一下完整逻辑是否有遗漏。
 * 列表显示的页面中采用post方式看下能不能做到，类似“http://ic.qth.com/admin/listUser.htm?name=&company=&status=&userLevel=&page=1&pageSize=20”这种感觉可能会有问题，可以放在9月中旬以后再优化
 * buyProduct的isSale是干嘛的？
+* attachment的key是干什么用的？
 
 zhangren记录事宜
 -----------

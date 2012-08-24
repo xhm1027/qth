@@ -1,7 +1,7 @@
 <div class="container-fluid">
 	<div class="row-fluid">
 		<div class="row-fluid">
-			<form class="well form-horizontal" method="post">
+			<form class="well form-horizontal" method="post" encType="multipart/form-data">
 				$csrfToken.hiddenField
 				#set ($group = $form.addBuyProduct.defaultInstance)
 				<input type="hidden" name="action" value="buy_product_action"/>
@@ -90,8 +90,21 @@
 					</div>
 				</div>
 				<hr>
-				<h2>产品图片</h2>
-				
+				<div class="control-group" >
+					<label class="control-label" for="productImages">产品图片</label>
+					<div class="controls">
+						<input class="input-file" name="productImages" type="file">
+					</div>
+					<div class="controls">
+						<input class="input-file" name="productImages" type="file">
+					</div>
+					<div class="controls">
+						<input class="input-file" name="productImages" type="file">
+					</div>
+					<div class="controls">
+						<input class="input-file" name="productImages" type="file">
+					</div>
+				</div>
 				
 				<div class="form-actions">
 					<input type="submit" class="btn btn-primary" name="event_submit_do_add" value="添加"/>
