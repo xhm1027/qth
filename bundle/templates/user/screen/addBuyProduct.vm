@@ -1,0 +1,105 @@
+<div class="container-fluid">
+	<div class="row-fluid">
+		<div class="row-fluid">
+			<form class="well form-horizontal" method="post">
+				$csrfToken.hiddenField
+				#set ($group = $form.addBuyProduct.defaultInstance)
+				<input type="hidden" name="action" value="buy_product_action"/>
+				<fieldset>
+				<legend><h2>添加采购产品</h2></legend>
+				#if(!$group.addBuyProductError.valid)
+					<div class="alert alert-error">
+						<button type="button" class="close" data-dismiss="alert">
+						&times;
+						</button>
+						<strong>Oh snap!</strong>
+						$group.addBuyProductError.message
+					</div>
+				#end
+				#if($result=="success")
+					<div class="alert alert-success">
+						<button type="button" class="close" data-dismiss="alert">
+						&times;
+						</button>
+						<strong>Oh snap!</strong>
+						添加采购产品成功！
+					</div>
+				#end
+				<h2>产品信息</h2>
+				<div class="control-group #if(!$group.name.valid)error  #end" >
+					<label class="control-label" for="name">$group.name.displayName<span style="color:red">*</span></label>
+					<div class="controls">
+						<input type="text" class="input-xlarge" id="name" name="$group.name.key"
+						placeholder="$group.name.displayName">
+						<p class="help-inline">
+						#if(!$group.name.valid)$group.name.message #end
+						</p>
+					</div>
+				</div>
+				<div class="control-group #if(!$group.categoryId.valid)error  #end" >
+					<label class="control-label" for="categoryId">$group.categoryId.displayName<span style="color:red">*</span></label>
+					<div class="controls">
+						<select type="text" id="categoryId" name="$group.categoryId.key">
+    						#foreach($buy in $user.buyInterests)
+                            <option value="$buy.value" #if($group.categoryId.value==$buy.value) selected=selected #end>$buy.name</option>
+							#end
+						</select>
+						<p class="help-inline">
+						#if(!$group.categoryId.valid)$group.categoryId.message #end
+						</p>
+					</div>
+				</div>
+				<div class="control-group #if(!$group.quantity.valid)error  #end" >
+					<label class="control-label" for="quantity">$group.quantity.displayName<span style="color:red">*</span></label>
+					<div class="controls">
+						<input type="text" class="input-xlarge" id="quantity" name="$group.quantity.key" value="$!group.quantity.value"
+						placeholder="$group.quantity.displayName">
+						<p class="help-inline">
+						#if(!$group.quantity.valid)$group.quantity.message #end
+						</p>
+					</div>
+				</div>
+				<div class="control-group #if(!$group.unit.valid)error  #end" >
+					<label class="control-label" for="unit">$group.unit.displayName<span style="color:red">*</span></label>
+					<div class="controls">
+						<input type="text" class="input-xlarge" id="unit" name="$group.unit.key" value="$!group.unit.value"
+						placeholder="$group.unit.displayName">
+						<p class="help-inline">
+						#if(!$group.unit.valid)$group.unit.message #end
+						</p>
+					</div>
+				</div>
+				<div class="control-group #if(!$group.price.valid)error  #end" >
+					<label class="control-label" for="price">$group.price.displayName<span style="color:red">*</span></label>
+					<div class="controls">
+						<input type="text" class="input-xlarge" id="price" name="$group.price.key" value="$!group.price.value"
+						placeholder="$group.price.displayName">
+						<p class="help-inline">
+						#if(!$group.price.valid)$group.price.message #end
+						</p>
+					</div>
+				</div>
+				<div class="control-group #if(!$group.lowestDealSize.valid)error  #end" >
+					<label class="control-label" for="lowestDealSize">$group.lowestDealSize.displayName<span style="color:red">*</span></label>
+					<div class="controls">
+						<input type="text" class="input-xlarge" id="lowestDealSize" name="$group.lowestDealSize.key" value="$!group.lowestDealSize.value"
+						placeholder="$group.lowestDealSize.displayName">
+						<p class="help-inline">
+						#if(!$group.lowestDealSize.valid)$group.lowestDealSize.message #end
+						</p>
+					</div>
+				</div>
+				<hr>
+				<h2>产品图片</h2>
+				
+				
+				<div class="form-actions">
+					<input type="submit" class="btn btn-primary" name="event_submit_do_add" value="添加"/>
+				</div>
+				</fieldset>
+			</form>
+		</div>
+		<!--/row-->
+	</div>
+	<!--/span-->
+</div>

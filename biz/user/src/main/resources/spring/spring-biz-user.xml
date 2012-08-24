@@ -14,4 +14,7 @@
 
 	<bean id="productCategoryService"
 		class="com.xhm.longxin.biz.user.impl.ProductCategoryServiceImpl" />
+		
+	<bean id="BuyProductService"
+		class="com.xhm.longxin.biz.user.impl.BuyProductServiceImpl" />
 </beans>
