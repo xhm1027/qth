@@ -55,7 +55,7 @@
 						<tr>
 							<td>$!_rowIndex</td>
 							<td><a href="openMessage.htm?id=$!message.id">$!message.title</a></td>
-							<td>$!message.receiver</td>
+							<td>#if($message.receiver != '1')$!message.receiver#else管理员#end</td>
 							<td><a href="javascript:delMessage($!message.id)">删除</a></td>
 						</tr>
 					#end

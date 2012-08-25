@@ -12,25 +12,73 @@
         	</div>
         </div>
 		<div class="span10">
-				<form class="form-horizontal">
-					<div class="row-fluid">
-						<label class="control-label" for="input01">标题：</label>
-						<input	type="text" name="messageTitle" class="span6" placeholder="标题"/>
+				<form class="form-horizontal" method="post">
+					$csrfToken.hiddenField
+					#set ($group = $form.sendMessage.defaultInstance)
+					<input type="hidden" name="action" value="message_action"/>
+					<fieldset>
+					#if(!$group.messageSendInfo.valid)
+					<div class="alert alert-success">
+						<button type="button" class="close" data-dismiss="alert">&times;</button>
+						 $group.messageSendInfo.message
 					</div>
-					<div class="row-fluid">
-						<label class="control-label" for="input01">收件人：</label>
-						<input	type="text" name="receiver"  class="span6" placeholder="收件人ID"/>
-						<input type="checkbox" name="isAdmin" onClick="toAdmin();"/>
-						<label class="control-label" for="isAdmin">发给管理员</label>
+					#end
+					#if(!$group.messageSendErr.valid)
+					<div class="alert alert-error">
+						<button type="button" class="close" data-dismiss="alert">&times;</button>
+						 $group.messageSendErr.message
 					</div>
-					<div class="row-fluid">
-						<textarea class="textarea span10" placeholder="信息 ..."
-							style="height: 400px"></textarea>
-						<p style="text-align: center; margin-top: 20px">
-							<a class="btn btn-large btn-primary jumbo pull-right" href="#">发送</a>
+					#end
+					<div class="control-group #if(!$group.title.valid)error  #end" >
+						<label class="control-label" for="name">$group.title.displayName<span style="color:red">*</span></label>
+						<div class="controls">
+							<input type="text" class="input-xlarge" id="title" name="$group.title.key" #if($!message)value="回复：$!message.title"#else$!group.title.value#end>
+							<p class="help-inline">
+							#if(!$group.title.valid)$group.title.message #end
+							</p>
+						</div>
 					</div>
+					<div class="control-group #if(!$group.receiver.valid)error  #end" >
+						<label class="control-label" for="name">$group.receiver.displayName<span style="color:red">*</span></label>
+						<div class="controls">
+							<input type="text" class="input-xlarge" id="receiver" name="$group.receiver.key" #if($!message)value="$!message.sender"#else$!group.receiver.value#end>
+							<p class="help-inline">
+							#if(!$group.receiver.valid)$group.receiver.message #end
+							</p>
+						</div>
+					</div>
+					<div>
+						<input type="checkbox" name="$group.sendToAdmin.key" id="sendToAdmin" onClick="toAdmin(this);" value="Y"/>
+						<label class="control-label" for="sendToAdmin">$group.sendToAdmin.displayName</label>
+					</div>
+					<div class="control-group #if(!$group.content.valid)error  #end" >
+						<textarea class="textarea span10" id="content" name="$group.content.key"
+							style="height: 400px"><br/>---------------<br/>$!message.gmtCreated<br/>$!message.content</textarea>
+						<p class="help-inline">
+							#if(!$group.content.valid)$group.content.message #end
+						</p>
+					</div>
+					<input type="submit" class="btn btn-primary" name="event_submit_do_send" value="发送"/>
 				</form>
 			</div>
     </div>
 </div>
+<script>
+	function toAdmin(sendToAdmin){
+		//alert(sendToAdmin.checked);
+		if(sendToAdmin.checked){
+			$("#receiver").val("管理员");
+			$("#isSendToAdmin").val(true);
+			//$("#receiver").attr("disabled","disabled");//禁用
+			//alert(sendToAdmin.checked);
+			return;
+		}
+		else{
+			$("#receiver").val("$!message.sender");
+			$("#isSendToAdmin").val(false);
+			//$("#receiver").removeAttr("disabled");
+		}
+	}
+
+</script>
 

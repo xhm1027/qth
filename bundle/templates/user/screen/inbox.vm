@@ -75,7 +75,7 @@
 										</a>
 									</td>
 									<td><a href="openMessage.htm?id=$!message.id">$!message.title</a></td>
-									<td>$!message.sender</td>
+									<td>#if($message.sender != '1')$!message.sender#else管理员#end</td>
 									<td><a	href="sendMessage.htm?replyId=$!message.id">回复</a>    <a href="javascript:delMessage($!message.id)">删除</a></td>
 								</tr>
 						#end

@@ -26,9 +26,9 @@
 			<div class="row">
 				<div class="span2">内容</div>
 			</div>
-			<div class="span10">$!message.content</div>
+			<textarea class="textarea span10" id="content" readOnly="true" enable="false">$!message.content</textarea>
 			#if ($qthUser.id==$message.receiver)
-				<div class="span10"><a class="btn btn-primary" href="#">回复</a></div>
+				<div class="span10"><a class="btn btn-primary" href="sendMessage.htm?replyId=$!message.id">回复</a></div>
 			#end
 		</div>
 	</div>
