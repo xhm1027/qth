@@ -1,4 +1,31 @@
 <div class="container-fluid">
+	<div id="deleteMessageModal" class="modal" style="display: none; ">
+		<div class="modal-header">
+			<a class="close" data-dismiss="modal">×</a>
+			<h3>删除站内信确认</h3>
+		</div>
+		<div class="modal-body" id="confirmMessage">
+			您确认要删除该信息吗?
+		</div>
+		<form id="deleteMessageForm" method="post" name="inbox.htm" target="_self">
+			<input type="hidden" name="id" id="messageId"></input>
+			<input type="hidden" name="action" value="message_action"/>
+			<input type="hidden" name="event_submit_do_delete" value="submit" />
+			<div class="modal-footer">
+				<a href="#" class="btn btn-primary" onclick="javascript:delMessageConfirm()" target="_self">确认</a>
+				<a href="#" class="btn" data-dismiss="modal">关闭</a>
+			</div>
+		</form>
+	</div>
+	<div id="okModal" class="modal" style="display: none; ">
+		<div class="modal-header">
+			<a class="close" data-dismiss="modal">×</a>
+			<h3>操作成功！</h3>
+		</div>
+		<div class="modal-footer">
+			<a href="#" class="btn btn-success" data-dismiss="modal">确定</a>
+		</div>
+	</div>
     <div class="row">
     	<div class="span2">
         	<div class="well" style="padding: 8px 0;">
@@ -47,9 +74,9 @@
 										#end
 										</a>
 									</td>
-									<td>$!message.title</td>
+									<td><a href="openMessage.htm?id=$!message.id">$!message.title</a></td>
 									<td>$!message.sender</td>
-									<td><a	href="sendMessage.htm?replyId=$!message.id">回复</a>    <a href="#">删除</a></td>
+									<td><a	href="sendMessage.htm?replyId=$!message.id">回复</a>    <a href="javascript:delMessage($!message.id)">删除</a></td>
 								</tr>
 						#end
 					</tbody>
@@ -57,3 +84,13 @@
 			</div>
     </div>
 </div>
+<script>
+	function delMessage(id){
+		$("#messageId").val(id);
+		$("#deleteMessageModal").modal('show');
+	}
+	function delMessageConfirm(){
+		$("#deleteMessageForm").submit();
+		$("#deleteMessageModal").modal('hide');
+	}
+</script>

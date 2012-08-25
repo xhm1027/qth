@@ -8,12 +8,12 @@ public interface MessageService {
 	/**
 	 * 发件人删除
 	 * */
-	public boolean deleteMessageBySender(Long id,String sender);
+	public boolean deleteMessageBySender(Message message,String sender);
 
 	/**
 	 * 收件人删除
 	 * */
-	public boolean deleteMessageByReceiver(Long id,String receiver);
+	public boolean deleteMessageByReceiver(Message message,String receiver);
 
 	/**
 	 * 置为已读
