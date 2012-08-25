@@ -32,7 +32,6 @@ import com.alibaba.citrus.turbine.Context;
 import com.alibaba.citrus.turbine.Navigator;
 import com.alibaba.citrus.turbine.dataresolver.FormField;
 import com.alibaba.citrus.turbine.dataresolver.FormGroup;
-import com.alibaba.citrus.turbine.dataresolver.Param;
 
 import com.xhm.longxin.biz.user.interfaces.BuyProductService;
 import com.xhm.longxin.biz.user.interfaces.FileService;
@@ -42,6 +41,7 @@ import com.xhm.longxin.qth.dal.constant.AttachmentType;
 import com.xhm.longxin.qth.dal.constant.IS;
 import com.xhm.longxin.qth.dal.constant.ProductStatus;
 import com.xhm.longxin.qth.dal.constant.ProductType;
+import com.xhm.longxin.qth.dal.constant.UserInterestType;
 import com.xhm.longxin.qth.dal.constant.UserLevel;
 import com.xhm.longxin.qth.dal.constant.UserStatus;
 import com.xhm.longxin.qth.dal.dataobject.Attachment;
@@ -111,6 +111,7 @@ public class BuyProductAction {
 				Attachment image=new Attachment();
 				image.setPath(path);
 				image.setType(AttachmentType.IMG);
+				image.setKey(UserInterestType.BUY);
 				imgs.add(image);
 			}
 		}catch(Exception e){

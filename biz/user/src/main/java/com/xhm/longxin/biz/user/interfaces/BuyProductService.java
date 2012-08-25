@@ -13,6 +13,10 @@ import com.xhm.longxin.qth.dal.dataobject.BuyProduct;
 public interface BuyProductService {
 
 	public boolean addBuyProduct(BuyProduct buyProduct);
+	/**
+	 * 根据id取记录
+	 * */
+	public BuyProduct getBuyProductById(Long id);
 
 	
 }

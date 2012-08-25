@@ -15,8 +15,8 @@ http://www.springframework.org/schema/beans http://localhost:8080/schema/www.spr
             <target>index.vm</target>
         </turbine-uri>
 		<!-- 静态目录-->
-		<uris:turbine-uri id="download" exposed="true" extends="qthServer">
-			<componentPath>/downloads</componentPath>
+		<uris:turbine-uri id="upload" exposed="true" extends="qthServer">
+			<componentPath>/uploads</componentPath>
 		</uris:turbine-uri>
 		<!-- 主模块-->
 		<uris:turbine-uri id="userModule" exposed="true" extends="qthServer">

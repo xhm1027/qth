@@ -36,7 +36,7 @@ public class FileServiceImpl implements FileService {
         FileOutputStream fo = new FileOutputStream(fileTmp);
         fo.write(file.get());
         fo.close();
-		return subPath + "/"+fileName+"."+fileType;
+		return "/"+subPath + "/"+fileName+"."+fileType;
 	}
 	
 	private static String getFileType(String fileName) {
