@@ -17,6 +17,7 @@ public class Message extends BaseDo {
 	private String senderDeleted;
 	private String receiverDeleted;
 	public static final String adminReceiver="1";
+	public static final String adminSender="1";
 
 	public String getTitle() {
 		return title;

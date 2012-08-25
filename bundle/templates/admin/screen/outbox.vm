@@ -1,0 +1,74 @@
+<div class="container-fluid">
+	<div id="deleteMessageModal" class="modal" style="display: none; ">
+		<div class="modal-header">
+			<a class="close" data-dismiss="modal">×</a>
+			<h3>删除站内信确认</h3>
+		</div>
+		<div class="modal-body" id="confirmMessage">您确认要删除该信息吗？
+		</div>
+		<form id="deleteMessageForm" method="post" name="inbox.htm" target="_self">
+			<input type="hidden" name="id" id="messageId"></input>
+			<input type="hidden" name="action" value="message_action"/>
+			<input type="hidden" name="event_submit_do_delete" value="submit" />
+			<div class="modal-footer">
+				<a href="#" class="btn btn-primary" onclick="javascript:delMessageConfirm()" target="_self">确认</a>
+				<a href="#" class="btn" data-dismiss="modal">关闭</a>
+			</div>
+		</form>
+	</div>
+    <div class="row">
+    	<div class="span2">
+        	<div class="well" style="padding: 8px 0;">
+        		<ul class="nav nav-list">
+        			<li class="nav-header">站内信</li>
+					<li class="divider"></li>
+        			<li><a href="inbox.htm"><i	class="icon-inbox"></i> 收件箱</a></li>
+        			<li><a href="sendMessage.htm"><i class="icon-envelope"></i>发信</a></li>
+        			<li class="active"><a href="outbox.htm"><i class="icon-folder-open"></i>发件箱</a></li>
+        		</ul>
+        	</div>
+        </div>
+        <div class="pagination">
+			  <ul>
+			  	<li#if($!page == 1) class="active"#end><a href="outbox.htm?page=1&pageSize=$!pageSize">第1页</a></li>
+			 	 #if($!totalPage != 1)
+				 	 #foreach($pageIndex in [2 .. $!totalPage])
+						<li#if($!page == $!pageIndex) class="active"#end><a href="outbox.htm?page=$!pageIndex&pageSize=$!pageSize">$!pageIndex</a></li>
+				 	 #end
+			 	 #end
+			  </ul>
+		</div>
+		<div class="span10">
+				<table class="table table-bordered">
+					<thead>
+						<tr>
+							<th width="15%">#</th>
+							<th width="30%">标题</th>
+							<th width="25%">收件人</th>
+						</tr>
+					</thead>
+					<tbody>
+					#set($_rowIndex = 0)
+					#foreach($message in $messageList)
+					#set($_rowIndex = $_rowIndex+1)
+						<tr>
+							<td>$!_rowIndex</td>
+							<td><a href="openMessage.htm?id=$!message.id">$!message.title</a></td>
+							<td>#if($message.receiver != '1')$!message.receiver#else管理员#end</td>
+						</tr>
+					#end
+					</tbody>
+				</table>
+			</div>
+    </div>
+</div>
+<script>
+	function delMessage(id){
+		$("#messageId").val(id);
+		$("#deleteMessageModal").modal('show');
+	}
+	function delMessageConfirm(){
+		$("#deleteMessageForm").submit();
+		$("#deleteMessageModal").modal('hide');
+	}
+</script>

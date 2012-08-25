@@ -1,0 +1,80 @@
+<div class="container-fluid">
+    <div class="row">
+    	<div class="span2">
+        	<div class="well" style="padding: 8px 0;">
+        		<ul class="nav nav-list">
+        			<li class="nav-header">站内信</li>
+					<li class="divider">
+        			<li><a href="inbox.htm"><i	class="icon-inbox"></i> 收件箱</a></li>
+        			<li class="active"><a href="sendMessage.htm"><i class="icon-envelope"></i>发信</a></li>
+        			<li><a href="outbox.htm"><i class="icon-folder-open"></i>发件箱</a></li>
+        		</ul>
+        	</div>
+        </div>
+		<div class="span10">
+				<form class="form-horizontal" method="post">
+					$csrfToken.hiddenField
+					#set ($group = $form.sendMessage.defaultInstance)
+					<input type="hidden" name="action" value="message_action"/>
+					<fieldset>
+					#if(!$group.messageSendInfo.valid)
+					<div class="alert alert-success">
+						<button type="button" class="close" data-dismiss="alert">&times;</button>
+						 $group.messageSendInfo.message
+					</div>
+					#end
+					#if(!$group.messageSendErr.valid)
+					<div class="alert alert-error">
+						<button type="button" class="close" data-dismiss="alert">&times;</button>
+						 $group.messageSendErr.message
+					</div>
+					#end
+					<div class="control-group #if(!$group.title.valid)error  #end" >
+						<label class="control-label" for="name">$group.title.displayName<span style="color:red">*</span></label>
+						<div class="controls">
+							<input type="text" class="input-xlarge" id="title" name="$group.title.key" #if($!message)value="回复：$!message.title"#else$!group.title.value#end>
+							<p class="help-inline">
+							#if(!$group.title.valid)$group.title.message #end
+							</p>
+						</div>
+					</div>
+					<div class="control-group #if(!$group.receiver.valid)error  #end" >
+						<label class="control-label" for="name">$group.receiver.displayName<span style="color:red">*</span></label>
+						<div class="controls">
+							<input type="text" class="input-xlarge" id="receiver" name="$group.receiver.key" #if($!message)value="$!message.sender"#else$!group.receiver.value#end>
+							<p class="help-inline">
+							#if(!$group.receiver.valid)$group.receiver.message #end
+							</p>
+						</div>
+					</div>
+					<div class="control-group #if(!$group.content.valid)error  #end" >
+						<textarea class="textarea span10" id="content" name="$group.content.key"
+							style="height: 400px"><br/>---------------<br/>$!message.gmtCreated<br/>$!message.content</textarea>
+						<p class="help-inline">
+							#if(!$group.content.valid)$group.content.message #end
+						</p>
+					</div>
+					<input type="submit" class="btn btn-primary" name="event_submit_do_send" value="发送"/>
+				</form>
+			</div>
+    </div>
+</div>
+<script>
+	function toAdmin(sendToAdmin){
+		//alert(sendToAdmin.checked);
+		if(sendToAdmin.checked){
+			$("#receiver").val("管理员");
+			$("#isSendToAdmin").val(true);
+			//$("#receiver").attr("disabled","disabled");//禁用
+			//alert(sendToAdmin.checked);
+			return;
+		}
+		else{
+			$("#receiver").val("$!message.sender");
+			$("#isSendToAdmin").val(false);
+			//$("#receiver").removeAttr("disabled");
+		}
+	}
+
+</script>
+

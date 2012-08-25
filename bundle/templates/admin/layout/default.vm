@@ -1,9 +1,14 @@
 <!DOCTYPE html>
 	<head>
 		<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+		<meta http-equiv="Pragma" content="no-cache">
+		<meta http-equiv="Cache-Control" content="no-cache">
+		<meta http-equiv="Expires" content="0">
 		#showHead ("七台河信息发布系统")
 		<!-- Le styles -->
 		<link href="$!{qthServer}assets/css/bootstrap.css" rel="stylesheet">
+		<link href="$!{qthServer}css/bootstrap-wysihtml5.css" rel="stylesheet">
+		<link href="$!{qthServer}css/prettify.css" rel="stylesheet">
 		<link href="$!{qthServer}assets/css/bootstrap-responsive.css" rel="stylesheet">
 		<link href="$!{qthServer}assets/css/docs.css" rel="stylesheet">
 		<link href="$!{qthServer}assets/js/google-code-prettify/prettify.css" rel="stylesheet">
@@ -53,5 +58,10 @@
 	<script src="$!{qthServer}assets/js/bootstrap-carousel.js"></script>
 	<script src="$!{qthServer}assets/js/bootstrap-typeahead.js"></script>
 	<script src="$!{qthServer}assets/js/application.js"></script>
+	<script src="$!{qthServer}js/wysihtml5-0.3.0.js"></script>
+	<script src="$!{qthServer}js/bootstrap-wysihtml5.js"></script>
+	<script>
+	$('.textarea').wysihtml5();
+	</script>
 </body>
 </html>
