@@ -68,9 +68,9 @@
 									<td>
 										<a href="openMessage.htm?id=$!message.id">
 										#if($!message.isOpened != 'Y')
-											<img src="assets/img/unread.PNG"/>
+											<img src="$!{qthServer}assets/img/unread.PNG"/>
 										#else
-											<img src="assets/img/read.PNG">
+											<img src="$!{qthServer}assets/img/read.PNG">
 										#end
 										</a>
 									</td>

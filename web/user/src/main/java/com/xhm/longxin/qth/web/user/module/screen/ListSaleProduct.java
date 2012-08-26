@@ -1,9 +1,7 @@
-/**
- *
- */
 package com.xhm.longxin.qth.web.user.module.screen;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -11,96 +9,74 @@ import org.springframework.beans.factory.annotation.Autowired;
 import com.alibaba.citrus.turbine.Context;
 import com.alibaba.citrus.turbine.dataresolver.Param;
 import com.xhm.longxin.biz.user.interfaces.ProductCategoryService;
-import com.xhm.longxin.biz.user.interfaces.UserService;
+import com.xhm.longxin.biz.user.interfaces.SaleProductService;
 import com.xhm.longxin.qth.dal.constant.IS;
-import com.xhm.longxin.qth.dal.constant.UserRole;
 import com.xhm.longxin.qth.dal.dataobject.ProductCategory;
 import com.xhm.longxin.qth.dal.query.CategoryQuery;
 import com.xhm.longxin.qth.dal.query.QueryObject;
-import com.xhm.longxin.qth.dal.query.UserQuery;
+import com.xhm.longxin.qth.dal.query.SaleProductQuery;
 import com.xhm.longxin.qth.web.user.vo.ProductCategoryVO;
 
-/**
- * @author ren.zhangr
- *
- */
-public class ListEnterprise {
+public class ListSaleProduct {
 	@Autowired
-	private UserService userService;
+	private SaleProductService saleProductService;
 	@Autowired
 	private ProductCategoryService productCategoryService;
 
-	public void execute(@Param(name = "company") String company,
-			@Param(name = "buyInterests") String []buyInterests,
-			@Param(name = "saleInterests") String []saleInterests,
+	public void execute(@Param(name = "name") String name,
+			@Param(name = "materialIds") Long[] materialIds,
+			@Param(name = "notMaterialIds") Long[] notMaterialIds,
 			@Param(name = "order") String order,
+			@Param(name = "orderDesc") String orderDesc,
 			@Param(name = "page") int page,
-			@Param(name = "pageSize") int pageSize,
-			@Param(name = "userRole") String userRole, Context context) {
+			@Param(name = "pageSize") int pageSize, Context context) {
 		// 分页参数处理
-		UserQuery userQuery = new UserQuery();
+		SaleProductQuery productQuery = new SaleProductQuery();
 		if (page == 0) {
 			page = 1;
 		}
 		if (pageSize == 0 || pageSize > QueryObject.maxPageSize) {
 			pageSize = QueryObject.defaultPageSize;
 		}
-		// 企业类型
-		if (UserRole.INNER_USER.equalsIgnoreCase(userRole)) {
-			userQuery.setRole(UserRole.INNER_USER);
-		} else {
-			userQuery.setRole(UserRole.OUTER_USER);
-		}
-		// 公司名
-		userQuery.setCompany(company);
+		productQuery.setName(name);
 		// 采购类别
-		List<Long> buyInterestIds = null;
-		if (buyInterests != null&&buyInterests.length>0) {
-			buyInterestIds = new ArrayList<Long>();
-			for (String id : buyInterests) {
-				buyInterestIds.add(Long.valueOf(id));
-			}
-			userQuery.setBuyInterestIds(buyInterestIds);
-		}
-		// 销售类别
-		List<Long> saleInterestIds = null;
-		if (saleInterests != null && saleInterests.length>0) {
-			saleInterestIds = new ArrayList<Long>();
-			for (String id : saleInterests) {
-				saleInterestIds.add(Long.valueOf(id));
-			}
-			userQuery.setSaleInterestIds(saleInterestIds);
+		List<Long> categoryIds = Arrays.asList(materialIds);
+		categoryIds.addAll(Arrays.asList(notMaterialIds));
+		if (categoryIds.size() > 0) {
+			productQuery.setCategoryIds(categoryIds);
 		}
 		// 排序
-		if (order != null) {
-			userQuery.setOrderModified(true);
-			userQuery.setOrderDesc(true);
+		if (order != null && order.equals("price")) {
+			productQuery.setOrderByPrice(true);
 		}
-		// 查询结果
-		context.put("userList", userService.queryUser(userQuery,
-				(page - 1) * pageSize, pageSize));
+		if (order != null && order.equals("publish")) {
+			productQuery.setOrderModified(true);
+		}
+		if (orderDesc != null) {
+			productQuery.setOrderDesc(true);
+		}
 		// 查询参数
-		context.put("buyInterestIds", buyInterests);
-		context.put("saleInterestIds", saleInterests);
-		context.put("company", company);
+		context.put("name", name);
 		context.put("order", order);
-		context.put("userRole", userRole);
 		context.put("page", page);
 		context.put("pageSize", pageSize);
-		int totalCount = userService.queryCount(userQuery);
+		context.put("orderDesc", orderDesc);
+		int totalCount =  saleProductService.queryCount(productQuery);
 		context.put("totalCount", totalCount);
 		context.put("totalPage", (totalCount - 1) / pageSize + 1);
+		context.put("productList", saleProductService.query(productQuery,
+				(page - 1) * pageSize, pageSize));
 
 		// 类别信息，作为查询条件用
 		CategoryQuery categoryQuery = new CategoryQuery();
 		categoryQuery.setIsMaterial(IS.Y);
 		context.put("materialCategories", wrapProductCategoryVO(
-				productCategoryService.query(categoryQuery), saleInterestIds,
-				buyInterestIds));
+				productCategoryService.query(categoryQuery), Arrays
+						.asList(materialIds), null));
 		categoryQuery.setIsMaterial(IS.N);
 		context.put("notMaterialCategories", wrapProductCategoryVO(
-				productCategoryService.query(categoryQuery), saleInterestIds,
-				buyInterestIds));
+				productCategoryService.query(categoryQuery), null, Arrays
+						.asList(notMaterialIds)));
 	}
 
 	/**

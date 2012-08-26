@@ -2,8 +2,9 @@ package com.xhm.longxin.biz.user.impl;
 
 import java.util.List;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-
 import com.xhm.longxin.biz.user.interfaces.MessageService;
 import com.xhm.longxin.qth.dal.constant.IS;
 import com.xhm.longxin.qth.dal.dao.MessageDao;
@@ -13,31 +14,25 @@ import com.xhm.longxin.qth.dal.query.MessageQuery;
 public class MessageServiceImpl implements MessageService {
 	@Autowired
 	private MessageDao messageDao;
+	private static Logger log = LoggerFactory
+			.getLogger(MessageServiceImpl.class);
 
-	public boolean deleteMessageByReceiver(Long id, String receiver) {
-		MessageQuery messageQuery = new MessageQuery();
-		messageQuery.setId(id);
-		messageQuery.setReceiver(receiver);
-		messageQuery.setReceiverDeleted(IS.N);
-		List<Message> messageList = messageDao.query(messageQuery);
-		if (null == messageList || messageList.isEmpty()) {
+	public boolean deleteMessageByReceiver(Message message, String receiver) {
+		if (!receiver.equals(message.getReceiver())) {
+			log.error("message is not send to " + receiver
+					+ " \t no rights to delete it." + message);
 			return true;// 没有找到需要删除的记录，直接返回
 		}
-		Message message = messageList.get(0);
 		message.setReceiverDeleted(IS.Y);
 		return messageDao.updateMessage(message);
 	}
 
-	public boolean deleteMessageBySender(Long id, String sender) {
-		MessageQuery messageQuery = new MessageQuery();
-		messageQuery.setId(id);
-		messageQuery.setSender(sender);
-		messageQuery.setSenderDeleted(IS.N);
-		List<Message> messageList = messageDao.query(messageQuery);
-		if (null == messageList || messageList.isEmpty()) {
+	public boolean deleteMessageBySender(Message message, String sender) {
+		if (!sender.equals(message.getSender())) {
+			log.error("message is not send from " + sender
+					+ " \t no rights to delete it." + message);
 			return true;// 没有找到需要删除的记录，直接返回
 		}
-		Message message = messageList.get(0);
 		message.setSenderDeleted(IS.Y);
 		return messageDao.updateMessage(message);
 	}
@@ -46,6 +41,7 @@ public class MessageServiceImpl implements MessageService {
 			int pageSize) {
 		MessageQuery messageQuery = new MessageQuery();
 		messageQuery.setReceiver(receiver);
+		messageQuery.setReceiverDeleted(IS.N);
 		return messageDao.query(messageQuery, pageStart, pageSize);
 	}
 
@@ -53,6 +49,7 @@ public class MessageServiceImpl implements MessageService {
 			int pageSize) {
 		MessageQuery messageQuery = new MessageQuery();
 		messageQuery.setSender(sender);
+		messageQuery.setSenderDeleted(IS.N);
 		return messageDao.query(messageQuery, pageStart, pageSize);
 	}
 
@@ -85,6 +82,7 @@ public class MessageServiceImpl implements MessageService {
 	public int getInboxMessageCount(String receiver) {
 		MessageQuery messageQuery = new MessageQuery();
 		messageQuery.setReceiver(receiver);
+		messageQuery.setReceiverDeleted(IS.N);
 		return messageDao.queryCount(messageQuery);
 	}
 
@@ -96,13 +94,18 @@ public class MessageServiceImpl implements MessageService {
 	 * (java.lang.String)
 	 */
 	public int getOutboxMessageCount(String sender) {
-		MessageQuery messageQuery=new MessageQuery();
+		MessageQuery messageQuery = new MessageQuery();
 		messageQuery.setSender(sender);
+		messageQuery.setSenderDeleted(IS.N);
 		return messageDao.queryCount(messageQuery);
 	}
 
-	/* (non-Javadoc)
-	 * @see com.xhm.longxin.biz.user.interfaces.MessageService#getMessageById(java.lang.Long)
+	/*
+	 * (non-Javadoc)
+	 *
+	 * @see
+	 * com.xhm.longxin.biz.user.interfaces.MessageService#getMessageById(java
+	 * .lang.Long)
 	 */
 	public Message getMessageById(Long id) {
 		return messageDao.getMessageById(id);

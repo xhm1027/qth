@@ -3,20 +3,30 @@
  */
 package com.xhm.longxin.qth.dal.query;
 
+import java.util.List;
+
 /**
  * @author ren.zhangr
  *
  */
 public class BuyProductQuery extends QueryObject{
 	private String name;
-	private Long categoryId;
 	private String status;
 	private String owner;
 	private String isSale;
 	private String productType;
+	private List<Long> categoryIds;
 	private Long id;
+	private Boolean orderByPrice=null;
 
 
+
+	public Boolean getOrderByPrice() {
+		return orderByPrice;
+	}
+	public void setOrderByPrice(Boolean orderByPrice) {
+		this.orderByPrice = orderByPrice;
+	}
 	public Long getId() {
 		return id;
 	}
@@ -35,11 +45,12 @@ public class BuyProductQuery extends QueryObject{
 	public void setName(String name) {
 		this.name = name;
 	}
-	public Long getCategoryId() {
-		return categoryId;
+
+	public List<Long> getCategoryIds() {
+		return categoryIds;
 	}
-	public void setCategoryId(Long categoryId) {
-		this.categoryId = categoryId;
+	public void setCategoryIds(List<Long> categoryIds) {
+		this.categoryIds = categoryIds;
 	}
 	public String getStatus() {
 		return status;
@@ -59,5 +70,4 @@ public class BuyProductQuery extends QueryObject{
 	public void setIsSale(String isSale) {
 		this.isSale = isSale;
 	}
-
 }

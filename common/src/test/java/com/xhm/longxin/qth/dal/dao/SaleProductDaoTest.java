@@ -92,7 +92,9 @@ public class SaleProductDaoTest  extends BaseDaoTest {
 		product.setImgs(imgs);
 		want.bool(saleProductDao.addSaleProduct(product)).eq(true);
 		SaleProductQuery saleProductQuery=new SaleProductQuery();
-		saleProductQuery.setCategoryId(123456L);
+		List<Long> categoryIds=new ArrayList<Long>();
+		categoryIds.add(123456L);
+		saleProductQuery.setCategoryIds(categoryIds);
 		//普通查询，类别为1的
 		List<SaleProduct> list=saleProductDao.query(saleProductQuery);
 		want.number(list.size()).eq(1);
@@ -103,7 +105,9 @@ public class SaleProductDaoTest  extends BaseDaoTest {
 	public void testQueryProduct() {
 		//查询收件人为s1的消息
 		SaleProductQuery saleProductQuery=new SaleProductQuery();
-		saleProductQuery.setCategoryId(1L);
+		List<Long> categoryIds=new ArrayList<Long>();
+		categoryIds.add(1L);
+		saleProductQuery.setCategoryIds(categoryIds);
 		//普通查询，类别为1的
 		List<SaleProduct> list=saleProductDao.query(saleProductQuery);
 		want.number(list.size()).eq(3);

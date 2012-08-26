@@ -14,10 +14,10 @@
 
 	<bean id="productCategoryService"
 		class="com.xhm.longxin.biz.user.impl.ProductCategoryServiceImpl" />
-		
+
 	<bean id="buyProductService"
 		class="com.xhm.longxin.biz.user.impl.BuyProductServiceImpl" />
-		
+	<bean id="saleProductService" class="com.xhm.longxin.biz.user.impl.SaleProductServiceImpl" />
 	<bean id="fileService"
 		class="com.xhm.longxin.biz.user.impl.FileServiceImpl" >
 		<property name="basePath" value="${qth_upload_path}"/>

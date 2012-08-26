@@ -195,7 +195,7 @@
 				</required-validator>
 			</services:field>
 		</services:group>
-		
+
 		<!--
 			- =============================================== - 编辑个人资料 form -
 			===============================================
@@ -349,7 +349,7 @@
 				</custom-error>
 			</services:field>
 		</services:group>
-		
+
 		<!--
 			- =============================================== - user password
 			reset form - ===============================================
@@ -401,6 +401,40 @@
 				<required-validator>
 					<message>必须填写 ${displayName}</message>
 				</required-validator>
+			</services:field>
+		</services:group>
+
+
+		<!--
+			- =======================message form==========================
+		-->
+		<services:group name="sendMessage" extends="csrfCheck">
+			<services:field name="title" displayName="标题">
+				<required-validator>
+					<message>必须填写 ${displayName}</message>
+				</required-validator>
+			</services:field>
+			<services:field name="receiver" displayName="收件人">
+				<required-validator>
+					<message>必须填写 ${displayName}</message>
+				</required-validator>
+			</services:field>
+			<services:field name="sendToAdmin" displayName="发送给管理员">
+			</services:field>
+			<services:field name="content" displayName="内容">
+				<required-validator>
+					<message> ${displayName}不能为空</message>
+				</required-validator>
+			</services:field>
+			<services:field name="messageSendInfo">
+				<custom-error id="success">
+					<message>站内信已发送成功，可到发件箱中进行查看！</message>
+				</custom-error>
+			</services:field>
+			<services:field name="messageSendErr">
+				<custom-error id="fail">
+					<message>站内信发送失败</message>
+				</custom-error>
 			</services:field>
 		</services:group>
 	</services:form>

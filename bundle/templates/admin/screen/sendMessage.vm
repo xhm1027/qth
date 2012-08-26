@@ -47,10 +47,6 @@
 							</p>
 						</div>
 					</div>
-					<div>
-						<input type="checkbox" name="$group.sendToAdmin.key" id="sendToAdmin" onClick="toAdmin(this);" value="Y"/>
-						<label class="control-label" for="sendToAdmin">$group.sendToAdmin.displayName</label>
-					</div>
 					<div class="control-group #if(!$group.content.valid)error  #end" >
 						<textarea class="textarea span10" id="content" name="$group.content.key"
 							style="height: 400px"><br/>---------------<br/>$!message.gmtCreated<br/>$!message.content</textarea>

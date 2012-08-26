@@ -131,10 +131,13 @@
 				is_sale
 				from qth_product_sale where  is_deleted='N']]>
 		<isNotNull property="name" prepend="AND">
-			name like CONCAT('%',#name#, '%')
+			name like
+			CONCAT('%',#name#, '%')
 		</isNotNull>
-		<isNotNull property="categoryId" prepend="AND">
-			category_id=#categoryId#
+		<isNotNull property="categoryIds" prepend="AND">
+			category_id in
+			<iterate property="categoryIds" open="(" close=")"
+				conjunction=","> #categoryIds[]#</iterate>
 		</isNotNull>
 		<isNotNull property="status" prepend="AND">
 			status=#status#
@@ -148,7 +151,15 @@
 		<isNotNull property="id" prepend="AND">
 			id=#id#
 		</isNotNull>
-		order by name asc
+		<isNotNull property="orderModified" prepend=" ">
+			<![CDATA[order by gmt_modified]]>
+		</isNotNull>
+		<isNotNull property="orderByPrice" prepend=" ">
+			<![CDATA[order by price]]>
+		</isNotNull>
+		<isNotNull property="orderDesc" prepend=" ">
+		<![CDATA[	desc]]>
+		</isNotNull>
 		<include refid="ALICRM_COMMON.ALI_PAGING" />
 	</select>
 
@@ -158,10 +169,13 @@
 				count(*)
 				from qth_product_sale where  is_deleted='N']]>
 		<isNotNull property="name" prepend="AND">
-			name like CONCAT('%',#name#, '%')
+			name like
+			CONCAT('%',#name#, '%')
 		</isNotNull>
-		<isNotNull property="categoryId" prepend="AND">
-			category_id=#categoryId#
+		<isNotNull property="categoryIds" prepend="AND">
+			category_id in
+			<iterate property="categoryIds" open="(" close=")"
+				conjunction=","> #categoryIds[]#</iterate>
 		</isNotNull>
 		<isNotNull property="status" prepend="AND">
 			status=#status#
