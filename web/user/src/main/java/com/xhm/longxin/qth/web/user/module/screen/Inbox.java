@@ -12,7 +12,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import com.alibaba.citrus.turbine.Context;
 import com.alibaba.citrus.turbine.dataresolver.Param;
 import com.xhm.longxin.biz.user.interfaces.MessageService;
-import com.xhm.longxin.biz.user.interfaces.UserService;
 import com.xhm.longxin.qth.dal.dataobject.Message;
 import com.xhm.longxin.qth.dal.query.QueryObject;
 import com.xhm.longxin.qth.web.user.common.QthUser;

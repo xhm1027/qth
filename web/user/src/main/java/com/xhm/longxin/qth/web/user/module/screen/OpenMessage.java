@@ -3,7 +3,6 @@
  */
 package com.xhm.longxin.qth.web.user.module.screen;
 
-import java.util.ArrayList;
 
 import javax.servlet.http.HttpSession;
 
