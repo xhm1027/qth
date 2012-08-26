@@ -98,7 +98,9 @@ public class BuyProductDaoTest  extends BaseDaoTest {
 
 		want.bool(buyProductDao.addBuyProduct(product)).eq(true);
 		BuyProductQuery buyProductQuery=new BuyProductQuery();
-		buyProductQuery.setCategoryId(123456L);
+		List<Long> categoryIds=new ArrayList<Long>();
+		categoryIds.add(123456L);
+		buyProductQuery.setCategoryIds(categoryIds);
 		//普通查询，类别为1的
 		List<BuyProduct> list=buyProductDao.query(buyProductQuery);
 		want.number(list.size()).eq(1);
@@ -109,7 +111,9 @@ public class BuyProductDaoTest  extends BaseDaoTest {
 	public void testQueryProduct() {
 		//查询收件人为s1的消息
 		BuyProductQuery buyProductQuery=new BuyProductQuery();
-		buyProductQuery.setCategoryId(1L);
+		List<Long> categoryIds=new ArrayList<Long>();
+		categoryIds.add(1L);
+		buyProductQuery.setCategoryIds(categoryIds);
 		//普通查询，类别为1的
 		List<BuyProduct> list=buyProductDao.query(buyProductQuery);
 		want.number(list.size()).eq(3);

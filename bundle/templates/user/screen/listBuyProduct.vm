@@ -9,14 +9,6 @@
 			</div>
 		</div>
 		<div class="row">
-			<div class="span12">
-				<ul class="nav nav-pills">
-					<li #if($!userRole != 'innerUser') class="active"#end><a href="listEnterprise.htm?userRole=outerUser">园区外企业</a></li>
-					<li #if($!userRole == 'innerUser') class="active"#end><a href="listEnterprise.htm?userRole=innerUser">园区内企业</a></li>
-				</ul>
-			</div>
-		</div>
-		<div class="row">
 			<form class="well form-search span12" id="searchForm">
 				<input type="hidden" name="userRole" value="$!userRole"/>
 				<input type="hidden" name="order" id="orderBy" value="$!order"/>
@@ -81,10 +73,10 @@
 		</div>
 		<div class="pagination">
 			  <ul>
-			  	<li#if($!page == 1) class="active"#end><a href="listEnterprise.htm?company=$!company#foreach($id in $saleInterestIds)&saleInterests=$!id#end#foreach($id in $buyInterestIds)&buyInterests=$!id#end&page=1&pageSize=20&userRole=$!userRole">第1页</a></li>
+			  	<li#if($!page == 1) class="active"#end><a href="listEnterprise.htm?name=$!name&company=$!company&status=$!status&userLevel=$!userLevel&page=1&pageSize=20">第1页</a></li>
 			 	 #if($!totalPage != 1)
 			 	 #foreach($pageIndex in [2 .. $!totalPage])
-					<li#if($!page == $!pageIndex) class="active"#end><a href="listEnterprise.htm?company=$!company#foreach($id in $saleInterestIds)&saleInterests=$!id#end#foreach($id in $buyInterestIds)&buyInterests=$!id#end&page=$!pageIndex&pageSize=$!pageSize&userRole=$!userRole">$!pageIndex</a></li>
+					<li#if($!page == $!pageIndex) class="active"#end><a href="listEnterprise.htm?name=$!name&company=$!company&status=$!status&userLevel=$!userLevel&page=$!pageIndex&pageSize=$!pageSize">$!pageIndex</a></li>
 			 	 #end
 			 	 #end
 			  </ul>
@@ -125,10 +117,10 @@
 		</div>
 		<div class="pagination">
 			  <ul>
-			  	<li#if($!page == 1) class="active"#end><a href="listEnterprise.htm?company=$!company#foreach($id in $saleInterestIds)&saleInterests=$!id#end#foreach($id in $buyInterestIds)&buyInterests=$!id#end&page=1&pageSize=20&userRole=$!userRole">第1页</a></li>
+			  	<li#if($!page == 1) class="active"#end><a href="listEnterprise.htm?name=$!name&company=$!company&status=$!status&userLevel=$!userLevel&page=1&pageSize=20">第1页</a></li>
 			 	 #if($!totalPage != 1)
 			 	 #foreach($pageIndex in [2 .. $!totalPage])
-					<li#if($!page == $!pageIndex) class="active"#end><a href="listEnterprise.htm?company=$!company#foreach($id in $saleInterestIds)&saleInterests=$!id#end#foreach($id in $buyInterestIds)&buyInterests=$!id#end&page=$!pageIndex&pageSize=$!pageSize&userRole=$!userRole">$!pageIndex</a></li>
+					<li#if($!page == $!pageIndex) class="active"#end><a href="listEnterprise.htm?name=$!name&company=$!company&status=$!status&userLevel=$!userLevel&page=$!pageIndex&pageSize=$!pageSize">$!pageIndex</a></li>
 			 	 #end
 			 	 #end
 			  </ul>
@@ -137,7 +129,30 @@
 	</div>
 	<script>
 		function doSearchWithOrder(){
-			$("#orderBy").val(true);
-			$("#searchForm").submit();
+			var order=document.getElementById ("orderBy");
+			order.value="true";
+			doSearch();
+		}
+		function doSearch(){
+			var form=document.getElementById ("searchForm");
+			var buyIds = document.getElementsByName("buyInterests");
+			var buyInterestsIdStr="";
+			//alert(buyIds);
+			for (var i = 0; i < buyIds.length; i++) {
+				if(buyIds[i].checked){
+					buyInterestsIdStr=buyInterestsIdStr+buyIds[i].value+",";
+				}
+			}
+			buyIds.value=buyInterestsIdStr;
+			//
+			var saleIds = document.getElementsByName("saleInterests");
+			var saleInterestsIdStr="";
+			for (var i = 0; i < saleIds.length; i++) {
+				if(saleIds[i].checked){
+					saleInterestsIdStr=saleInterestsIdStr+saleIds[i].value+",";
+				}
+			}
+			saleIds.value=buyInterestsIdStr;
+			form.submit();
 		}
 	</script>

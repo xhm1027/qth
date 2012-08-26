@@ -9,12 +9,9 @@
            	http://www.springframework.org/schema/context/spring-context-2.5.xsd"
 	default-autowire="byName">
 	<bean id="userService" class="com.xhm.longxin.biz.user.impl.UserServiceImpl" />
-
 	<bean id="messageService" class="com.xhm.longxin.biz.user.impl.MessageServiceImpl" />
-
 	<bean id="productCategoryService"
 		class="com.xhm.longxin.biz.user.impl.ProductCategoryServiceImpl" />
-		
-	<bean id="BuyProductService"
-		class="com.xhm.longxin.biz.user.impl.BuyProductServiceImpl" />
+	<bean id="buyProductService" class="com.xhm.longxin.biz.user.impl.BuyProductServiceImpl" />
+	<bean id="saleProductService" class="com.xhm.longxin.biz.user.impl.SaleProductServiceImpl" />
 </beans>

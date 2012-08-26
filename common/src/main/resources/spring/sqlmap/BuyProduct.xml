@@ -133,8 +133,10 @@
 		<isNotNull property="name" prepend="AND">
 			name like CONCAT('%',#name#, '%')
 		</isNotNull>
-		<isNotNull property="categoryId" prepend="AND">
-			category_id=#categoryId#
+		<isNotNull property="categoryIds" prepend="AND">
+			category_id in
+			<iterate property="categoryIds" open="(" close=")"
+				conjunction=","> #categoryIds[]#</iterate>
 		</isNotNull>
 		<isNotNull property="status" prepend="AND">
 			status=#status#
@@ -148,7 +150,17 @@
 		<isNotNull property="id" prepend="AND">
 			id=#id#
 		</isNotNull>
-		order by name asc
+		 <![CDATA[order by]]>
+		<isNotNull property="orderModified" prepend=" ">
+			<![CDATA[gmt_modified]]>
+		</isNotNull>
+		<isNotNull property="orderByPrice" prepend=" ">
+			<![CDATA[price]]>
+		</isNotNull>
+		<![CDATA[,name]]>
+		<isNotNull property="orderDesc" prepend=" ">
+		<![CDATA[	desc]]>
+		</isNotNull>
 		<include refid="ALICRM_COMMON.ALI_PAGING" />
 	</select>
 
@@ -160,8 +172,10 @@
 		<isNotNull property="name" prepend="AND">
 			name like CONCAT('%',#name#, '%')
 		</isNotNull>
-		<isNotNull property="categoryId" prepend="AND">
-			category_id=#categoryId#
+		<isNotNull property="categoryIds" prepend="AND">
+			category_id in
+			<iterate property="categoryIds" open="(" close=")"
+				conjunction=","> #categoryIds[]#</iterate>
 		</isNotNull>
 		<isNotNull property="status" prepend="AND">
 			status=#status#
