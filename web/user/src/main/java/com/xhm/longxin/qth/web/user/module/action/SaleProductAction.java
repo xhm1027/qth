@@ -123,7 +123,71 @@ public class SaleProductAction {
 		if(result){
 			context.put("result", "success");
 		}else{
-			err.setMessage("addBuyProductFail");
+			err.setMessage("addSaleProductFail");
+		}
+	}
+	
+	
+	public void doEdit(@FormGroup("editSaleProduct") SaleProduct saleProduct,
+			@FormField(name = "editSaleProductError", group = "editSaleProduct") CustomErrors err,
+			Navigator nav, ParameterParser params, Context context) {
+		QthUser qthUser = (QthUser) session
+				.getAttribute(UserConstant.QTH_USER_SESSION_KEY);
+		if(qthUser==null){
+			nav.redirectTo(UserConstant.LOGIN_RETURN_DEFAULT_LINK);
+			return;
+		}
+		User user = userService.getUserByLoginId(qthUser.getId());
+		if(user==null){
+			nav.redirectTo(UserConstant.LOGIN_RETURN_DEFAULT_LINK);
+			return;
+		}
+		
+		if(UserStatus.NORMAL.equalsIgnoreCase(user.getStatus())==false){ //其他状态不能发布产品
+			err.setMessage("noPermissionFail");
+			return;
+		}
+		SaleProduct saleProductInDatabase = saleProductService.getSaleProductById(saleProduct.getId());//查找产品是否存在
+		if(saleProductInDatabase==null){
+			err.setMessage("editSaleProductError");
+			return;
+		}
+		
+		saleProduct.setOwner(qthUser.getId());//设置所属用户
+		saleProduct.setProductType(saleProductInDatabase.getProductType());
+		
+		if(UserLevel.GOLDEN.equalsIgnoreCase(user.getUserLevel())){//判断产品状态
+			saleProduct.setStatus(ProductStatus.ON_SHELF);
+			saleProduct.setIsSale(IS.Y);
+		}else{
+			saleProduct.setStatus(ProductStatus.NEW);
+			saleProduct.setIsSale(IS.N);
+		}
+		List<Attachment> imgs=saleProductInDatabase.getImgs();
+
+		FileItem[] imageItems = parser.getParameters().getFileItems("productImages");
+		try{
+			for(FileItem file:imageItems){
+				String path = fileService.saveFile(file, user.getId().toString());
+				Attachment image=new Attachment();
+				image.setPath(path);
+				image.setType(AttachmentType.IMG);
+				image.setKey(UserInterestType.SALE);
+				image.setOwnerId(saleProduct.getId());
+				imgs.add(image);
+			}
+		}catch(Exception e){
+			err.setMessage("saveImageFail");
+			return;
+		}
+		saleProduct.setImgs(imgs);
+		
+		boolean result = saleProductService.updateSaleProduct(saleProduct);
+		if(result){
+			context.put("result", "success");
+			context.put("resultMessage", "编辑产品成功！");
+		}else{
+			err.setMessage("editSaleProductFail");
 		}
 	}
 

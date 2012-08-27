@@ -1,0 +1,141 @@
+<div class="container-fluid">
+	<div class="row-fluid">
+		<div class="row-fluid">
+			<form class="well form-horizontal" method="post" encType="multipart/form-data">
+				$csrfToken.hiddenField
+				#set ($group = $form.editSaleProduct.defaultInstance)
+				<input type="hidden" name="action" value="sale_product_action"/>
+				<input type="hidden" name="$group.id.key" value="$saleProduct.id"/>
+				<input type="hidden" name="id" value="$saleProduct.id"/>
+				<fieldset>
+				<legend><h2>编辑销售产品</h2></legend>
+				#if(!$group.editSaleProductError.valid)
+					<div class="alert alert-error">
+						<button type="button" class="close" data-dismiss="alert">
+						&times;
+						</button>
+						<strong>Oh snap!</strong>
+						$group.editSaleProductError.message
+					</div>
+				#end
+				#if($result=="success")
+					<div class="alert alert-success">
+						<button type="button" class="close" data-dismiss="alert">
+						&times;
+						</button>
+						<strong>Oh snap!</strong>
+						$!resultMessage
+					</div>
+				#end
+				#if($result=="fail")
+					<div class="alert alert-error">
+						<button type="button" class="close" data-dismiss="alert">
+						&times;
+						</button>
+						<strong>Oh snap!</strong>
+						$!resultMessage
+					</div>
+				#end
+				<h2>产品信息</h2>
+				<div class="control-group #if(!$group.name.valid)error  #end" >
+					<label class="control-label" for="name">$group.name.displayName<span style="color:red">*</span></label>
+					<div class="controls">
+						<input type="text" class="input-xlarge" id="name" name="$group.name.key" value="$!saleProduct.name" 
+						placeholder="$group.name.displayName">
+						<p class="help-inline">
+						#if(!$group.name.valid)$group.name.message #end
+						</p>
+					</div>
+				</div>
+				<div class="control-group #if(!$group.categoryId.valid)error  #end" >
+					<label class="control-label" for="categoryId">$group.categoryId.displayName<span style="color:red">*</span></label>
+					<div class="controls">
+						<select type="text" id="categoryId" name="$group.categoryId.key">
+							#foreach($sale in $user.saleInterests)
+								<option value="$sale.value" #if($saleProduct.categoryId==$sale.value) selected=selected #end>$sale.name</option>
+							#end
+						</select>
+						<p class="help-inline">
+						#if(!$group.categoryId.valid)$group.categoryId.message #end
+						</p>
+					</div>
+				</div>
+				<div class="control-group #if(!$group.quantity.valid)error  #end" >
+					<label class="control-label" for="quantity">$group.quantity.displayName<span style="color:red">*</span></label>
+					<div class="controls">
+						<input type="text" class="input-xlarge" id="quantity" name="$group.quantity.key" value="$!saleProduct.quantity"
+						placeholder="$group.quantity.displayName">
+						<p class="help-inline">
+						#if(!$group.quantity.valid)$group.quantity.message #end
+						</p>
+					</div>
+				</div>
+				<div class="control-group #if(!$group.unit.valid)error  #end" >
+					<label class="control-label" for="unit">$group.unit.displayName<span style="color:red">*</span></label>
+					<div class="controls">
+						<input type="text" class="input-xlarge" id="unit" name="$group.unit.key" value="$!saleProduct.unit"
+						placeholder="$group.unit.displayName">
+						<p class="help-inline">
+						#if(!$group.unit.valid)$group.unit.message #end
+						</p>
+					</div>
+				</div>
+				<div class="control-group #if(!$group.price.valid)error  #end" >
+					<label class="control-label" for="price">$group.price.displayName<span style="color:red">*</span></label>
+					<div class="controls">
+						<input type="text" class="input-xlarge" id="price" name="$group.price.key" value="$!saleProduct.price"
+						placeholder="$group.price.displayName">
+						<p class="help-inline">
+						#if(!$group.price.valid)$group.price.message #end
+						</p>
+					</div>
+				</div>
+				<div class="control-group #if(!$group.lowestDealSize.valid)error  #end" >
+					<label class="control-label" for="lowestDealSize">$group.lowestDealSize.displayName<span style="color:red">*</span></label>
+					<div class="controls">
+						<input type="text" class="input-xlarge" id="lowestDealSize" name="$group.lowestDealSize.key" value="$!saleProduct.lowestDealSize"
+						placeholder="$group.lowestDealSize.displayName">
+						<p class="help-inline">
+						#if(!$group.lowestDealSize.valid)$group.lowestDealSize.message #end
+						</p>
+					</div>
+				</div>
+				<hr>
+                <h2>图片信息</h2>
+				#set($leftCount = 4 - $saleProduct.imgs.size())
+				#if($leftCount !=0)	
+				<div class="control-group" >
+					<label class="control-label" for="productImages">添加产品图片</label>
+					#foreach( $foo in [1.. $leftCount] )
+					<div class="controls">
+						<input class="input-file" name="productImages" type="file">
+					</div>
+					#end
+				</div>
+				#end
+				<div class="control-group">
+					<div class="span12">
+                     <ul class="thumbnails">
+						#foreach($img in $saleProduct.imgs)
+                        <li class="span3">
+                          <div class="thumbnail">
+                            <img src="$upload$!img.path" alt="">
+                            <div class="caption">
+                              <p><a href="$userModule.setTarget('editSaleProduct').addQueryData('action','attachment_action').addQueryData('event_submit_do_del','del').addQueryData('id',$!saleProduct.id).addQueryData('attachmentId',$!img.id)" class="btn btn-primary">删除</a></p>
+                            </div>
+                          </div>
+                        </li>
+						#end
+                      </ul>
+                    </div>
+                </div>
+				<div class="form-actions">
+					<input type="submit" class="btn btn-primary" name="event_submit_do_edit" value="提交"/>
+				</div>
+				</fieldset>
+			</form>
+		</div>
+		<!--/row-->
+	</div>
+	<!--/span-->
+</div>

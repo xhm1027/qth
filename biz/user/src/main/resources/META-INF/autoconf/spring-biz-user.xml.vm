@@ -22,4 +22,6 @@
 		class="com.xhm.longxin.biz.user.impl.FileServiceImpl" >
 		<property name="basePath" value="${qth_upload_path}"/>
 	</bean>
+	<bean id="attachementService"
+		class="com.xhm.longxin.biz.user.impl.AttachmentServiceImpl" />
 </beans>
