@@ -69,18 +69,18 @@
     			#foreach($product in $productList)
     			<li class="span3">
     				<div class="thumbnail">
-    					#if($!product.imgs&&$!product.imgs.size==0)
-    						<img src="$!product.imgs.get(0).path" alt="">
+    					#if($product.imgs.size()!=0)
+    						<img src="$upload$!product.imgs.get(0).path" alt="">
     					#else
-    					<img src="http://placehold.it/260x180" alt="">
+    						<img src="http://placehold.it/260x180" alt="">
     					#end
     						<div class="caption">
     							<h5>$product.name</h5>
     							<p>
-    							status=$!product.status 其它产品信息
+    							status=$!product.status 其它产品信息img.size=$product.imgs.size()
     							</p>
     							<p>
-    							<a href="saleProductDetail.htm?id=$!product.id" class="btn btn-primary">详情</a>
+    							<a href="viewSaleProduct.htm?id=$!product.id" class="btn btn-primary">详情</a>
     							</p>
     						</div>
     				</div>
