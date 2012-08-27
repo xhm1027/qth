@@ -56,10 +56,10 @@
 		</div>
 		<div class="pagination">
 			  <ul>
-			  	<li#if($!page == 1) class="active"#end><a href="listSaleProduct.htm?name=$!name&order=$!order&page=1&pageSize=20">第1页</a></li>
+			  	<li#if($!page == 1) class="active"#end><a href="listSaleProduct.htm?name=$!name&order=$!order#foreach($id in $materialIds)&materialIds=$!id#end#foreach($id in $notMaterialIds)&notMaterialIds=$!id#end&page=1&pageSize=20">第1页</a></li>
 			 	 #if($!totalPage != 1)
 			 	 #foreach($pageIndex in [2 .. $!totalPage])
-					<li#if($!page == $!pageIndex) class="active"#end><a href="listSaleProduct.htm?name=$!name&company=$!company&status=$!status&userLevel=$!userLevel&page=$!pageIndex&pageSize=$!pageSize">$!pageIndex</a></li>
+					<li#if($!page == $!pageIndex) class="active"#end><a href="listSaleProduct.htm?name=$!name&order=$!order#foreach($id in $materialIds)&materialIds=$!id#end#foreach($id in $notMaterialIds)&notMaterialIds=$!id#end&page=$!pageIndex&pageSize=$!pageSize">$!pageIndex</a></li>
 			 	 #end
 			 	 #end
 			  </ul>
@@ -69,7 +69,7 @@
     			#foreach($product in $productList)
     			<li class="span3">
     				<div class="thumbnail">
-    					#if($!product.imgs&&$!product.imgs.size>0)
+    					#if($!product.imgs&&$!product.imgs.size==0)
     						<img src="$!product.imgs.get(0).path" alt="">
     					#else
     					<img src="http://placehold.it/260x180" alt="">
@@ -90,11 +90,11 @@
 		</div>
 		<div class="pagination">
 			  <ul>
-			  	<li#if($!page == 1) class="active"#end><a href="listSaleProduct.htm?name=$!name&company=$!company&status=$!status&userLevel=$!userLevel&page=1&pageSize=20">第1页</a></li>
+			  	<li#if($!page == 1) class="active"#end><a href="listSaleProduct.htm?name=$!name&order=$!order#foreach($id in $materialIds)&materialIds=$!id#end#foreach($id in $notMaterialIds)&notMaterialIds=$!id#end&page=1&pageSize=20">第1页</a></li>
 			 	 #if($!totalPage != 1)
-    			 	 #foreach($pageIndex in [2 .. $!totalPage])
-    					<li#if($!page == $!pageIndex) class="active"#end><a href="listSaleProduct.htm?name=$!name&company=$!company&status=$!status&userLevel=$!userLevel&page=$!pageIndex&pageSize=$!pageSize">$!pageIndex</a></li>
-    			 	 #end
+			 	 #foreach($pageIndex in [2 .. $!totalPage])
+					<li#if($!page == $!pageIndex) class="active"#end><a href="listSaleProduct.htm?name=$!name&order=$!order#foreach($id in $materialIds)&materialIds=$!id#end#foreach($id in $notMaterialIds)&notMaterialIds=$!id#end&page=$!pageIndex&pageSize=$!pageSize">$!pageIndex</a></li>
+			 	 #end
 			 	 #end
 			  </ul>
 		</div>

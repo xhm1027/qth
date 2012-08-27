@@ -11,6 +11,7 @@ import com.alibaba.citrus.turbine.dataresolver.Param;
 import com.xhm.longxin.biz.user.interfaces.ProductCategoryService;
 import com.xhm.longxin.biz.user.interfaces.SaleProductService;
 import com.xhm.longxin.qth.dal.constant.IS;
+import com.xhm.longxin.qth.dal.constant.ProductStatus;
 import com.xhm.longxin.qth.dal.dataobject.ProductCategory;
 import com.xhm.longxin.qth.dal.query.CategoryQuery;
 import com.xhm.longxin.qth.dal.query.QueryObject;
@@ -39,9 +40,18 @@ public class ListSaleProduct {
 			pageSize = QueryObject.defaultPageSize;
 		}
 		productQuery.setName(name);
+		// 用户冻结和审核失败时，需要扩展字段来进行描述标记，不能直接用SaleProduct
+		productQuery.setStatus(ProductStatus.ON_SHELF);
 		// 采购类别
-		List<Long> categoryIds = Arrays.asList(materialIds);
-		categoryIds.addAll(Arrays.asList(notMaterialIds));
+		List<Long> categoryIds = new ArrayList<Long>();
+		List<Long> mIds = Arrays.asList(materialIds);
+		for (Long id : mIds) {
+			categoryIds.add(id);
+		}
+		List<Long> notMCIds = Arrays.asList(notMaterialIds);
+		for (Long id : notMCIds) {
+			categoryIds.add(id);
+		}
 		if (categoryIds.size() > 0) {
 			productQuery.setCategoryIds(categoryIds);
 		}
@@ -52,16 +62,18 @@ public class ListSaleProduct {
 		if (order != null && order.equals("publish")) {
 			productQuery.setOrderModified(true);
 		}
-		if (orderDesc != null) {
+		if (order != null) {
 			productQuery.setOrderDesc(true);
 		}
 		// 查询参数
+		context.put("materialIds", materialIds);
+		context.put("notMaterialIds", notMaterialIds);
 		context.put("name", name);
 		context.put("order", order);
 		context.put("page", page);
 		context.put("pageSize", pageSize);
 		context.put("orderDesc", orderDesc);
-		int totalCount =  saleProductService.queryCount(productQuery);
+		int totalCount = saleProductService.queryCount(productQuery);
 		context.put("totalCount", totalCount);
 		context.put("totalPage", (totalCount - 1) / pageSize + 1);
 		context.put("productList", saleProductService.query(productQuery,

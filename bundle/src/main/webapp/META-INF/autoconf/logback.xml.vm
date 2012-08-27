@@ -37,6 +37,11 @@
         </layout>
     </appender>
 
+	<logger name="java.sql">
+        <level value="DEBUG" />
+        <appender-ref ref="STDERR" />
+        <appender-ref ref="STDOUT" />
+    </logger>
     <root>
         <level value="INFO" />
         <appender-ref ref="STDERR" />
