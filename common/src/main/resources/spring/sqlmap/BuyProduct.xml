@@ -147,16 +147,13 @@
 		<isNotNull property="id" prepend="AND">
 			id=#id#
 		</isNotNull>
-		 <![CDATA[order by]]>
-		 id
-		<isNotNull property="orderModified" prepend=" ,">
-			<![CDATA[gmt_modified]]>
+		 <isNotNull property="orderModified" prepend=" ">
+			<![CDATA[order by gmt_modified]]>
 		</isNotNull>
-		<isNotNull property="orderByPrice" prepend=" ,">
-			<![CDATA[price]]>
+		<isNotNull property="orderByPrice" prepend=" ">
+			<![CDATA[order by price]]>
 		</isNotNull>
-		<![CDATA[,name]]>
-		<isNotNull property="orderDesc" prepend=" ,">
+		<isNotNull property="orderDesc" prepend=" ">
 		<![CDATA[	desc]]>
 		</isNotNull>
 		<include refid="ALICRM_COMMON.ALI_PAGING" />
