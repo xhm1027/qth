@@ -38,11 +38,11 @@
 				</div>
 				<div class="row-fluid">
 					<label class="label label-warning" " for="input01">排序</label>
-					<button class="btn btn-mini" onClick="doSearchWithOrder('publish');">
+					<button class="btn btn-mini  #if($!order=='publish')active#end" onClick="doSearchWithOrder('publish');">
 					<i class="icon-arrow-up"></i>
 					发布时间
 					</button>
-					<button class="btn btn-mini" onClick="doSearchWithOrder('price');">
+					<button class="btn btn-mini  #if($!order=='price')active#end" onClick="doSearchWithOrder('price');">
 					<i class="icon-arrow-up"></i>
 					单价
 					</button>
