@@ -19,9 +19,16 @@ public class SaleProduct extends BaseDo {
 	private String status;
 	private String owner;
 	private String productType;
-	private String isSale;
 	private List<Attachment> imgs;
+	private String description;
 
+	public String getDescription() {
+		return description;
+	}
+
+	public void setDescription(String description) {
+		this.description = description;
+	}
 	public List<Attachment> getImgs() {
 		return imgs;
 	}
@@ -102,11 +109,4 @@ public class SaleProduct extends BaseDo {
 		this.productType = productType;
 	}
 
-	public String getIsSale() {
-		return isSale;
-	}
-
-	public void setIsSale(String isSale) {
-		this.isSale = isSale;
-	}
 }

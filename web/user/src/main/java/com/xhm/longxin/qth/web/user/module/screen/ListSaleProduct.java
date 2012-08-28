@@ -10,17 +10,24 @@ import com.alibaba.citrus.turbine.Context;
 import com.alibaba.citrus.turbine.dataresolver.Param;
 import com.xhm.longxin.biz.user.interfaces.ProductCategoryService;
 import com.xhm.longxin.biz.user.interfaces.SaleProductService;
+import com.xhm.longxin.biz.user.interfaces.UserService;
 import com.xhm.longxin.qth.dal.constant.IS;
 import com.xhm.longxin.qth.dal.constant.ProductStatus;
 import com.xhm.longxin.qth.dal.dataobject.ProductCategory;
+import com.xhm.longxin.qth.dal.dataobject.SaleProduct;
+import com.xhm.longxin.qth.dal.dataobject.User;
 import com.xhm.longxin.qth.dal.query.CategoryQuery;
 import com.xhm.longxin.qth.dal.query.QueryObject;
 import com.xhm.longxin.qth.dal.query.SaleProductQuery;
+import com.xhm.longxin.qth.web.user.common.QthUser;
 import com.xhm.longxin.qth.web.user.vo.ProductCategoryVO;
+import com.xhm.longxin.qth.web.user.vo.SaleProductVO;
 
 public class ListSaleProduct {
 	@Autowired
 	private SaleProductService saleProductService;
+	@Autowired
+	private UserService userService;
 	@Autowired
 	private ProductCategoryService productCategoryService;
 
@@ -76,8 +83,9 @@ public class ListSaleProduct {
 		int totalCount = saleProductService.queryCount(productQuery);
 		context.put("totalCount", totalCount);
 		context.put("totalPage", (totalCount - 1) / pageSize + 1);
-		context.put("productList", saleProductService.query(productQuery,
-				(page - 1) * pageSize, pageSize));
+		List<SaleProduct> productList = saleProductService.query(productQuery,
+				(page - 1) * pageSize, pageSize);
+		context.put("productList", wrapSaleProductVO(productList));
 
 		// 类别信息，作为查询条件用
 		CategoryQuery categoryQuery = new CategoryQuery();
@@ -89,6 +97,25 @@ public class ListSaleProduct {
 		context.put("notMaterialCategories", wrapProductCategoryVO(
 				productCategoryService.query(categoryQuery), null, Arrays
 						.asList(notMaterialIds)));
+	}
+
+	private List<SaleProductVO> wrapSaleProductVO(List<SaleProduct> productList) {
+		List<SaleProductVO> resList = new ArrayList<SaleProductVO>();
+		for (SaleProduct p : productList) {
+			SaleProductVO proVo = new SaleProductVO();
+			proVo.setId(p.getId());
+			proVo.setImgs(p.getImgs());
+			proVo.setDescription(p.getDescription());
+			proVo.setLowestDealSize(p.getLowestDealSize());
+			proVo.setName(p.getName());
+			proVo.setPrice(p.getPrice());
+			proVo.setUnit(p.getUnit());
+			proVo.setQuantity(p.getQuantity());
+			User user = userService.getUserByLoginId(p.getOwner());
+			proVo.setOwnerStatus(user.getStatus());
+			resList.add(proVo);
+		}
+		return resList;
 	}
 
 	/**

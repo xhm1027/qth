@@ -54,7 +54,7 @@ import com.xhm.longxin.qth.web.user.common.UserConstant;
 public class BuyProductAction {
 	@Autowired
 	private UserService userService;
-	
+
 	@Autowired
 	private BuyProductService buyProductService;
 
@@ -82,12 +82,12 @@ public class BuyProductAction {
 			nav.redirectTo(UserConstant.LOGIN_RETURN_DEFAULT_LINK);
 			return;
 		}
-		
+
 		if(UserStatus.NORMAL.equalsIgnoreCase(user.getStatus())==false){ //其他状态不能发布产品
 			err.setMessage("noPermissionFail");
 			return;
 		}
-		
+
 		buyProduct.setOwner(qthUser.getId());//设置所属用户
 		ProductCategory pc = productCategoryService.getCategoryById(buyProduct.getCategoryId());
 		if(IS.Y.equalsIgnoreCase(pc.getIsMaterial())){//判断产品类型
@@ -97,10 +97,10 @@ public class BuyProductAction {
 		}
 		if(UserLevel.GOLDEN.equalsIgnoreCase(user.getUserLevel())){//判断产品状态
 			buyProduct.setStatus(ProductStatus.ON_SHELF);
-			buyProduct.setIsSale(IS.Y);
+			//buyProduct.setIsSale(IS.Y);
 		}else{
 			buyProduct.setStatus(ProductStatus.NEW);
-			buyProduct.setIsSale(IS.N);
+			//buyProduct.setIsSale(IS.N);
 		}
 		List<Attachment> imgs=new ArrayList<Attachment>();
 
@@ -119,7 +119,7 @@ public class BuyProductAction {
 			return;
 		}
 		buyProduct.setImgs(imgs);
-		
+
 		boolean result = buyProductService.addBuyProduct(buyProduct);
 		if(result){
 			context.put("result", "success");
@@ -128,5 +128,5 @@ public class BuyProductAction {
 		}
 	}
 
-	
+
 }

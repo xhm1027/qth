@@ -70,17 +70,33 @@
     			<li class="span3">
     				<div class="thumbnail">
     					#if($product.imgs.size()!=0)
-    						<img src="$upload$!product.imgs.get(0).path" alt="">
+    						<a href="#" onClick="javascript:showProductDetail($product.id)">
+								<img width="260" height="180" src="$upload$!product.imgs.get(0).path" alt="">
+							</a>
     					#else
-    						<img src="http://placehold.it/260x180" alt="">
+    						<a href="#" onClick="javascript:showProductDetail($product.id)">
+								<img src="http://placehold.it/260x180" alt="">
+							</a>
     					#end
     						<div class="caption">
     							<h5>$product.name</h5>
     							<p>
-    							status=$!product.status 其它产品信息img.size=$product.imgs.size()
+									价格：#if($product.price==-1)面议#else$product.price元#end
+								<br>
+									库存：$!product.quantity $!product.unit
+								<br>
+									最小起订：#if(!$product.lowestDealSize||$product.lowestDealSize==-1)面议#else$!product.lowestDealSize $!product.unit#end
+								<br>
+									描述：#if($product.description&&$product.description.length()>15)$product.description.substring(0,14)#else$!product.description#end
     							</p>
     							<p>
-    							<a href="viewSaleProduct.htm?id=$!product.id" class="btn btn-primary">详情</a>
+    							<a href="#" onClick="javascript:showProductDetail($product.id)" class="btn btn-primary">详情</a>
+								<span style="color:red">
+									#if($product.ownerStatus=='freese')该用户账号已冻结
+										#elseif($product.ownerStatus=='new')该用户账号待审核
+											#elseif($product.ownerStatus=='auditFailed')该用户账号审核失败
+									#end
+                                </span>
     							</p>
     						</div>
     				</div>
@@ -106,4 +122,14 @@
 			$("#orderBy").val(order);
 			$("#searchForm").submit();
 		}
+		function showProductDetail(id){
+			#if ($qthUser.hasLoggedIn())
+				var detailUrl="viewSaleProduct.htm?id="+id;
+				window.open(detailUrl);
+			#else
+				$('#nopermissionModal').modal('show');
+			#end
+
+		}
+
 	</script>

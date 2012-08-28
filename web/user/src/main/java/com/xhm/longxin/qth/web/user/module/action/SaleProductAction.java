@@ -53,7 +53,7 @@ import com.xhm.longxin.qth.web.user.common.UserConstant;
 public class SaleProductAction {
 	@Autowired
 	private UserService userService;
-	
+
 	@Autowired
 	private SaleProductService saleProductService;
 
@@ -81,12 +81,12 @@ public class SaleProductAction {
 			nav.redirectTo(UserConstant.LOGIN_RETURN_DEFAULT_LINK);
 			return;
 		}
-		
+
 		if(UserStatus.NORMAL.equalsIgnoreCase(user.getStatus())==false){ //其他状态不能发布产品
 			err.setMessage("noPermissionFail");
 			return;
 		}
-		
+
 		saleProduct.setOwner(qthUser.getId());//设置所属用户
 		ProductCategory pc = productCategoryService.getCategoryById(saleProduct.getCategoryId());
 		if(IS.Y.equalsIgnoreCase(pc.getIsMaterial())){//判断产品类型
@@ -96,10 +96,10 @@ public class SaleProductAction {
 		}
 		if(UserLevel.GOLDEN.equalsIgnoreCase(user.getUserLevel())){//判断产品状态
 			saleProduct.setStatus(ProductStatus.ON_SHELF);
-			saleProduct.setIsSale(IS.Y);
+			//saleProduct.setIsSale(IS.Y);
 		}else{
 			saleProduct.setStatus(ProductStatus.NEW);
-			saleProduct.setIsSale(IS.N);
+			//saleProduct.setIsSale(IS.N);
 		}
 		List<Attachment> imgs=new ArrayList<Attachment>();
 
@@ -118,7 +118,7 @@ public class SaleProductAction {
 			return;
 		}
 		saleProduct.setImgs(imgs);
-		
+
 		boolean result = saleProductService.addSaleProduct(saleProduct);
 		if(result){
 			context.put("result", "success");
@@ -126,8 +126,8 @@ public class SaleProductAction {
 			err.setMessage("addSaleProductFail");
 		}
 	}
-	
-	
+
+
 	public void doEdit(@FormGroup("editSaleProduct") SaleProduct saleProduct,
 			@FormField(name = "editSaleProductError", group = "editSaleProduct") CustomErrors err,
 			Navigator nav, ParameterParser params, Context context) {
@@ -142,7 +142,7 @@ public class SaleProductAction {
 			nav.redirectTo(UserConstant.LOGIN_RETURN_DEFAULT_LINK);
 			return;
 		}
-		
+
 		if(UserStatus.NORMAL.equalsIgnoreCase(user.getStatus())==false){ //其他状态不能发布产品
 			err.setMessage("noPermissionFail");
 			return;
@@ -152,16 +152,16 @@ public class SaleProductAction {
 			err.setMessage("editSaleProductError");
 			return;
 		}
-		
+
 		saleProduct.setOwner(qthUser.getId());//设置所属用户
 		saleProduct.setProductType(saleProductInDatabase.getProductType());
-		
+
 		if(UserLevel.GOLDEN.equalsIgnoreCase(user.getUserLevel())){//判断产品状态
 			saleProduct.setStatus(ProductStatus.ON_SHELF);
-			saleProduct.setIsSale(IS.Y);
+			//saleProduct.setIsSale(IS.Y);
 		}else{
 			saleProduct.setStatus(ProductStatus.NEW);
-			saleProduct.setIsSale(IS.N);
+			//saleProduct.setIsSale(IS.N);
 		}
 		List<Attachment> imgs=saleProductInDatabase.getImgs();
 
@@ -181,7 +181,7 @@ public class SaleProductAction {
 			return;
 		}
 		saleProduct.setImgs(imgs);
-		
+
 		boolean result = saleProductService.updateSaleProduct(saleProduct);
 		if(result){
 			context.put("result", "success");
@@ -191,5 +191,5 @@ public class SaleProductAction {
 		}
 	}
 
-	
+
 }

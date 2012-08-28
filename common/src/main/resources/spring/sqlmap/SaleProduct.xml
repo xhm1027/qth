@@ -25,7 +25,7 @@
 			javaType="String" />
 		<result property="productType" column="product_type" jdbcType="VARCHAR"
 			javaType="String" />
-		<result property="isSale" column="is_sale" jdbcType="VARCHAR"
+		<result property="description" column="description" jdbcType="VARCHAR"
 			javaType="String" />
 		<result property="imgs" column="id"
 			select="QTH_ATTACHMENT.QUERY_SALE_IMG_ATTACHMENT" />
@@ -49,7 +49,7 @@
                  status,
                  owner,
                  product_type,
-                 is_sale
+                 description
                  )
                VALUES
                (
@@ -67,7 +67,7 @@
                 #status#,
                 #owner#,
                 #productType#,
-                #isSale#
+                #description#
 	        )
         ]]>
 		<selectKey resultClass="Long" keyProperty="id">
@@ -107,8 +107,8 @@
 		<isNotNull property="productType" prepend=",">
 			product_type=#productType#
 		</isNotNull>
-		<isNotNull property="isSale" prepend=",">
-			is_sale=#isSale#
+		<isNotNull property="description" prepend=",">
+			description=#description#
 		</isNotNull>
 		where
 		id = #id#
@@ -128,7 +128,7 @@
 				status,
 				owner,
 				product_type,
-				is_sale
+				description
 				from qth_product_sale where  is_deleted='N']]>
 		<isNotNull property="name" prepend="AND">
 			name like
@@ -144,9 +144,6 @@
 		</isNotNull>
 		<isNotNull property="productType" prepend="AND">
 			product_type=#productType#
-		</isNotNull>
-		<isNotNull property="isSale" prepend="AND">
-			is_sale=#isSale#
 		</isNotNull>
 		<isNotNull property="id" prepend="AND">
 			id=#id#
@@ -182,9 +179,6 @@
 		</isNotNull>
 		<isNotNull property="productType" prepend="AND">
 			product_type=#productType#
-		</isNotNull>
-		<isNotNull property="isSale" prepend="AND">
-			is_sale=#isSale#
 		</isNotNull>
 	</select>
 </sqlMap>

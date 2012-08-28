@@ -54,7 +54,7 @@ public class BuyProductDaoTest  extends BaseDaoTest {
 				this.put("id",DataGenerator.repeat(1,2,3));
 				this.put("name", DataGenerator.repeat("测试产品1","测试产品2","测试产品3"));
 				this.put("category_id", 1);
-				this.put("is_sale", DataGenerator.repeat("Y","Y","N"));
+				this.put("description", DataGenerator.repeat("Y","Y","N"));
 				this.put("product_type", ProductType.RESOURCE);
 				this.put("is_deleted", "N");
 				this.put("status", ProductStatus.NEW);
