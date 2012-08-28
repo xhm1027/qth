@@ -17,6 +17,10 @@ public interface BuyProductService {
 	 * 根据id取记录
 	 * */
 	public BuyProduct getBuyProductById(Long id);
-
+	
+	/**
+	 * 更新记录
+	 * */
+	public boolean updateBuyProduct(BuyProduct product);
 	
 }

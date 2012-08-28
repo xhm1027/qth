@@ -457,7 +457,7 @@
 		</services:group>
 		
 		<!--
-			- =============================================== -添加销售产品form- ===============================================
+			- =============================================== -编辑销售产品form- ===============================================
 		-->
 		<services:group name="editSaleProduct" extends="csrfCheck">
 			<services:field name="editSaleProductError">
@@ -466,6 +466,68 @@
 				</custom-error>
 				<custom-error id="noPermissionFail">
 					<message>没有权限编辑销售产品</message>
+				</custom-error>
+				<custom-error id="saveImageFail">
+					<message>保存图片失败</message>
+				</custom-error>
+			</services:field>
+			<services:field name="id" displayName="id">
+				<required-validator>
+					<message>该产品不存在</message>
+				</required-validator>
+				<custom-error id="existError">
+					<message>该产品不存在</message>
+				</custom-error>
+			</services:field>
+			<services:field name="name" displayName="名称">
+				<required-validator>
+					<message>必须填写 ${displayName}</message>
+				</required-validator>
+			</services:field>
+			<services:field name="categoryId" displayName="类别">
+				<required-validator>
+					<message>必须填写 ${displayName}</message>
+				</required-validator>
+			</services:field>
+			<services:field name="quantity" displayName="数量">
+				<required-validator>
+					<message>必须填写 ${displayName}</message>
+				</required-validator>
+				<number-validator>
+			        <message>${displayName} 必须是数字</message>
+			    </number-validator>
+			</services:field>
+			<services:field name="unit" displayName="单位">
+				<required-validator>
+					<message>必须填写 ${displayName}</message>
+				</required-validator>
+			</services:field>
+			<services:field name="price" displayName="单价">
+				<required-validator>
+					<message>必须填写 ${displayName}</message>
+				</required-validator>
+				<number-validator numberType="double">
+			        <message>${displayName} 必须是数字</message>
+			    </number-validator>
+			</services:field>
+			<services:field name="lowestDealSize" displayName="最小起订数量">
+				<required-validator>
+					<message>必须填写 ${displayName}</message>
+				</required-validator>
+			</services:field>
+		</services:group>
+		
+		
+		<!--
+			- =============================================== -编辑采购产品form- ===============================================
+		-->
+		<services:group name="editBuyProduct" extends="csrfCheck">
+			<services:field name="editBuyProductError">
+				<custom-error id="editBuyProductFail">
+					<message>编辑采购产品失败</message>
+				</custom-error>
+				<custom-error id="noPermissionFail">
+					<message>没有权限编辑采购产品</message>
 				</custom-error>
 				<custom-error id="saveImageFail">
 					<message>保存图片失败</message>

@@ -20,5 +20,8 @@ public class BuyProductServiceImpl implements BuyProductService {
 	public BuyProduct getBuyProductById(Long id) {
 		return buyProductDao.getBuyProductById(id);
 	}
+	public boolean updateBuyProduct(BuyProduct product) {
+		return buyProductDao.updateBuyProduct(product);
+	}
 
 }

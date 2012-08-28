@@ -148,14 +148,15 @@
 			id=#id#
 		</isNotNull>
 		 <![CDATA[order by]]>
-		<isNotNull property="orderModified" prepend=" ">
+		 id
+		<isNotNull property="orderModified" prepend=" ,">
 			<![CDATA[gmt_modified]]>
 		</isNotNull>
-		<isNotNull property="orderByPrice" prepend=" ">
+		<isNotNull property="orderByPrice" prepend=" ,">
 			<![CDATA[price]]>
 		</isNotNull>
 		<![CDATA[,name]]>
-		<isNotNull property="orderDesc" prepend=" ">
+		<isNotNull property="orderDesc" prepend=" ,">
 		<![CDATA[	desc]]>
 		</isNotNull>
 		<include refid="ALICRM_COMMON.ALI_PAGING" />

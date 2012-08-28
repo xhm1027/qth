@@ -128,5 +128,68 @@ public class BuyProductAction {
 		}
 	}
 
+	
+	public void doEdit(@FormGroup("editBuyProduct") BuyProduct buyProduct,
+			@FormField(name = "editBuyProductError", group = "editBuyProduct") CustomErrors err,
+			Navigator nav, ParameterParser params, Context context) {
+		QthUser qthUser = (QthUser) session
+				.getAttribute(UserConstant.QTH_USER_SESSION_KEY);
+		if(qthUser==null){
+			nav.redirectTo(UserConstant.LOGIN_RETURN_DEFAULT_LINK);
+			return;
+		}
+		User user = userService.getUserByLoginId(qthUser.getId());
+		if(user==null){
+			nav.redirectTo(UserConstant.LOGIN_RETURN_DEFAULT_LINK);
+			return;
+		}
+
+		if(UserStatus.NORMAL.equalsIgnoreCase(user.getStatus())==false){ //其他状态不能发布产品
+			err.setMessage("noPermissionFail");
+			return;
+		}
+		BuyProduct buyProductInDatabase = buyProductService.getBuyProductById(buyProduct.getId());//查找产品是否存在
+		if(buyProductInDatabase==null){
+			err.setMessage("editBuyProductError");
+			return;
+		}
+
+		buyProduct.setOwner(qthUser.getId());//设置所属用户
+		buyProduct.setProductType(buyProductInDatabase.getProductType());
+
+		if(UserLevel.GOLDEN.equalsIgnoreCase(user.getUserLevel())){//判断产品状态
+			buyProduct.setStatus(ProductStatus.ON_SHELF);
+			//buyProduct.setIsSale(IS.Y);
+		}else{
+			buyProduct.setStatus(ProductStatus.NEW);
+			//buyProduct.setIsSale(IS.N);
+		}
+		List<Attachment> imgs=buyProductInDatabase.getImgs();
+
+		FileItem[] imageItems = parser.getParameters().getFileItems("productImages");
+		try{
+			for(FileItem file:imageItems){
+				String path = fileService.saveFile(file, user.getId().toString());
+				Attachment image=new Attachment();
+				image.setPath(path);
+				image.setType(AttachmentType.IMG);
+				image.setKey(UserInterestType.BUY);
+				image.setOwnerId(buyProduct.getId());
+				imgs.add(image);
+			}
+		}catch(Exception e){
+			err.setMessage("saveImageFail");
+			return;
+		}
+		buyProduct.setImgs(imgs);
+
+		boolean result = buyProductService.updateBuyProduct(buyProduct);
+		if(result){ 
+			context.put("result", "success");
+			context.put("resultMessage", "编辑产品成功！");
+		}else{
+			err.setMessage("editBuyProductFail");
+		}
+	}
 
 }
