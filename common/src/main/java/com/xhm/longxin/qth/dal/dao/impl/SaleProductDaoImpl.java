@@ -7,6 +7,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.orm.ibatis.support.SqlMapClientDaoSupport;
+
+import com.alibaba.citrus.util.StringUtil;
 import com.xhm.longxin.qth.dal.dao.SaleProductDao;
 import com.xhm.longxin.qth.dal.dataobject.Attachment;
 import com.xhm.longxin.qth.dal.dataobject.SaleProduct;
@@ -25,6 +27,9 @@ public class SaleProductDaoImpl extends SqlMapClientDaoSupport implements
 
 	private static final String QUERY_ID = "QUERY_PRODUCT";
 	private static final String QUERY_COUNT = "QUERY_COUNT";
+
+	private static final String QUERY_ID_WITH_COMPANY = "QUERY_PRODUCT_WITH_COMPANY";
+	private static final String QUERY_COUNT_WITH_COMPANY = "QUERY_COUNT_WITH_COMPANY";
 
 	private static final String NAMESPACE_ATTACHMENT = "QTH_ATTACHMENT";
 	private static final String INSERT_ATTACHMENT = "INSERT_ATTACHMENT";
@@ -51,7 +56,6 @@ public class SaleProductDaoImpl extends SqlMapClientDaoSupport implements
 		return res > 0 ? true : false;
 	}
 
-
 	public boolean deleteSaleProductById(Long id) {
 		SaleProduct product = getSaleProductById(id);
 		// 删除之前先删除附件
@@ -66,7 +70,6 @@ public class SaleProductDaoImpl extends SqlMapClientDaoSupport implements
 				NAMESPACE_PRODUCT + "." + UPDATE_ID, product);
 		return res > 0 ? true : false;
 	}
-
 
 	public boolean updateSaleProduct(SaleProduct product) {
 		Integer res = (Integer) getSqlMapClientTemplate().update(
@@ -114,10 +117,18 @@ public class SaleProductDaoImpl extends SqlMapClientDaoSupport implements
 	 * dal.query.SaleProductQuery)
 	 */
 	public List<SaleProduct> query(SaleProductQuery saleProductQuery) {
-		List<SaleProduct> list = (List<SaleProduct>) getSqlMapClientTemplate()
-				.queryForList(NAMESPACE_PRODUCT + "." + QUERY_ID,
-						saleProductQuery);
-		return list;
+		if (StringUtil.isEmpty(saleProductQuery.getCompany())) {
+			List<SaleProduct> list = (List<SaleProduct>) getSqlMapClientTemplate()
+					.queryForList(NAMESPACE_PRODUCT + "." + QUERY_ID,
+							saleProductQuery);
+			return list;
+		} else {
+			List<SaleProduct> list = (List<SaleProduct>) getSqlMapClientTemplate()
+					.queryForList(
+							NAMESPACE_PRODUCT + "." + QUERY_ID_WITH_COMPANY,
+							saleProductQuery);
+			return list;
+		}
 	}
 
 	/*
@@ -129,12 +140,21 @@ public class SaleProductDaoImpl extends SqlMapClientDaoSupport implements
 	 */
 	public List<SaleProduct> query(SaleProductQuery saleProductQuery,
 			int pageStart, int pageSize) {
+
 		saleProductQuery.setPageStart(pageStart);
 		saleProductQuery.setPageSize(pageSize);
-		List<SaleProduct> list = (List<SaleProduct>) getSqlMapClientTemplate()
-				.queryForList(NAMESPACE_PRODUCT + "." + QUERY_ID,
-						saleProductQuery);
-		return list;
+		if (StringUtil.isEmpty(saleProductQuery.getCompany())) {
+			List<SaleProduct> list = (List<SaleProduct>) getSqlMapClientTemplate()
+					.queryForList(NAMESPACE_PRODUCT + "." + QUERY_ID,
+							saleProductQuery);
+			return list;
+		} else {
+			List<SaleProduct> list = (List<SaleProduct>) getSqlMapClientTemplate()
+					.queryForList(
+							NAMESPACE_PRODUCT + "." + QUERY_ID_WITH_COMPANY,
+							saleProductQuery);
+			return list;
+		}
 	}
 
 	/*
@@ -145,28 +165,39 @@ public class SaleProductDaoImpl extends SqlMapClientDaoSupport implements
 	 * .qth.dal.query.SaleProductQuery)
 	 */
 	public int queryCount(SaleProductQuery saleProductQuery) {
-		int count = (Integer) getSqlMapClientTemplate().queryForObject(
-				NAMESPACE_PRODUCT + "." + QUERY_COUNT, saleProductQuery);
-		return count;
+		if (StringUtil.isEmpty(saleProductQuery.getCompany())) {
+			int count = (Integer) getSqlMapClientTemplate().queryForObject(
+					NAMESPACE_PRODUCT + "." + QUERY_COUNT, saleProductQuery);
+			return count;
+		} else {
+			int count = (Integer) getSqlMapClientTemplate().queryForObject(
+					NAMESPACE_PRODUCT + "." + QUERY_COUNT_WITH_COMPANY,
+					saleProductQuery);
+			return count;
+		}
 	}
 
-
-	/* (non-Javadoc)
-	 * @see com.xhm.longxin.qth.dal.dao.SaleProductDao#getSaleProductById(java.lang.Long)
+	/*
+	 * (non-Javadoc)
+	 *
+	 * @see
+	 * com.xhm.longxin.qth.dal.dao.SaleProductDao#getSaleProductById(java.lang
+	 * .Long)
 	 */
 	public SaleProduct getSaleProductById(Long id) {
 
 		SaleProductQuery saleProductQuery = new SaleProductQuery();
 		saleProductQuery.setId(id);
-			List<SaleProduct> list = (List<SaleProduct>) getSqlMapClientTemplate()
-					.queryForList(NAMESPACE_PRODUCT + "." + QUERY_ID,
-							saleProductQuery);
-			if (list == null || list.size() == 0) {
-				return null;
-			}
-			return list.get(0);
+		List<SaleProduct> list = (List<SaleProduct>) getSqlMapClientTemplate()
+				.queryForList(NAMESPACE_PRODUCT + "." + QUERY_ID,
+						saleProductQuery);
+		if (list == null || list.size() == 0) {
+			return null;
+		}
+		return list.get(0);
 
 	}
+
 	private boolean deleteAttachmentById(Long id) {
 		Attachment attachment = new Attachment();
 		attachment.setId(id);

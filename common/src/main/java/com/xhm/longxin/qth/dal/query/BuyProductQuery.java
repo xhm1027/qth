@@ -12,15 +12,34 @@ import java.util.List;
 public class BuyProductQuery extends QueryObject{
 	private String name;
 	private String status;
+	private String company;
 	private String owner;
 	private String isSale;
 	private String productType;
 	private List<Long> categoryIds;
 	private Long id;
 	private Boolean orderByPrice=null;
+	private String gmtPublishStart;
+	private String gmtPublishEnd;
 
-
-
+	public String getGmtPublishStart() {
+		return gmtPublishStart;
+	}
+	public void setGmtPublishStart(String gmtPublishStart) {
+		this.gmtPublishStart = gmtPublishStart;
+	}
+	public String getGmtPublishEnd() {
+		return gmtPublishEnd;
+	}
+	public void setGmtPublishEnd(String gmtPublishEnd) {
+		this.gmtPublishEnd = gmtPublishEnd;
+	}
+	public String getCompany() {
+		return company;
+	}
+	public void setCompany(String company) {
+		this.company = company;
+	}
 	public Boolean getOrderByPrice() {
 		return orderByPrice;
 	}

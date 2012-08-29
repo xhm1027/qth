@@ -9,6 +9,7 @@
 		<link href="$!{qthServer}assets/css/bootstrap.css" rel="stylesheet">
 		<link href="$!{qthServer}css/bootstrap-wysihtml5.css" rel="stylesheet">
 		<link href="$!{qthServer}css/prettify.css" rel="stylesheet">
+		<link href="$!{qthServer}assets/css/datepicker.css" rel="stylesheet">
 		<link href="$!{qthServer}assets/css/bootstrap-responsive.css" rel="stylesheet">
 		<link href="$!{qthServer}assets/css/docs.css" rel="stylesheet">
 		<link href="$!{qthServer}assets/js/google-code-prettify/prettify.css" rel="stylesheet">
@@ -44,6 +45,7 @@
     ================================================== -->
 	<!-- Placed at the end of the document so the pages load faster -->
 	<script src="$!{qthServer}assets/js/jquery.js"></script>
+	<script src="$!{qthServer}assets/js/bootstrap-datepicker.js"></script>
 	<script src="$!{qthServer}assets/js/google-code-prettify/prettify.js"></script>
 	<script src="$!{qthServer}assets/js/bootstrap-transition.js"></script>
 	<script src="$!{qthServer}assets/js/bootstrap-alert.js"></script>

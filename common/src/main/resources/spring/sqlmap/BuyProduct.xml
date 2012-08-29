@@ -147,6 +147,12 @@
 		<isNotNull property="id" prepend="AND">
 			id=#id#
 		</isNotNull>
+		<isNotNull property="gmtPublishStart" prepend="AND">
+			<![CDATA[gmt_modified>=#gmtPublishStart#]]>
+		</isNotNull>
+		<isNotNull property="gmtPublishEnd" prepend="AND">
+			<![CDATA[gmt_modified<=#gmtPublishEnd#]]>
+		</isNotNull>
 		 <isNotNull property="orderModified" prepend=" ">
 			<![CDATA[order by gmt_modified]]>
 		</isNotNull>
@@ -180,6 +186,100 @@
 		</isNotNull>
 		<isNotNull property="id" prepend="AND">
 			id=#id#
+		</isNotNull>
+		<isNotNull property="gmtPublishStart" prepend="AND">
+			<![CDATA[gmt_modified>=#gmtPublishStart#]]>
+		</isNotNull>
+		<isNotNull property="gmtPublishEnd" prepend="AND">
+			<![CDATA[gmt_modified<=#gmtPublishEnd#]]>
+		</isNotNull>
+	</select>
+
+
+	<select id="QUERY_PRODUCT_WITH_COMPANY" resultMap="BUY_PRODUCT_RESULT_MAP"
+		parameterClass="BUY_PRODUCT_QUERY_VO">
+		 <![CDATA[
+				select
+				p.id,
+				p.name,
+				p.category_id,
+				p.quantity,
+				p.unit,
+				p.price,
+				p.lowest_deal_size,
+				p.status,
+				p.owner,
+				p.product_type,
+				p.description
+				from qth_product_buy p,qth_user u where  p.is_deleted='N' and u.is_deleted='N']]>
+		<isNotNull property="name" prepend="AND">
+			p.name like CONCAT('%',#name#, '%')
+		</isNotNull>
+		<isNotNull property="company" prepend="AND">
+			u.company like CONCAT('%',#company#, '%') and p.owner=u.login_id
+		</isNotNull>
+		<isNotNull property="categoryIds" prepend="AND">
+			p.category_id in
+			<iterate property="categoryIds" open="(" close=")"
+				conjunction=","> #categoryIds[]#</iterate>
+		</isNotNull>
+		<isNotNull property="status" prepend="AND">
+			p.status=#status#
+		</isNotNull>
+		<isNotNull property="productType" prepend="AND">
+			p.product_type=#productType#
+		</isNotNull>
+		<isNotNull property="id" prepend="AND">
+			p.id=#id#
+		</isNotNull>
+		<isNotNull property="gmtPublishStart" prepend="AND">
+			<![CDATA[p.gmt_modified>=#gmtPublishStart#]]>
+		</isNotNull>
+		<isNotNull property="gmtPublishEnd" prepend="AND">
+			<![CDATA[p.gmt_modified<=#gmtPublishEnd#]]>
+		</isNotNull>
+		 <isNotNull property="orderModified" prepend=" ">
+			<![CDATA[order by gmt_modified]]>
+		</isNotNull>
+		<isNotNull property="orderByPrice" prepend=" ">
+			<![CDATA[order by price]]>
+		</isNotNull>
+		<isNotNull property="orderDesc" prepend=" ">
+		<![CDATA[	desc]]>
+		</isNotNull>
+		<include refid="ALICRM_COMMON.ALI_PAGING" />
+	</select>
+
+	<select id="QUERY_COUNT_WITH_COMPANY" resultClass="int" parameterClass="BUY_PRODUCT_QUERY_VO">
+		 <![CDATA[
+				select
+				count(*)
+				from qth_product_buy p,qth_user u where  p.is_deleted='N' and u.is_deleted='N']]>
+		<isNotNull property="name" prepend="AND">
+			p.name like CONCAT('%',#name#, '%')
+		</isNotNull>
+		<isNotNull property="company" prepend="AND">
+			u.company like CONCAT('%',#company#, '%') and p.owner=u.login_id
+		</isNotNull>
+		<isNotNull property="categoryIds" prepend="AND">
+			p.category_id in
+			<iterate property="categoryIds" open="(" close=")"
+				conjunction=","> #categoryIds[]#</iterate>
+		</isNotNull>
+		<isNotNull property="status" prepend="AND">
+			p.status=#status#
+		</isNotNull>
+		<isNotNull property="productType" prepend="AND">
+			p.product_type=#productType#
+		</isNotNull>
+		<isNotNull property="id" prepend="AND">
+			p.id=#id#
+		</isNotNull>
+		<isNotNull property="gmtPublishStart" prepend="AND">
+			<![CDATA[p.gmt_modified>=#gmtPublishStart#]]>
+		</isNotNull>
+		<isNotNull property="gmtPublishEnd" prepend="AND">
+			<![CDATA[p.gmt_modified<=#gmtPublishEnd#]]>
 		</isNotNull>
 	</select>
 </sqlMap>

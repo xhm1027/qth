@@ -7,6 +7,7 @@ import java.util.ArrayList;
 import java.util.List;
 import org.springframework.orm.ibatis.support.SqlMapClientDaoSupport;
 
+import com.alibaba.citrus.util.StringUtil;
 import com.xhm.longxin.qth.dal.dao.AttachmentDao;
 import com.xhm.longxin.qth.dal.dao.BuyProductDao;
 import com.xhm.longxin.qth.dal.dataobject.Attachment;
@@ -26,6 +27,9 @@ public class BuyProductDaoImpl extends SqlMapClientDaoSupport implements
 
 	private static final String QUERY_ID = "QUERY_PRODUCT";
 	private static final String QUERY_COUNT = "QUERY_COUNT";
+
+	private static final String QUERY_ID_WITH_COMPANY = "QUERY_PRODUCT_WITH_COMPANY";
+	private static final String QUERY_COUNT_WITH_COMPANY = "QUERY_COUNT_WITH_COMPANY";
 
 	private static final String NAMESPACE_ATTACHMENT = "QTH_ATTACHMENT";
 	private static final String INSERT_ATTACHMENT = "INSERT_ATTACHMENT";
@@ -120,10 +124,18 @@ public class BuyProductDaoImpl extends SqlMapClientDaoSupport implements
 	 * .query.BuyProductQuery)
 	 */
 	public List<BuyProduct> query(BuyProductQuery buyProductQuery) {
-		List<BuyProduct> list = (List<BuyProduct>) getSqlMapClientTemplate()
-				.queryForList(NAMESPACE_PRODUCT + "." + QUERY_ID,
-						buyProductQuery);
-		return list;
+		if (StringUtil.isEmpty(buyProductQuery.getCompany())) {
+			List<BuyProduct> list = (List<BuyProduct>) getSqlMapClientTemplate()
+					.queryForList(NAMESPACE_PRODUCT + "." + QUERY_ID,
+							buyProductQuery);
+			return list;
+		} else {
+			List<BuyProduct> list = (List<BuyProduct>) getSqlMapClientTemplate()
+					.queryForList(
+							NAMESPACE_PRODUCT + "." + QUERY_ID_WITH_COMPANY,
+							buyProductQuery);
+			return list;
+		}
 	}
 
 	/*
@@ -137,10 +149,17 @@ public class BuyProductDaoImpl extends SqlMapClientDaoSupport implements
 			int pageStart, int pageSize) {
 		buyProductQuery.setPageStart(pageStart);
 		buyProductQuery.setPageSize(pageSize);
+		if (StringUtil.isEmpty(buyProductQuery.getCompany())) {
 		List<BuyProduct> list = (List<BuyProduct>) getSqlMapClientTemplate()
 				.queryForList(NAMESPACE_PRODUCT + "." + QUERY_ID,
 						buyProductQuery);
 		return list;
+		}else{
+			List<BuyProduct> list = (List<BuyProduct>) getSqlMapClientTemplate()
+			.queryForList(NAMESPACE_PRODUCT + "." + QUERY_ID_WITH_COMPANY,
+					buyProductQuery);
+	return list;
+		}
 	}
 
 	/*
@@ -151,9 +170,15 @@ public class BuyProductDaoImpl extends SqlMapClientDaoSupport implements
 	 * qth.dal.query.BuyProductQuery)
 	 */
 	public int queryCount(BuyProductQuery buyProductQuery) {
+		if (StringUtil.isEmpty(buyProductQuery.getCompany())) {
 		int count = (Integer) getSqlMapClientTemplate().queryForObject(
 				NAMESPACE_PRODUCT + "." + QUERY_COUNT, buyProductQuery);
 		return count;
+		}else{
+			int count = (Integer) getSqlMapClientTemplate().queryForObject(
+					NAMESPACE_PRODUCT + "." + QUERY_COUNT_WITH_COMPANY, buyProductQuery);
+			return count;
+		}
 	}
 
 	/*

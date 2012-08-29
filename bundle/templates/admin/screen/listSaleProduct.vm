@@ -1,0 +1,140 @@
+<div class="container-fluid">
+		<div id="nopermissionModal" class="modal" style="display: none; ">
+			<div class="modal-header">
+				<a class="close" data-dismiss="modal">×</a>
+				<h3>您还没有登录，请您登录后再查看产品的详细信息！</h3>
+			</div>
+			<div class="modal-footer">
+				<a href="#" class="btn btn-success" data-dismiss="modal">确定</a>
+			</div>
+		</div>
+		<div class="row">
+			<form class="well form-search span12" id="searchForm">
+				<input type="hidden" name="order" id="orderBy" value="$!order"/>
+				<div>
+					<label class="label label-warning"  for="name">产品名称</label>
+					<input
+					type="text" class="input-xlarge" id="name" name="name"  value="$!name">
+				</div>
+				<label class="label label-warning">资源类别</label>
+				<div>
+						#foreach($materialCategory in $notMaterialCategories)
+							<label class="checkbox inline">
+								<input type="checkbox"
+								id="$!materialCategory.id" value="$!materialCategory.id" name="notMaterialIds" #if($materialCategory.checked)checked="true"#end>
+								$!materialCategory.name
+							</label>
+						#end
+				</div>
+				<label class="label label-warning">原材料类别</label>
+					<div>
+						#foreach($materialCategory in $materialCategories)
+							<label class="checkbox inline">
+								<input type="checkbox"
+								id="$!materialCategory.id" value="$!materialCategory.id" name="materialIds" #if($materialCategory.checked)checked="true"#end>
+								$!materialCategory.name
+							</label>
+						#end
+				</div>
+				<div>
+					<button class="btn btn-warning " onClick="doSearch();">
+					查询
+					</button>
+				</div>
+			</form>
+		</div>
+		 #if($!totalPage != 1)
+		<div class="pagination">
+			  <ul>
+			  	#if($!page == 1)
+			  		<li class="active"><a href="javascript:void(0)">第1页</a></li>
+			  	#else
+					<li><a href="listSaleProduct.htm?name=$!name&order=$!order#foreach($id in $materialIds)&materialIds=$!id#end#foreach($id in $notMaterialIds)&notMaterialIds=$!id#end&page=1&pageSize=20">第1页</a></li>
+			  	#end
+			 	#foreach($pageIndex in [2 .. $!totalPage])
+					#if($!page == $!pageIndex)
+						<li class="active"><a href="javascript:void(0)">$!pageIndex</a></li>
+					#else
+						<li><a href="listSaleProduct.htm?name=$!name&order=$!order#foreach($id in $materialIds)&materialIds=$!id#end#foreach($id in $notMaterialIds)&notMaterialIds=$!id#end&page=$!pageIndex&pageSize=$!pageSize">$!pageIndex</a></li>
+					#end
+			 	#end
+			  </ul>
+		</div>
+		 #end
+		<div class="span16">
+    		<ul class="thumbnails">
+    			#foreach($product in $productList)
+    			<li class="span3">
+    				<div class="thumbnail">
+    					#if($product.imgs.size()!=0)
+    						<a href="#" onClick="javascript:showProductDetail($product.id)">
+								<img width="260" height="180" src="$upload$!product.imgs.get(0).path" alt="">
+							</a>
+    					#else
+    						<a href="#" onClick="javascript:showProductDetail($product.id)">
+								<img width="260" height="180" src="http://placehold.it/260x180" alt="">
+							</a>
+    					#end
+    						<div class="caption">
+    							<h5>$product.name</h5>
+    							<p>
+									价格：#if($product.price==-1)面议#else$product.price元#end
+								<br>
+									库存：$!product.quantity $!product.unit
+								<br>
+									最小起订：#if(!$product.lowestDealSize||$product.lowestDealSize==-1)面议#else$!product.lowestDealSize $!product.unit#end
+								<br>
+									描述：#if($product.description&&$product.description.length()>15)$product.description.substring(0,14)#else$!product.description#end
+    							</p>
+    							<p>
+    							<a href="#" onClick="javascript:showProductDetail($product.id)" class="btn btn-primary">详情</a>
+								<span style="color:red">
+									#if($product.ownerStatus=='freese')该用户账号已冻结
+										#elseif($product.ownerStatus=='new')该用户账号待审核
+											#elseif($product.ownerStatus=='auditFailed')该用户账号审核失败
+									#end
+                                </span>
+    							</p>
+    						</div>
+    				</div>
+    			</li>
+    			#end
+    		</ul>
+		</div>
+		#if($!totalPage != 1)
+		<div class="pagination">
+			  <ul>
+			  	#if($!page == 1)
+			  		<li class="active"><a href="javascript:void(0)">第1页</a></li>
+			  	#else
+					<li><a href="listSaleProduct.htm?name=$!name&order=$!order#foreach($id in $materialIds)&materialIds=$!id#end#foreach($id in $notMaterialIds)&notMaterialIds=$!id#end&page=1&pageSize=20">第1页</a></li>
+			  	#end
+			 	#foreach($pageIndex in [2 .. $!totalPage])
+					#if($!page == $!pageIndex)
+						<li class="active"><a href="javascript:void(0)">$!pageIndex</a></li>
+					#else
+						<li><a href="listSaleProduct.htm?name=$!name&order=$!order#foreach($id in $materialIds)&materialIds=$!id#end#foreach($id in $notMaterialIds)&notMaterialIds=$!id#end&page=$!pageIndex&pageSize=$!pageSize">$!pageIndex</a></li>
+					#end
+			 	#end
+			  </ul>
+		</div>
+		#end
+		<hr>
+	</div>
+	<script>
+		function doSearchWithOrder(order){
+			//alert(order);
+			$("#orderBy").val(order);
+			$("#searchForm").submit();
+		}
+		function showProductDetail(id){
+			#if ($qthUser.hasLoggedIn())
+				var detailUrl="viewSaleProduct.htm?id="+id;
+				window.open(detailUrl);
+			#else
+				$('#nopermissionModal').modal('show');
+			#end
+
+		}
+
+	</script>

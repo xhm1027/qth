@@ -1,0 +1,145 @@
+<div class="container-fluid">
+		<div id="nopermissionModal" class="modal" style="display: none; ">
+			<div class="modal-header">
+				<a class="close" data-dismiss="modal">×</a>
+				<h3>您还没有登录，请您登录后再查看产品的详细信息！</h3>
+			</div>
+			<div class="modal-footer">
+				<a href="#" class="btn btn-success" data-dismiss="modal">确定</a>
+			</div>
+		</div>
+		<div class="row">
+			<form class="well form-search span12" id="searchForm">
+				<input type="hidden" name="order" id="orderBy" value="$!order"/>
+				<div>
+					<label class="label label-warning"  for="name">产品名称</label>
+					<input
+					type="text" class="input" id="name" name="name"  value="$!name">
+					<label class="label label-warning"  for="company">公司名称</label>
+					<input
+					type="text" class="input" id="company" name="company"  value="$!company">
+					<label class="label label-warning">状态</label>
+					<select name="status">
+						<option></option>
+						<option value="new" #if($!status=='new') selected=true #end>待审核</option>
+						<option value="onShelf" #if($!status=='onShelf') selected=true #end>已上架</option>
+						<option value="offShelf" #if($!status=='freese') selected=true #end>已下架</option>
+						<option value="auditFailed" #if($!status=='auditFailed') selected=true #end>审核失败</option>
+					</select>
+					<br>
+					<label class="label label-warning"  for="input01">发布时间</label>
+					<input name="gmtPublishStart" id="publishStart" class="span2" type="text"/>
+					<input name="gmtPublishEnd" id="publishEnd" class="span2" type="text"/>
+				</div>
+				<label class="label label-warning">资源类别</label>
+				<div>
+						#foreach($materialCategory in $notMaterialCategories)
+							<label class="checkbox inline">
+								<input type="checkbox"
+								id="$!materialCategory.id" value="$!materialCategory.id" name="notMaterialIds" #if($materialCategory.checked)checked="true"#end>
+								$!materialCategory.name
+							</label>
+						#end
+				</div>
+				<label class="label label-warning">原材料类别</label>
+					<div>
+						#foreach($materialCategory in $materialCategories)
+							<label class="checkbox inline">
+								<input type="checkbox"
+								id="$!materialCategory.id" value="$!materialCategory.id" name="materialIds" #if($materialCategory.checked)checked="true"#end>
+								$!materialCategory.name
+							</label>
+						#end
+				</div>
+				<div>
+					<button class="btn btn-warning " onClick="doSearch();">
+					查询
+					</button>
+				</div>
+			</form>
+		</div>
+		#if($!totalPage != 1)
+		<div class="pagination">
+			  <ul>
+			  	#if($!page == 1)
+			  		<li class="active"><a href="javascript:void(0)">第1页</a></li>
+			  	#else
+					<li><a href="listBuyProduct.htm?name=$!name&order=$!order#foreach($id in $materialIds)&materialIds=$!id#end#foreach($id in $notMaterialIds)&notMaterialIds=$!id#end&page=1&pageSize=20">第1页</a></li>
+			  	#end
+			 	#foreach($pageIndex in [2 .. $!totalPage])
+					#if($!page == $!pageIndex)
+						<li class="active"><a href="javascript:void(0)">$!pageIndex</a></li>
+					#else
+						<li><a href="listBuyProduct.htm?name=$!name&order=$!order#foreach($id in $materialIds)&materialIds=$!id#end#foreach($id in $notMaterialIds)&notMaterialIds=$!id#end&page=$!pageIndex&pageSize=$!pageSize">$!pageIndex</a></li>
+					#end
+			 	#end
+			  </ul>
+		</div>
+		#end
+		<div class="row">
+			<div class="span12">
+				<table class="table table-bordered">
+					<thead>
+						<tr>
+							<th width="10%">#</th>
+							<th width="15%">产品名称</th>
+							<th width="20%">公司名称</th>
+							<th width="20%">类别</th>
+							<th width="15%">状态</th>
+							<th width="20%">操作</th>
+						</tr>
+					</thead>
+					<tbody>
+						#set($_rowIndex = 0)
+						#foreach($product in $productList)
+						#set($_rowIndex = $_rowIndex+1)
+						<tr>
+							<td>$!_rowIndex</td>
+							<td>$!product.name</td>
+							<td>$!product.company</td>
+							<td>$!product.category</td>
+							<td>#if($!product.status=='new')待审核#elseif($!product.status=='onShelf')已上架#elseif($!product.status=='offShelf')已下架#elseif($!product.status=='auditFailed')审核失败#else$!product.status#end</td>
+							<td>
+								<a href="$userModule.setTarget("viewBuyProduct")?id=$!product.id">查看</a>
+								<a href="#">审核</a>
+								<a href="#">删除</a>
+							</td>
+						</tr>
+						#end
+					</tbody>
+				</table>
+			</div>
+		</div>
+		#if($!totalPage != 1)
+		<div class="pagination">
+			  <ul>
+			  	#if($!page == 1)
+			  		<li class="active"><a href="javascript:void(0)">第1页</a></li>
+			  	#else
+					<li><a href="listBuyProduct.htm?name=$!name&order=$!order#foreach($id in $materialIds)&materialIds=$!id#end#foreach($id in $notMaterialIds)&notMaterialIds=$!id#end&page=1&pageSize=20">第1页</a></li>
+			  	#end
+			 	#foreach($pageIndex in [2 .. $!totalPage])
+					#if($!page == $!pageIndex)
+						<li class="active"><a href="javascript:void(0)">$!pageIndex</a></li>
+					#else
+						<li><a href="listBuyProduct.htm?name=$!name&order=$!order#foreach($id in $materialIds)&materialIds=$!id#end#foreach($id in $notMaterialIds)&notMaterialIds=$!id#end&page=$!pageIndex&pageSize=$!pageSize">$!pageIndex</a></li>
+					#end
+			 	#end
+			  </ul>
+		</div>
+		#end
+		<hr>
+	</div>
+	<script>
+		window.onload=function init(){
+			$("#publishStart").val("$!gmtPublishStart");
+			$("#publishEnd").val("$!gmtPublishEnd");
+			$("#publishStart").datepicker({
+					format: 'yyyy-mm-dd'
+				});
+			$("#publishEnd").datepicker({
+					format: 'yyyy-mm-dd'
+				});
+		};
+
+	</script>
