@@ -64,13 +64,13 @@
 			  	#if($!page == 1)
 			  		<li class="active"><a href="javascript:void(0)">第1页</a></li>
 			  	#else
-					<li><a href="listBuyProduct.htm?name=$!name&order=$!order#foreach($id in $materialIds)&materialIds=$!id#end#foreach($id in $notMaterialIds)&notMaterialIds=$!id#end&page=1&pageSize=20">第1页</a></li>
+					<li><a href="listBuyProduct.htm?name=$!name&company=$!company&status=$!status&gmtPublishStart=$!gmtPublishStart&gmtPublishEnd=$!gmtPublishEnd#foreach($id in $materialIds)&materialIds=$!id#end#foreach($id in $notMaterialIds)&notMaterialIds=$!id#end&page=1&pageSize=20">第1页</a></li>
 			  	#end
 			 	#foreach($pageIndex in [2 .. $!totalPage])
 					#if($!page == $!pageIndex)
 						<li class="active"><a href="javascript:void(0)">$!pageIndex</a></li>
 					#else
-						<li><a href="listBuyProduct.htm?name=$!name&order=$!order#foreach($id in $materialIds)&materialIds=$!id#end#foreach($id in $notMaterialIds)&notMaterialIds=$!id#end&page=$!pageIndex&pageSize=$!pageSize">$!pageIndex</a></li>
+						<li><a href="listBuyProduct.htm?name=$!name&company=$!company&status=$!status&gmtPublishStart=$!gmtPublishStart&gmtPublishEnd=$!gmtPublishEnd#foreach($id in $materialIds)&materialIds=$!id#end#foreach($id in $notMaterialIds)&notMaterialIds=$!id#end&page=$!pageIndex&pageSize=$!pageSize">$!pageIndex</a></li>
 					#end
 			 	#end
 			  </ul>
@@ -116,13 +116,13 @@
 			  	#if($!page == 1)
 			  		<li class="active"><a href="javascript:void(0)">第1页</a></li>
 			  	#else
-					<li><a href="listBuyProduct.htm?name=$!name&order=$!order#foreach($id in $materialIds)&materialIds=$!id#end#foreach($id in $notMaterialIds)&notMaterialIds=$!id#end&page=1&pageSize=20">第1页</a></li>
+					<li><a href="listBuyProduct.htm?name=$!name&company=$!company&status=$!status&gmtPublishStart=$!gmtPublishStart&gmtPublishEnd=$!gmtPublishEnd#foreach($id in $materialIds)&materialIds=$!id#end#foreach($id in $notMaterialIds)&notMaterialIds=$!id#end&page=1&pageSize=20">第1页</a></li>
 			  	#end
 			 	#foreach($pageIndex in [2 .. $!totalPage])
 					#if($!page == $!pageIndex)
 						<li class="active"><a href="javascript:void(0)">$!pageIndex</a></li>
 					#else
-						<li><a href="listBuyProduct.htm?name=$!name&order=$!order#foreach($id in $materialIds)&materialIds=$!id#end#foreach($id in $notMaterialIds)&notMaterialIds=$!id#end&page=$!pageIndex&pageSize=$!pageSize">$!pageIndex</a></li>
+						<li><a href="listBuyProduct.htm?name=$!name&company=$!company&status=$!status&gmtPublishStart=$!gmtPublishStart&gmtPublishEnd=$!gmtPublishEnd#foreach($id in $materialIds)&materialIds=$!id#end#foreach($id in $notMaterialIds)&notMaterialIds=$!id#end&page=$!pageIndex&pageSize=$!pageSize">$!pageIndex</a></li>
 					#end
 			 	#end
 			  </ul>
