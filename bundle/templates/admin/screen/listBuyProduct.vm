@@ -28,8 +28,9 @@
 					</select>
 					<br>
 					<label class="label label-warning"  for="input01">发布时间</label>
-					<input name="gmtPublishStart" id="publishStart" class="span2" type="text"/>
-					<input name="gmtPublishEnd" id="publishEnd" class="span2" type="text"/>
+					<input type="text" id="publishStart" name="gmtPublishStart" onClick="WdatePicker();">
+					到
+					<input type="text" id="publishEnd" name="gmtPublishEnd" onClick="WdatePicker();">
 				</div>
 				<label class="label label-warning">资源类别</label>
 				<div>
@@ -134,12 +135,5 @@
 		window.onload=function init(){
 			$("#publishStart").val("$!gmtPublishStart");
 			$("#publishEnd").val("$!gmtPublishEnd");
-			$("#publishStart").datepicker({
-					format: 'yyyy-mm-dd'
-				});
-			$("#publishEnd").datepicker({
-					format: 'yyyy-mm-dd'
-				});
 		};
-
 	</script>

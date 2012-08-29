@@ -45,7 +45,7 @@
     ================================================== -->
 	<!-- Placed at the end of the document so the pages load faster -->
 	<script src="$!{qthServer}assets/js/jquery.js"></script>
-	<script src="$!{qthServer}assets/js/bootstrap-datepicker.js"></script>
+	<script src="$!{qthServer}js/My97DatePicker/WdatePicker.js"></script>
 	<script src="$!{qthServer}assets/js/google-code-prettify/prettify.js"></script>
 	<script src="$!{qthServer}assets/js/bootstrap-transition.js"></script>
 	<script src="$!{qthServer}assets/js/bootstrap-alert.js"></script>
