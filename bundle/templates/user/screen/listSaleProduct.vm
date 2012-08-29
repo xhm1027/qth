@@ -5,7 +5,7 @@
 				<h3>您还没有登录，请您登录后再查看产品的详细信息！</h3>
 			</div>
 			<div class="modal-footer">
-				<a href="#" class="btn btn-success" data-dismiss="modal" onClick="location.reload();">确定</a>
+				<a href="#" class="btn btn-success" data-dismiss="modal">确定</a>
 			</div>
 		</div>
 		<div class="row">
