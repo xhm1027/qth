@@ -36,5 +36,11 @@ public class BuyProductServiceImpl implements BuyProductService {
 	public int queryCount(BuyProductQuery buyProductQuery) {
 		return buyProductDao.queryCount(buyProductQuery);
 	}
+	/* (non-Javadoc)
+	 * @see com.xhm.longxin.biz.user.interfaces.BuyProductService#deleteBuyProductById(java.lang.Long)
+	 */
+	public boolean deleteBuyProductById(Long id) {
+		return buyProductDao.deleteBuyProductById(id);
+	}
 
 }

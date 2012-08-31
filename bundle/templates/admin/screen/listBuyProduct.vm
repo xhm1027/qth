@@ -1,13 +1,4 @@
 <div class="container-fluid">
-		<div id="nopermissionModal" class="modal" style="display: none; ">
-			<div class="modal-header">
-				<a class="close" data-dismiss="modal">×</a>
-				<h3>您还没有登录，请您登录后再查看产品的详细信息！</h3>
-			</div>
-			<div class="modal-footer">
-				<a href="#" class="btn btn-success" data-dismiss="modal">确定</a>
-			</div>
-		</div>
 		<div class="row">
 			<form class="well form-search span12" id="searchForm">
 				<input type="hidden" name="order" id="orderBy" value="$!order"/>
@@ -103,7 +94,7 @@
 							<td>
 								<a href="$userModule.setTarget("viewBuyProduct")?id=$!product.id">查看</a>
 								<a href="#">审核</a>
-								<a href="#">删除</a>
+								<a href="javascript:deleteProduct($!product.id);">删除</a>
 							</td>
 						</tr>
 						#end
@@ -131,9 +122,37 @@
 		#end
 		<hr>
 	</div>
+	<form class="well form-search span12" id="deleteForm" method="post">
+			<input type="hidden" name="action" value="buy_product_action"/>
+			<input type="hidden" name="id" id="deletedId"/>
+			<input type="hidden" name="event_submit_do_delete_product" value="submit" />
+	</form>
+	<div id="okModal" class="modal" style="display: none; ">
+			<div class="modal-header">
+				<a class="close" data-dismiss="modal">×</a>
+				<h3>删除产品确认</h3>
+			</div>
+			<div class="modal-body" id="confirmMessage">
+				您确认要删除该产品信息吗？
+			</div>
+			<div class="modal-footer">
+				<a href="javascript:confirmDeleteProduct();" class="btn btn-success">确定</a>
+				<a href="#" class="btn" data-dismiss="modal">关闭</a>
+			</div>
+	</div>
 	<script>
 		window.onload=function init(){
 			$("#publishStart").val("$!gmtPublishStart");
 			$("#publishEnd").val("$!gmtPublishEnd");
 		};
+
+		function confirmDeleteProduct(){
+			//alert($("#deletedId").val());
+			$("#deleteForm").submit();
+		}
+
+		function deleteProduct(id){
+			$("#deletedId").val(id);
+			$('#okModal').modal('show');
+		}
 	</script>

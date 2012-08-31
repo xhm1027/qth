@@ -33,5 +33,11 @@ public interface BuyProductService {
 	public List<BuyProduct> query(BuyProductQuery buyProductQuery,int pageStart,int pageSize);
 
 	public int queryCount(BuyProductQuery buyProductQuery);
+	/**
+	 * É¾³ý¼ÇÂ¼
+	 * */
+	public boolean deleteBuyProductById(Long id);
+
+
 
 }
