@@ -16,6 +16,7 @@
 					<input
 					type="text" class="input-xlarge" id="name" name="name"  value="$!name">
 				</div>
+				#if(!$qthUser.hasLoggedIn())
 				<label class="label label-warning">资源类别</label>
 				<div>
 						#foreach($materialCategory in $notMaterialCategories)
@@ -36,6 +37,29 @@
 							</label>
 						#end
 				</div>
+				#elseif($qthUser.hasLoggedIn() && $qthUser.role=='outerUser')
+				<label class="label label-warning">资源类别</label>
+				<div>
+						#foreach($materialCategory in $notMaterialCategories)
+							<label class="checkbox inline">
+								<input type="checkbox"
+								id="$!materialCategory.id" value="$!materialCategory.id" name="notMaterialIds" #if($materialCategory.checked)checked="true"#end>
+								$!materialCategory.name
+							</label>
+						#end
+				</div>
+				#elseif($qthUser.hasLoggedIn() && $qthUser.role=='innerUser')
+				<label class="label label-warning">原材料类别</label>
+					<div>
+						#foreach($materialCategory in $materialCategories)
+							<label class="checkbox inline">
+								<input type="checkbox"
+								id="$!materialCategory.id" value="$!materialCategory.id" name="materialIds" #if($materialCategory.checked)checked="true"#end>
+								$!materialCategory.name
+							</label>
+						#end
+				</div>
+				#end
 				<div class="row-fluid">
 					<label class="label label-warning" " for="input01">排序</label>
 					 #if($!order=='publish')

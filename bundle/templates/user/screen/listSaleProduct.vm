@@ -16,6 +16,7 @@
 					<input
 					type="text" class="input-xlarge" id="name" name="name"  value="$!name">
 				</div>
+				#if($qthUser.hasLoggedIn() && $qthUser.role=='innerUser')
 				<label class="label label-warning">资源类别</label>
 				<div>
 						#foreach($materialCategory in $notMaterialCategories)
@@ -26,6 +27,7 @@
 							</label>
 						#end
 				</div>
+				#else
 				<label class="label label-warning">原材料类别</label>
 					<div>
 						#foreach($materialCategory in $materialCategories)
@@ -36,6 +38,7 @@
 							</label>
 						#end
 				</div>
+				#end
 				<div class="row-fluid">
 					<label class="label label-warning" " for="input01">排序</label>
 					 #if($!order=='publish')
