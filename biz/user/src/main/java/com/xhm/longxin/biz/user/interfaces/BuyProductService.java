@@ -6,6 +6,7 @@ package com.xhm.longxin.biz.user.interfaces;
 
 import java.util.List;
 
+import com.xhm.longxin.biz.user.vo.AuditProductVO;
 import com.xhm.longxin.qth.dal.dataobject.BuyProduct;
 import com.xhm.longxin.qth.dal.dataobject.SaleProduct;
 import com.xhm.longxin.qth.dal.query.BuyProductQuery;
@@ -38,6 +39,9 @@ public interface BuyProductService {
 	 * */
 	public boolean deleteBuyProductById(Long id);
 
-
+	/**
+	 * ÉóºË²úÆ·
+	 * */
+	public boolean auditBuyProductById(AuditProductVO auditVO);
 
 }

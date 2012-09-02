@@ -5,8 +5,16 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import com.xhm.longxin.biz.user.interfaces.BuyProductService;
+import com.xhm.longxin.biz.user.vo.AuditProductVO;
+import com.xhm.longxin.qth.dal.constant.AuditResult;
+import com.xhm.longxin.qth.dal.constant.AuditType;
+import com.xhm.longxin.qth.dal.constant.ProductStatus;
+import com.xhm.longxin.qth.dal.constant.UserStatus;
+import com.xhm.longxin.qth.dal.dao.AuditLogDao;
 import com.xhm.longxin.qth.dal.dao.BuyProductDao;
+import com.xhm.longxin.qth.dal.dataobject.AuditLog;
 import com.xhm.longxin.qth.dal.dataobject.BuyProduct;
+import com.xhm.longxin.qth.dal.dataobject.User;
 import com.xhm.longxin.qth.dal.query.BuyProductQuery;
 
 /**
@@ -17,6 +25,8 @@ import com.xhm.longxin.qth.dal.query.BuyProductQuery;
 public class BuyProductServiceImpl implements BuyProductService {
 	@Autowired
 	private BuyProductDao buyProductDao;
+	@Autowired
+	private AuditLogDao aditLogDao;
 	public boolean addBuyProduct(BuyProduct buyProduct) {
 		return buyProductDao.addBuyProduct(buyProduct);
 	}
@@ -36,11 +46,31 @@ public class BuyProductServiceImpl implements BuyProductService {
 	public int queryCount(BuyProductQuery buyProductQuery) {
 		return buyProductDao.queryCount(buyProductQuery);
 	}
-	/* (non-Javadoc)
-	 * @see com.xhm.longxin.biz.user.interfaces.BuyProductService#deleteBuyProductById(java.lang.Long)
-	 */
+
 	public boolean deleteBuyProductById(Long id) {
 		return buyProductDao.deleteBuyProductById(id);
+	}
+
+	public boolean auditBuyProductById(AuditProductVO auditVO) {
+		BuyProduct product=buyProductDao.getBuyProductById(auditVO.getAuditId());
+		if (AuditResult.PASS.equalsIgnoreCase(auditVO.getAuditResult())) {
+			product.setStatus(ProductStatus.ON_SHELF);
+		} else {
+			product.setStatus(ProductStatus.AUDIT_FAILED);
+		}
+		buyProductDao.updateBuyProduct(product);
+		AuditLog auditLog = new AuditLog();
+		auditLog.setAuditId(auditVO.getAuditId());
+		if (AuditResult.PASS.equalsIgnoreCase(auditVO.getAuditResult())) {
+			auditLog.setAuditResult(AuditResult.PASS);
+		} else {
+			auditLog.setAuditResult(AuditResult.FAIL);
+		}
+		auditLog.setDescription(auditVO.getDescription());
+		auditLog.setAuditType(AuditType.BUY_PRODUCT);
+		auditLog.setAuditor(auditVO.getAuditor());
+		aditLogDao.addAuditLog(auditLog);
+		return true;
 	}
 
 }

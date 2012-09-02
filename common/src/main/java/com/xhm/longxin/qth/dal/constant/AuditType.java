@@ -9,5 +9,6 @@ package com.xhm.longxin.qth.dal.constant;
  */
 public class AuditType {
 	public static final String USER = "user";
-	public static final String PRODUCT = "product";
+	public static final String BUY_PRODUCT = "buyProduct";
+	public static final String SALE_PRODUCT = "saleProduct";
 }

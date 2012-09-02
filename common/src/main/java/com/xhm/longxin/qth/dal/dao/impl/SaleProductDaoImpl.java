@@ -74,8 +74,9 @@ public class SaleProductDaoImpl extends SqlMapClientDaoSupport implements
 	public boolean updateSaleProduct(SaleProduct product) {
 		Integer res = (Integer) getSqlMapClientTemplate().update(
 				NAMESPACE_PRODUCT + "." + UPDATE_ID, product);
-		List<Long> imgIds = new ArrayList<Long>();
+		List<Long> imgIds = null;
 		if (product.getImgs() != null && product.getImgs().size() != 0) {
+			imgIds = new ArrayList<Long>();
 			for (Attachment att : product.getImgs()) {
 				if (att.getId() != null) {
 					imgIds.add(att.getId());

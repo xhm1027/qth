@@ -93,7 +93,9 @@
 							<td>#if($!product.status=='new')待审核#elseif($!product.status=='onShelf')已上架#elseif($!product.status=='offShelf')已下架#elseif($!product.status=='auditFailed')审核失败#else$!product.status#end</td>
 							<td>
 								<a href="$userModule.setTarget("viewBuyProduct")?id=$!product.id">查看</a>
-								<a href="#">审核</a>
+								#if($!product.status=='new')
+								<a href="auditProduct.htm?id=$!product.id&auditType=buyProduct">审核</a>
+								#end
 								<a href="javascript:deleteProduct($!product.id);">删除</a>
 							</td>
 						</tr>

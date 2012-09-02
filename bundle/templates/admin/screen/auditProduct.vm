@@ -1,0 +1,99 @@
+<div class="container-fluid">
+	<div class="row">
+		<div class="span12">
+			<form class="well form-horizontal" method="post">
+					$csrfToken.hiddenField
+					#if($auditType=="saleProduct")
+					<input type="hidden" name="action" value="sale_product_action"/>
+					#else
+					<input type="hidden" name="action" value="buy_product_action"/>
+					#end
+					#set ($group = $form.productAudit.defaultInstance)
+					$group.mapTo($product)
+					<input type="hidden" name="$group.auditId.key" value="$!product.id"/>
+					<fieldset>
+					<legend>产品审核$!product.id</legend>
+					#if(!$group.auditProductInfo.valid)
+					<div class="alert alert-success">
+						<button type="button" class="close" data-dismiss="alert">&times;</button>
+						 <strong>Oh snap!</strong> $group.auditProductInfo.message
+					</div>
+					#end
+					#if(!$group.auditProductErr.valid)
+					<div class="alert alert-error">
+						<button type="button" class="close" data-dismiss="alert">&times;</button>
+						 $group.auditProductErr.message
+					</div>
+					#end
+					<h2>产品信息</h2>
+					<div class="row-fluid" >
+						<div class="span3">名称</div>
+						<div class="span9">
+							$!product.name
+						</div>
+					</div>
+					<div class="row-fluid" >
+						<div class="span3">类别</div>
+						<div class="span9">
+							$!category.name
+						</div>
+					</div>
+					<div class="row-fluid" >
+						<div class="span3">产品数量</div>
+						<div class="span9">
+							$!product.quantity
+						</div>
+					</div>
+					<div class="row-fluid" >
+						<div class="span3">产品单位</div>
+						<div class="span9">
+							$!product.unit
+						</div>
+					</div>
+					<div class="row-fluid" >
+						<div class="span3">最小起订</div>
+						<div class="span9">
+							$!product.lowestDealSize
+						</div>
+					</div>
+					<hr>
+					<div class="control-group">
+						<label class="control-label" for="description">描述</label>
+						<div class="controls">
+							<textarea class="input-xlarge" id="description" rows="3" name="$group.description.key"
+												placeholder="描述信息">$group.description.value</textarea>
+						</div>
+					</div>
+					<div class="control-group">
+						<label class="control-label" for="isPass">审核结果</label>
+						<div class="controls">
+							<select id="isPass" name="$group.auditResult.key">
+								<option value="pass" #if($group.auditResult.value=='pass') selected=true #end>通过</option>
+								<option value="fail" #if($group.auditResult.value!='pass') selected=true #end>不通过</option>
+							</select>
+						</div>
+					</div>
+					</fieldset>
+					<div class="form-actions">
+						<input type="submit" class="btn btn-primary" name="event_submit_do_audit_product" value="保存"/>
+						<input type="button" class="btn btn-primary" value="取消" onClick="history.go(-1)"/>
+					</div>
+					<br>
+					<h2>产品图片</h2>
+					<div class="span6" >
+						<div id="myCarousel" class="carousel slide">
+							<div class="carousel-inner">
+								#foreach($img in $product.imgs)
+								<div class="item #if($velocityCount == 1) active #end">
+									<img src="$upload$!img.path" alt="">
+								</div>
+								#end
+							</div>
+							<a class="left carousel-control" href="#myCarousel" data-slide="prev">‹</a>
+							<a class="right carousel-control" href="#myCarousel" data-slide="next">›</a>
+						</div>
+		            </div>
+			</form>
+		</div>
+	</div>
+</div>

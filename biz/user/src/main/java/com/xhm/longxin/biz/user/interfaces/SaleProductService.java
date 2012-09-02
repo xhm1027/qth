@@ -2,6 +2,7 @@ package com.xhm.longxin.biz.user.interfaces;
 
 import java.util.List;
 
+import com.xhm.longxin.biz.user.vo.AuditProductVO;
 import com.xhm.longxin.qth.dal.dataobject.SaleProduct;
 import com.xhm.longxin.qth.dal.query.SaleProductQuery;
 
@@ -37,4 +38,9 @@ public interface SaleProductService {
 	 * 根据id取记录
 	 * */
 	public SaleProduct getSaleProductById(Long id);
+
+	/**
+	 * 审核产品
+	 * */
+	public boolean auditSaleProductById(AuditProductVO auditVO);
 }

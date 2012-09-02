@@ -81,15 +81,16 @@ public class BuyProductDaoImpl extends SqlMapClientDaoSupport implements
 	public boolean updateBuyProduct(BuyProduct product) {
 		Integer res = (Integer) getSqlMapClientTemplate().update(
 				NAMESPACE_PRODUCT + "." + UPDATE_ID, product);
-		List<Long> imgIds = new ArrayList<Long>();
+		List<Long> imgIds = null;
 		if (product.getImgs() != null && product.getImgs().size() != 0) {
+			imgIds = new ArrayList<Long>();
 			for (Attachment att : product.getImgs()) {
 				if (att.getId() != null) {
 					imgIds.add(att.getId());
 				}
 			}
 		}
-		// 删除该产品的这在imgIds中的附件
+		// 删除该产品的不在imgIds中的附件
 		AttachmentUpdateVo attachementUpdateVo = new AttachmentUpdateVo();
 		attachementUpdateVo.setImgIds(imgIds);
 		attachementUpdateVo.setKey("buy");// 表示产品id是product_buy表中的
@@ -150,15 +151,16 @@ public class BuyProductDaoImpl extends SqlMapClientDaoSupport implements
 		buyProductQuery.setPageStart(pageStart);
 		buyProductQuery.setPageSize(pageSize);
 		if (StringUtil.isEmpty(buyProductQuery.getCompany())) {
-		List<BuyProduct> list = (List<BuyProduct>) getSqlMapClientTemplate()
-				.queryForList(NAMESPACE_PRODUCT + "." + QUERY_ID,
-						buyProductQuery);
-		return list;
-		}else{
 			List<BuyProduct> list = (List<BuyProduct>) getSqlMapClientTemplate()
-			.queryForList(NAMESPACE_PRODUCT + "." + QUERY_ID_WITH_COMPANY,
-					buyProductQuery);
-	return list;
+					.queryForList(NAMESPACE_PRODUCT + "." + QUERY_ID,
+							buyProductQuery);
+			return list;
+		} else {
+			List<BuyProduct> list = (List<BuyProduct>) getSqlMapClientTemplate()
+					.queryForList(
+							NAMESPACE_PRODUCT + "." + QUERY_ID_WITH_COMPANY,
+							buyProductQuery);
+			return list;
 		}
 	}
 
@@ -171,12 +173,13 @@ public class BuyProductDaoImpl extends SqlMapClientDaoSupport implements
 	 */
 	public int queryCount(BuyProductQuery buyProductQuery) {
 		if (StringUtil.isEmpty(buyProductQuery.getCompany())) {
-		int count = (Integer) getSqlMapClientTemplate().queryForObject(
-				NAMESPACE_PRODUCT + "." + QUERY_COUNT, buyProductQuery);
-		return count;
-		}else{
 			int count = (Integer) getSqlMapClientTemplate().queryForObject(
-					NAMESPACE_PRODUCT + "." + QUERY_COUNT_WITH_COMPANY, buyProductQuery);
+					NAMESPACE_PRODUCT + "." + QUERY_COUNT, buyProductQuery);
+			return count;
+		} else {
+			int count = (Integer) getSqlMapClientTemplate().queryForObject(
+					NAMESPACE_PRODUCT + "." + QUERY_COUNT_WITH_COMPANY,
+					buyProductQuery);
 			return count;
 		}
 	}

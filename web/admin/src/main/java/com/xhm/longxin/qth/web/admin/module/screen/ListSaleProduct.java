@@ -13,9 +13,11 @@ import com.xhm.longxin.biz.user.interfaces.SaleProductService;
 import com.xhm.longxin.biz.user.interfaces.UserService;
 import com.xhm.longxin.qth.dal.constant.IS;
 import com.xhm.longxin.qth.dal.constant.ProductStatus;
+import com.xhm.longxin.qth.dal.dataobject.BuyProduct;
 import com.xhm.longxin.qth.dal.dataobject.ProductCategory;
 import com.xhm.longxin.qth.dal.dataobject.SaleProduct;
 import com.xhm.longxin.qth.dal.dataobject.User;
+import com.xhm.longxin.qth.dal.query.BuyProductQuery;
 import com.xhm.longxin.qth.dal.query.CategoryQuery;
 import com.xhm.longxin.qth.dal.query.QueryObject;
 import com.xhm.longxin.qth.dal.query.SaleProductQuery;
@@ -31,12 +33,15 @@ public class ListSaleProduct {
 	private ProductCategoryService productCategoryService;
 
 	public void execute(@Param(name = "name") String name,
+			@Param(name = "status") String status,
+			@Param(name = "company") String company,
+			@Param(name = "gmtPublishStart") String gmtPublishStart,
+			@Param(name = "gmtPublishEnd") String gmtPublishEnd,
 			@Param(name = "materialIds") Long[] materialIds,
 			@Param(name = "notMaterialIds") Long[] notMaterialIds,
-			@Param(name = "order") String order,
-			@Param(name = "orderDesc") String orderDesc,
 			@Param(name = "page") int page,
 			@Param(name = "pageSize") int pageSize, Context context) {
+		// 分页参数处理
 		// 分页参数处理
 		SaleProductQuery productQuery = new SaleProductQuery();
 		if (page == 0) {
@@ -45,9 +50,10 @@ public class ListSaleProduct {
 		if (pageSize == 0 || pageSize > QueryObject.maxPageSize) {
 			pageSize = QueryObject.defaultPageSize;
 		}
+		//查询参数
+		productQuery.setCompany(company);
 		productQuery.setName(name);
-		// 用户冻结和审核失败时，需要扩展字段来进行描述标记，不能直接用SaleProduct
-		productQuery.setStatus(ProductStatus.ON_SHELF);
+		productQuery.setStatus(status);
 		// 采购类别
 		List<Long> categoryIds = new ArrayList<Long>();
 		List<Long> mIds = Arrays.asList(materialIds);
@@ -61,24 +67,21 @@ public class ListSaleProduct {
 		if (categoryIds.size() > 0) {
 			productQuery.setCategoryIds(categoryIds);
 		}
-		// 排序
-		if (order != null && order.equals("price")) {
-			productQuery.setOrderByPrice(true);
-		}
-		if (order != null && order.equals("publish")) {
-			productQuery.setOrderModified(true);
-		}
-		if (order != null) {
-			productQuery.setOrderDesc(true);
-		}
-		// 查询参数
+		// 发布日期
+		productQuery.setGmtPublishStart(gmtPublishStart);
+		productQuery.setGmtPublishEnd(gmtPublishEnd);
+
+		// 往页面回写查询参数
 		context.put("materialIds", materialIds);
 		context.put("notMaterialIds", notMaterialIds);
 		context.put("name", name);
-		context.put("order", order);
+		context.put("status", status);
+		context.put("company", company);
+		context.put("gmtPublishStart", gmtPublishStart);
+		context.put("gmtPublishEnd", gmtPublishEnd);
+
 		context.put("page", page);
 		context.put("pageSize", pageSize);
-		context.put("orderDesc", orderDesc);
 		int totalCount = saleProductService.queryCount(productQuery);
 		context.put("totalCount", totalCount);
 		context.put("totalPage", (totalCount - 1) / pageSize + 1);

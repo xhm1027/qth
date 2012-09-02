@@ -173,7 +173,37 @@
 				</required-validator>
 			</services:field>
 		</services:group>
-
+<!--
+			- =============================================== - product audit form -
+			===============================================
+		-->
+		<services:group name="productAudit" extends="csrfCheck">
+			<services:field name="auditId" displayName="auditId">
+			</services:field>
+			<services:field name="auditProductInfo">
+				<custom-error id="auditSuccess">
+					<message>审核操作成功</message>
+				</custom-error>
+			</services:field>
+			<services:field name="auditProductErr">
+				<custom-error id="auditFail">
+					<message>审核操作失败</message>
+				</custom-error>
+				<custom-error id="auditStatusFail">
+					<message>该产品状态不是待审核，不能进行审核操作</message>
+				</custom-error>
+			</services:field>
+			<services:field name="description" displayName="审核信息备注">
+				<string-length-validator maxLength="500">
+					<message>${displayName} 最多不能超过${maxLength}个字</message>
+				</string-length-validator>
+			</services:field>
+			<services:field name="auditResult" displayName="审核结果">
+				<required-validator>
+					<message> ${displayName}必须选择</message>
+				</required-validator>
+			</services:field>
+		</services:group>
 		<!--
 			- =============================================== - user password
 			reset form - ===============================================

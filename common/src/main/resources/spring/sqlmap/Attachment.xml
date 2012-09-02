@@ -115,9 +115,12 @@
                 ]]>
 		where 1=0
 		<isNotNull property="ownerId" prepend="OR">
-			<![CDATA[(`key` =#key#  and type='image' and  owner_id=#ownerId# and id not IN]]>
-			<iterate property="imgIds" open="(" close=")" conjunction=",">
-				#imgIds[]#</iterate>
+			<![CDATA[(`key` =#key#  and type='image' and  owner_id=#ownerId#]]>
+			<isNotNull property="imgIds" prepend="and">
+				id not IN
+				<iterate property="imgIds" open="(" close=")" conjunction=",">
+					#imgIds[]#</iterate>
+			</isNotNull>
 				<![CDATA[) ]]>
 		</isNotNull>
 	</update>
