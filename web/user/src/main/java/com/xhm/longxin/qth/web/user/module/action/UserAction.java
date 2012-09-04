@@ -192,16 +192,29 @@ public class UserAction {
 	}
 
 	public void doEditProfile(
+			@Param("password") String password,
 			@FormGroup("profile") User user,
 			@Param("buyInterests") Long[] buyInterests,
 			@Param("sellInterests") Long[] sellInterests,
 			@FormField(name = "profileError", group = "profile") CustomErrors err,
 			@FormField(name = "id", group = "profile") CustomErrors idField,
+			@FormField(name = "password", group = "profile") CustomErrors passwordField,
 			@FormField(name = "email", group = "profile") CustomErrors emailField,
 			Navigator nav, ParameterParser params, Context context) {
 		User checkUserById = userService.getUserById(user.getId());
 		if (checkUserById == null) {
 			idField.setMessage("existError");
+			return;
+		}
+		if(password==null){
+			password="";
+		}
+		LoginVO vo = new LoginVO();
+		vo.setName(checkUserById.getLoginId());
+		vo.setPassword(password);
+		User checkUserByPass = userService.login(vo);
+		if(StringUtils.isNotBlank(user.getPassword())&&checkUserByPass==null){
+			passwordField.setMessage("notEqualError");
 			return;
 		}
 		User checkUserByEmail = userService.getUserByEmail(user.getEmail());

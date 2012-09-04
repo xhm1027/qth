@@ -37,6 +37,13 @@
 				#end
 				<h2>基本信息</h2>
 				<div class="control-group #if(!$group.password.valid)error  #end" >
+					<label class="control-label" for="password">原密码</label>
+					<div class="controls">
+						<input type="password" class="input-xlarge" name="password"
+						placeholder="原密码">
+					</div>
+				</div>
+				<div class="control-group #if(!$group.password.valid)error  #end" >
 					<label class="control-label" for="password">$group.password.displayName<span style="color:red">*</span></label>
 					<div class="controls">
 						<input type="password" class="input-xlarge" id="password" name="$group.password.key"
