@@ -362,7 +362,7 @@
 					<message>添加采购产品失败</message>
 				</custom-error>
 				<custom-error id="noPermissionFail">
-					<message>没有权限添加采购产品</message>
+					<message>您目前是未审核用户，在管理员审核之后才有添加产品权限</message>
 				</custom-error>
 				<custom-error id="saveImageFail">
 					<message>保存图片失败</message>
@@ -415,7 +415,7 @@
 					<message>添加销售产品失败</message>
 				</custom-error>
 				<custom-error id="noPermissionFail">
-					<message>没有权限添加销售产品</message>
+					<message>您目前是未审核用户，在管理员审核之后才有添加产品权限</message>
 				</custom-error>
 				<custom-error id="saveImageFail">
 					<message>保存图片失败</message>
@@ -468,7 +468,7 @@
 					<message>编辑销售产品失败</message>
 				</custom-error>
 				<custom-error id="noPermissionFail">
-					<message>没有权限编辑销售产品</message>
+					<message>您目前是未审核用户，在管理员审核之后才有编辑产品权限</message>
 				</custom-error>
 				<custom-error id="saveImageFail">
 					<message>保存图片失败</message>
@@ -530,7 +530,7 @@
 					<message>编辑采购产品失败</message>
 				</custom-error>
 				<custom-error id="noPermissionFail">
-					<message>没有权限编辑采购产品</message>
+					<message>您目前是未审核用户，在管理员审核之后才有编辑产品权限</message>
 				</custom-error>
 				<custom-error id="saveImageFail">
 					<message>保存图片失败</message>
