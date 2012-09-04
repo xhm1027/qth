@@ -77,7 +77,7 @@ $rundata.setLayoutEnabled(false)
 					<div class="control-group #if(!$group.validateStr.valid)error  #end">
 						<label class="control-label" for="validateStr">$group.validateStr.displayName</label>
 						<div class="controls">
-							<input type="password" class="input-xlarge" id="validateStr" name="$group.validateStr.key"
+							<input type="text" class="input-xlarge" id="validateStr" name="$group.validateStr.key"
 							placeholder="验证码">
 							<img id="validateImg" alt="" src="$adminModule.setTarget("checkCode")" />
 							<a href="#" onclick="changeImg()">换一张</a>
