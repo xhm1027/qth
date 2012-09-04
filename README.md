@@ -4,6 +4,7 @@
 * buyProduct的isSale是干嘛的？----这个字段应该是没用的了，因为之前设计成一张表时，用来区分该产品是卖的还是买的，现在表分成两张了，这个字段可以去掉了。
 * attachment的key是干什么用的？---备用的，现在用来标识附件的来源，比如来自buyProduct表还是saleProduct表，否则id有可能会是重的，用key作区分。也可用来区分图片封面等 
 * 9.3~9.7集中测试一周，记录所有问题，周末进行修复
+* listEnterprise.vm中14、15行链接最好用类似这样的方式（$userModule.setTarget('editBuyProduct').addQueryData('action','attachment_action')）；
 
 许昊旻测试计划
 -----------

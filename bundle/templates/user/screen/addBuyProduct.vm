@@ -1,4 +1,12 @@
 <div class="container-fluid">
+	<div class="row">
+		<div class="span12">
+			<ul class="nav nav-pills">
+				<li class="active"><a href="$userModule.setTarget("addBuyProduct")">添加采购产品</a></li>
+				<li><a href="$userModule.setTarget("listBuyProduct")">我的采购产品</a></li>
+			</ul>
+		</div>
+	</div>
 	<div class="row-fluid">
 		<div class="row-fluid">
 			<form class="well form-horizontal" method="post" encType="multipart/form-data">
@@ -6,7 +14,6 @@
 				#set ($group = $form.addBuyProduct.defaultInstance)
 				<input type="hidden" name="action" value="buy_product_action"/>
 				<fieldset>
-				<legend><h2>添加采购产品</h2></legend>
 				#if(!$group.addBuyProductError.valid)
 					<div class="alert alert-error">
 						<button type="button" class="close" data-dismiss="alert">
@@ -25,7 +32,6 @@
 						添加采购产品成功！
 					</div>
 				#end
-				<h2>产品信息</h2>
 				<div class="control-group #if(!$group.name.valid)error  #end" >
 					<label class="control-label" for="name">$group.name.displayName<span style="color:red">*</span></label>
 					<div class="controls">
