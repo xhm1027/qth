@@ -30,7 +30,7 @@
 		</div>
 		<div class="pagination">
 			  <ul>
-			  	<li#if($!page == 1) class="active"#end><a href="listProductCategory.htm?isMaterial=$!isMaterial&name=$!name&page=1&pageSize=20">第1页</a></li>
+			  	<li#if($!page == 1) class="active"#end><a href="listProductCategory.htm?isMaterial=$!isMaterial&name=$!name&page=1&pageSize=20">1</a></li>
 			 	 #if($!totalPage != 1)
 			 	 #foreach($pageIndex in [2 .. $!totalPage])
 					<li#if($!page == $!pageIndex) class="active"#end><a href="listProductCategory.htm?isMaterial=$!isMaterial&name=$!name&page=$!pageIndex&pageSize=$!pageSize">$!pageIndex</a></li>
@@ -66,7 +66,7 @@
 		</div>
 		<div class="pagination">
 			  <ul>
-			  	<li#if($!page == 1) class="active"#end><a href="listProductCategory.htm?isMaterial=$!isMaterial&name=$!name&page=1&pageSize=20">第1页</a></li>
+			  	<li#if($!page == 1) class="active"#end><a href="listProductCategory.htm?isMaterial=$!isMaterial&name=$!name&page=1&pageSize=20">1</a></li>
 			 	 #if($!totalPage != 1)
 			 	 #foreach($pageIndex in [2 .. $!totalPage])
 					<li#if($!page == $!pageIndex) class="active"#end><a href="listProductCategory.htm?isMaterial=$!isMaterial&name=$!name&page=$!pageIndex&pageSize=$!pageSize">$!pageIndex</a></li>
