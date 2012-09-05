@@ -7,6 +7,8 @@
 		<result property="id" column="ID" jdbcType="BIGINT" javaType="long" />
 		<result property="title" column="msg_title" jdbcType="VARCHAR"
 			javaType="String" />
+		<result property="gmtCreated" column="gmt_created" jdbcType="DATETIME"
+			javaType="java.util.Date" />
 		<result property="sender" column="sender" jdbcType="VARCHAR"
 			javaType="String" />
 		<result property="receiver" column="receiver" jdbcType="VARCHAR"
@@ -101,6 +103,7 @@
 				msg_title,
 				sender,
 				receiver,
+				gmt_created,
 				msg_content,
 				is_opened,
 				sender_deleted,

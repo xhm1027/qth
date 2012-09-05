@@ -3,7 +3,10 @@
  */
 package com.xhm.longxin.qth.dal.dataobject;
 
+import java.text.SimpleDateFormat;
 import java.util.Date;
+
+import com.alibaba.citrus.util.StringUtil;
 
 /**
  * @author ren.zhangr
@@ -23,14 +26,22 @@ public class BaseDo {
 	public void setId(Long id) {
 		this.id = id;
 	}
-	public Date getGmtCreated() {
-		return gmtCreated;
+	public String getGmtCreated() {
+		if(gmtCreated==null||StringUtil.isEmpty(gmtCreated.toString())){
+			return "";
+		}
+		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+		return sdf.format(gmtCreated);
 	}
 	public void setGmtCreated(Date gmtCreated) {
 		this.gmtCreated = gmtCreated;
 	}
-	public Date getGmtModified() {
-		return gmtModified;
+	public String getGmtModified() {
+		if(gmtModified==null||StringUtil.isEmpty(gmtModified.toString())){
+			return "";
+		}
+		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+		return sdf.format(gmtModified);
 	}
 	public void setGmtModified(Date gmtModified) {
 		this.gmtModified = gmtModified;

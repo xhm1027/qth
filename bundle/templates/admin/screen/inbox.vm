@@ -53,8 +53,9 @@
 						<tr>
 							<th width="15%">#</th>
 							<th width="5%"></th>
-							<th width="30%">标题</th>
-							<th width="25%">发件人</th>
+							<th width="20%">标题</th>
+							<th width="20%">发件人</th>
+							<th width="15%">时间</th>
 							<th width="20%">操作</th>
 						</tr>
 						</tr>
@@ -76,6 +77,7 @@
 									</td>
 									<td><a href="openMessage.htm?id=$!message.id">$!message.title</a></td>
 									<td>#if($message.sender != '1')$!message.sender#else管理员#end</td>
+									<td>$!message.gmtCreated</td>
 									<td><a	href="sendMessage.htm?replyId=$!message.id">回复</a>    <a href="javascript:delMessage($!message.id)">删除</a></td>
 								</tr>
 						#end

@@ -17,11 +17,11 @@
 			</div>
 			<div class="row">
 				<div class="span2">发件人：</div>
-				<div class="span10">$!message.sender</div>
+				<div class="span10">#if($message.sender != '1')$!message.sender#else管理员#end</div>
 			</div>
 			<div class="row">
 				<div class="span2">收件人：</div>
-				<div class="span10">$!message.receiver</div>
+				<div class="span10">#if($message.receiver != '1')$!message.receiver#else管理员#end</div>
 			</div>
 			<div class="row">
 				<div class="span2">时间：</div>
