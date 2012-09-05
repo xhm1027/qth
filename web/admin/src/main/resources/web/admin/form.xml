@@ -379,13 +379,6 @@
 					<message>该用户不存在</message>
 				</custom-error>
 			</services:field>
-			<services:field name="password" displayName="登录密码">
-				<string-length-validator minLength="6"
-					maxLength="16">
-					<message>${displayName} 最少必须由${minLength}个字组成，最多不能超过${maxLength}个字
-					</message>
-				</string-length-validator>
-			</services:field>
 			<services:field name="name" displayName="姓名">
 				<required-validator>
 					<message>必须填写 ${displayName}</message>
