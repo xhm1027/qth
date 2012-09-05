@@ -37,7 +37,7 @@
 							</label>
 						#end
 				</div>
-				#elseif($qthUser.hasLoggedIn() && $qthUser.role=='outerUser')
+				#elseif($qthUser.hasLoggedIn() && $qthUser.role=='innerUser')
 				<label class="label label-warning">资源类别</label>
 				<div>
 						#foreach($materialCategory in $notMaterialCategories)
