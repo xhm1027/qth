@@ -121,7 +121,7 @@
     						<div class="caption">
     							<h5>$product.name</h5>
     							<p>
-									价格：#if($product.price==-1)面议#else$product.price元#end
+									价格：#if($product.price==-1 || !$product.price)面议#else$!product.price元#end
 								<br>
 									库存：$!product.quantity $!product.unit
 								<br>
