@@ -32,7 +32,7 @@ public class Inbox {
 		QthUser qthUser = (QthUser) session
 				.getAttribute(UserConstant.QTH_USER_SESSION_KEY);
 
-		if (qthUser == null) {
+		if (qthUser == null || qthUser.getId() == null) {
 			context.put("messageList", new ArrayList<Message>());
 			return;
 		}
@@ -45,9 +45,8 @@ public class Inbox {
 		context.put("messageList", messageService.getInboxMessageList(qthUser
 				.getId(), (page - 1) * pageSize, pageSize));
 		context.put("page", page);
-		context.put("pageSize",pageSize);
-		int totalCount =messageService.getInboxMessageCount(qthUser
-				.getId());
+		context.put("pageSize", pageSize);
+		int totalCount = messageService.getInboxMessageCount(qthUser.getId());
 		context.put("totalCount", totalCount);
 		context.put("totalPage", (totalCount - 1) / pageSize + 1);
 	}

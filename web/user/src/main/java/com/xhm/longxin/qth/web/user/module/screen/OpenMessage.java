@@ -31,7 +31,7 @@ public class OpenMessage {
 		QthUser qthUser = (QthUser) session
 				.getAttribute(UserConstant.QTH_USER_SESSION_KEY);
 
-		if (qthUser == null) {
+		if (qthUser == null || qthUser.getId() == null) {
 			return;
 		}
 		MessageQuery messageQuery = new MessageQuery();

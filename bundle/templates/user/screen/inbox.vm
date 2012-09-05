@@ -1,3 +1,4 @@
+#if($qthUser.hasLoggedIn())
 <div class="container-fluid">
 	<div id="deleteMessageModal" class="modal" style="display: none; ">
 		<div class="modal-header">
@@ -94,3 +95,4 @@
 		$("#deleteMessageModal").modal('hide');
 	}
 </script>
+#end

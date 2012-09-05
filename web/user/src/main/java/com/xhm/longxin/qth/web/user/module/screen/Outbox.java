@@ -32,7 +32,7 @@ public class Outbox {
 		QthUser qthUser = (QthUser) session
 				.getAttribute(UserConstant.QTH_USER_SESSION_KEY);
 
-		if (qthUser == null) {
+		if (qthUser == null || qthUser.getId() == null) {
 			context.put("messageList", new ArrayList<Message>());
 			return;
 		}

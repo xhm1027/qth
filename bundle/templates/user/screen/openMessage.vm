@@ -1,3 +1,4 @@
+#if($qthUser.hasLoggedIn())
 	<div class="row">
 		<div class="span2">
         	<div class="well" style="padding: 8px 0;">
@@ -32,3 +33,4 @@
 			#end
 		</div>
 	</div>
+#end
