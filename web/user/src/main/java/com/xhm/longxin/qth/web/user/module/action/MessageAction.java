@@ -52,6 +52,7 @@ public class MessageAction {
 		} else {
 			messageService.deleteMessageBySender(message, qthUser.getId());
 		}
+		context.put("messageDeleted", true);
 	}
 
 	/**

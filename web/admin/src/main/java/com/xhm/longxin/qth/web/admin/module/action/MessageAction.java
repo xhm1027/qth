@@ -51,6 +51,7 @@ public class MessageAction {
 		} else {
 			messageService.deleteMessageBySender(message,Message.adminSender);
 		}
+		context.put("messageDeleted", true);
 	}
 
 	/**
