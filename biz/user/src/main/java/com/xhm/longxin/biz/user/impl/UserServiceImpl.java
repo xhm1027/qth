@@ -115,7 +115,7 @@ public class UserServiceImpl implements UserService {
 		// TODO Auto-generated method stub，这里要用Java
 		// mail发邮件；配置在antx中，同时改写passowrd
 		String newPass = String.valueOf(System.currentTimeMillis())
-				.substring(9);
+				.substring(7);
 		user.setPassword(newPass);
 		if (!StringUtil.isEmpty(user.getEmail())) {//用户有邮箱时发邮件
 			if (!emailSender.sendPasswordResetEmail(user, newPass)) {
