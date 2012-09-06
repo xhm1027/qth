@@ -1,0 +1,124 @@
+#if($qthUser.hasLoggedIn())
+<div class="container-fluid">
+		<div class="row">
+			<form class="well form-search span12" id="searchForm">
+				<div>
+					<label class="label label-warning"  for="name">产品名称</label>
+					<input
+					type="text" class="input-xlarge" id="name" name="name"  value="$!name">
+				</div>
+				#if($qthUser.hasLoggedIn() && $qthUser.role=='outerUser')
+				<label class="label label-warning">资源类别</label>
+				<div>
+						#foreach($materialCategory in $notMaterialCategories)
+							<label class="checkbox inline">
+								<input type="checkbox"
+								id="$!materialCategory.id" value="$!materialCategory.id" name="notMaterialIds" #if($materialCategory.checked)checked="true"#end>
+								$!materialCategory.name
+							</label>
+						#end
+				</div>
+				#end
+				#if($qthUser.hasLoggedIn() && $qthUser.role=='innerUser')
+				<label class="label label-warning">原材料类别</label>
+					<div>
+						#foreach($materialCategory in $materialCategories)
+							<label class="checkbox inline">
+								<input type="checkbox"
+								id="$!materialCategory.id" value="$!materialCategory.id" name="materialIds" #if($materialCategory.checked)checked="true"#end>
+								$!materialCategory.name
+							</label>
+						#end
+				</div>
+				#end
+				<br>
+				<label class="label label-warning">状态</label>
+				<select name="status">
+					<option></option>
+					<option value="new" #if($!status=='new') selected=true #end>待审核</option>
+					<option value="onShelf" #if($!status=='onShelf') selected=true #end>已上架</option>
+					<option value="offShelf" #if($!status=='freese') selected=true #end>已下架</option>
+					<option value="auditFailed" #if($!status=='auditFailed') selected=true #end>审核失败</option>
+				</select>
+				<div>
+					<button class="btn btn-warning " onClick="doSearch();">
+					查询
+					</button>
+				</div>
+			</form>
+		</div>
+		#if($!totalPage != 1)
+		<div class="pagination">
+			  <ul>
+			  	#if($!page == 1)
+			  		<li class="active"><a href="javascript:void(0)">1</a></li>
+			  	#else
+					<li><a href="listMyBuyProduct.htm?name=$!name&status=$!status#foreach($id in $materialIds)&materialIds=$!id#end#foreach($id in $notMaterialIds)&notMaterialIds=$!id#end&page=1&pageSize=20">1</a></li>
+			  	#end
+			 	#foreach($pageIndex in [2 .. $!totalPage])
+					#if($!page == $!pageIndex)
+						<li class="active"><a href="javascript:void(0)">$!pageIndex</a></li>
+					#else
+						<li><a href="listMyBuyProduct.htm?name=$!name&status=$!status#foreach($id in $materialIds)&materialIds=$!id#end#foreach($id in $notMaterialIds)&notMaterialIds=$!id#end&page=$!pageIndex&pageSize=$!pageSize">$!pageIndex</a></li>
+					#end
+			 	#end
+			  </ul>
+		</div>
+		#end
+		<div class="row">
+			<div class="span12">
+				<table class="table table-bordered">
+					<thead>
+						<tr>
+							<th width="10%">#</th>
+							<th width="25%">产品名称</th>
+							<th width="20%">类别</th>
+							<th width="25%">状态</th>
+							<th width="20%">操作</th>
+						</tr>
+					</thead>
+					<tbody>
+						#set($_rowIndex = 0)
+						#foreach($product in $productList)
+						#set($_rowIndex = $_rowIndex+1)
+						<tr>
+							<td>$!_rowIndex</td>
+							<td>$!product.name</td>
+							<td>$!product.categoryName</td>
+							<td>#if($!product.status=='new')待审核#elseif($!product.status=='onShelf')已上架#elseif($!product.status=='offShelf')已下架#elseif($!product.status=='auditFailed')审核失败#else$!product.status#end</td>
+							<td>
+								<a href="$userModule.setTarget("viewSaleProduct")?id=$!product.id">查看</a>
+								#if($!product.status=='onShelf')
+								<a href="#">下架</a>
+								#end
+								<a href="#">编辑</a>
+							</td>
+						</tr>
+						#end
+					</tbody>
+				</table>
+			</div>
+		</div>
+		#if($!totalPage != 1)
+		<div class="pagination">
+			  <ul>
+			  	#if($!page == 1)
+			  		<li class="active"><a href="javascript:void(0)">1</a></li>
+			  	#else
+					<li><a href="listMyBuyProduct.htm?name=$!name&status=$!status&order=$!order#foreach($id in $materialIds)&materialIds=$!id#end#foreach($id in $notMaterialIds)&notMaterialIds=$!id#end&page=1&pageSize=20">1</a></li>
+			  	#end
+			 	#foreach($pageIndex in [2 .. $!totalPage])
+					#if($!page == $!pageIndex)
+						<li class="active"><a href="javascript:void(0)">$!pageIndex</a></li>
+					#else
+						<li><a href="listMyBuyProduct.htm?name=$!name&status=$!status&order=$!order#foreach($id in $materialIds)&materialIds=$!id#end#foreach($id in $notMaterialIds)&notMaterialIds=$!id#end&page=$!pageIndex&pageSize=$!pageSize">$!pageIndex</a></li>
+					#end
+			 	#end
+			  </ul>
+		</div>
+		#end
+		<hr>
+	</div>
+	<script>
+	</script>
+#end
