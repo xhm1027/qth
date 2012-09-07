@@ -12,7 +12,7 @@
 					$group.mapTo($product)
 					<input type="hidden" name="$group.auditId.key" value="$!product.id"/>
 					<fieldset>
-					<legend>产品审核$!product.id</legend>
+					<legend>产品审核</legend>
 					#if(!$group.auditProductInfo.valid)
 					<div class="alert alert-success">
 						<button type="button" class="close" data-dismiss="alert">&times;</button>
@@ -35,7 +35,7 @@
 					<div class="row-fluid" >
 						<div class="span3">类别</div>
 						<div class="span9">
-							$!category.name
+							$!product.category
 						</div>
 					</div>
 					<div class="row-fluid" >
