@@ -2,12 +2,14 @@
  *
  */
 package com.xhm.longxin.qth.web.admin.module.action;
+
 import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
 
 import com.alibaba.citrus.service.form.CustomErrors;
 import com.alibaba.citrus.service.requestcontext.parser.ParameterParser;
+import com.alibaba.citrus.turbine.Context;
 import com.alibaba.citrus.turbine.Navigator;
 import com.alibaba.citrus.turbine.dataresolver.FormField;
 import com.alibaba.citrus.turbine.dataresolver.FormGroup;
@@ -30,9 +32,18 @@ public class SaleProductAction {
 	@Autowired
 	private SaleProductService saleProductService;
 
-	public void doDeleteProduct(
-			@Param("id") Long id) {
-		saleProductService.deleteSaleProductById(id);
+	public void doDeleteProduct(@Param("id") Long id, Context context) {
+		try {
+			SaleProduct product = saleProductService.getSaleProductById(id);
+			if (product != null) {
+				saleProductService.deleteSaleProductById(id);
+				context.put("productDeleted", true);
+				return;
+			}
+		} catch (Exception e) {
+			context.put("productDeleted", false);
+		}
+		context.put("productDeleted", false);
 	}
 
 	public void doAuditProduct(
@@ -46,10 +57,11 @@ public class SaleProductAction {
 			err.setMessage("auditFail");
 			return;
 		}
-		//如果产品状态不是待审核，则返回
-		SaleProduct product=saleProductService.getSaleProductById(auditVO.getAuditId());
-		if(product!=null){
-			if(!ProductStatus.NEW.equals(product.getStatus())){
+		// 如果产品状态不是待审核，则返回
+		SaleProduct product = saleProductService.getSaleProductById(auditVO
+				.getAuditId());
+		if (product != null) {
+			if (!ProductStatus.NEW.equals(product.getStatus())) {
 				err.setMessage("auditStatusFail");
 				return;
 			}

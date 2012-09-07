@@ -142,12 +142,43 @@
 				<a href="#" class="btn" data-dismiss="modal">关闭</a>
 			</div>
 	</div>
+	<div id="deleteProductOk" class="modal" style="display: none; ">
+		<div class="modal-header">
+			<a class="close" data-dismiss="modal">×</a>
+			<h3>产品删除成功</h3>
+		</div>
+		<div class="modal-body" id="confirmMessage">
+			产品已成功删除！
+		</div>
+		<div class="modal-footer">
+				<a href="#" class="btn btn-primary" data-dismiss="modal">确定</a>
+		</div>
+	</div>
+	<div id="deleteProductErr" class="modal" style="display: none; ">
+		<div class="modal-header">
+			<a class="close" data-dismiss="modal">×</a>
+			<h3>产品删除失败</h3>
+		</div>
+		<div class="modal-body" id="confirmMessage">
+			产品删除失败！
+		</div>
+		<div class="modal-footer">
+				<a href="#" class="btn btn-primary" data-dismiss="modal">确定</a>
+		</div>
+	</div>
 	<script>
 		window.onload=function init(){
 			$("#publishStart").val("$!gmtPublishStart");
 			$("#publishEnd").val("$!gmtPublishEnd");
+			#if(true==$productDeleted)
+			//alert('show');
+				$("#deleteProductOk").modal('show');
+			#end
+			#if(false==$productDeleted)
+			//alert('show');
+				$("#deleteProductErr").modal('show');
+			#end
 		};
-
 		function confirmDeleteProduct(){
 			//alert($("#deletedId").val());
 			$("#deleteForm").submit();
