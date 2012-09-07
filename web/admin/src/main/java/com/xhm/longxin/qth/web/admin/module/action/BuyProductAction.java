@@ -49,7 +49,7 @@ public class BuyProductAction {
 			@FormGroup("productAudit") AuditProductVO auditVO,
 			@FormField(name = "auditProductInfo", group = "productAudit") CustomErrors info,
 			@FormField(name = "auditProductErr", group = "productAudit") CustomErrors err,
-			HttpSession session, Navigator nav, ParameterParser params) {
+			HttpSession session, Navigator nav, ParameterParser params, Context context) {
 		QthAdmin qthAdmin = (QthAdmin) session
 				.getAttribute(AdminConstant.QTH_ADMIN_SESSION_KEY);
 		if (qthAdmin == null) {
@@ -70,6 +70,7 @@ public class BuyProductAction {
 		boolean editResult = buyProductService.auditBuyProductById(auditVO);
 		if (editResult) {
 			info.setMessage("auditSuccess");
+			context.put("productAudited", true);
 		} else {
 			err.setMessage("auditFail");
 		}

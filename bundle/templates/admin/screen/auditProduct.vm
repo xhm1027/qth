@@ -96,4 +96,32 @@
 			</form>
 		</div>
 	</div>
+	<div id="auditProductOk" class="modal" style="display: none; ">
+		<div class="modal-header">
+			<a class="close" data-dismiss="modal">×</a>
+			<h3>产品审核</h3>
+		</div>
+		<div class="modal-body" id="confirmMessage">
+			产品审核成功！
+		</div>
+		<div class="modal-footer">
+				<a href="#" class="btn btn-primary" data-dismiss="modal" onClick="returnProductList();">确定</a>
+		</div>
+	</div>
 </div>
+<script>
+	window.onload=function init(){
+		#if(!$group.auditProductInfo.valid)
+    		//alert('show');
+    		$("#auditProductOk").modal('show');
+		#end
+	};
+	function returnProductList(){
+		#if($auditType=="saleProduct")
+		var target="listSaleProduct.htm";
+		#else
+		var target="listSaleProduct.htm";
+		#end
+		window.location=target;
+	}
+</script>

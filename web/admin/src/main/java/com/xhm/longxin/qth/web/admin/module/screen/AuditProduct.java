@@ -50,7 +50,7 @@ public class AuditProduct {
 				proVO.setCategory(category.getName());
 				proVO.setId(product.getId());
 				proVO.setCategoryId(product.getCategoryId());
-				proVO.setDescription(product.getDescription());
+				//proVO.setDescription(product.getDescription());
 				proVO.setImgs(product.getImgs());
 				proVO.setLowestDealSize(product.getLowestDealSize());
 				proVO.setName(product.getName());
