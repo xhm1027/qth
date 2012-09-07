@@ -50,7 +50,7 @@
 					<select name="status">
 						<option></option>
 						<option value="new" #if($!status=='new') selected=true #end>待审核</option>
-						<option value="normal" #if($!status=='normal') selected=true #end>已审核</option>
+						<option value="normal" #if($!status=='normal') selected=true #end>审核通过</option>
 						<option value="freese" #if($!status=='freese') selected=true #end>已冻结</option>
 						<option value="auditFailed" #if($!status=='auditFailed') selected=true #end>审核失败</option>
 					</select>
