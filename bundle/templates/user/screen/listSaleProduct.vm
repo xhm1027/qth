@@ -27,7 +27,28 @@
 							</label>
 						#end
 				</div>
+				#elseif($qthUser.hasLoggedIn() && $qthUser.role=='innerUser')
+				<label class="label label-warning">原材料类别</label>
+					<div>
+						#foreach($materialCategory in $materialCategories)
+							<label class="checkbox inline">
+								<input type="checkbox"
+								id="$!materialCategory.id" value="$!materialCategory.id" name="materialIds" #if($materialCategory.checked)checked="true"#end>
+								$!materialCategory.name
+							</label>
+						#end
+				</div>
 				#else
+				<label class="label label-warning">资源类别</label>
+				<div>
+						#foreach($materialCategory in $notMaterialCategories)
+							<label class="checkbox inline">
+								<input type="checkbox"
+								id="$!materialCategory.id" value="$!materialCategory.id" name="notMaterialIds" #if($materialCategory.checked)checked="true"#end>
+								$!materialCategory.name
+							</label>
+						#end
+				</div>
 				<label class="label label-warning">原材料类别</label>
 					<div>
 						#foreach($materialCategory in $materialCategories)
@@ -94,7 +115,7 @@
 							</a>
     					#else
     						<a href="#" onClick="javascript:showProductDetail($product.id)">
-								<img width="260" height="180" src="http://placehold.it/260x180" alt="">
+								<img width="260" height="180" src="$!{qthServer}assets/img/260-180.gif" alt="">
 							</a>
     					#end
     						<div class="caption">
@@ -106,7 +127,7 @@
 								<br>
 									最小起订：#if(!$product.lowestDealSize||$product.lowestDealSize==-1)面议#else$!product.lowestDealSize $!product.unit#end
 								<br>
-									描述：#if($product.description&&$product.description.length()>15)$product.description.substring(0,14)#else$!product.description#end
+									描述：#if($product.description&&$product.description.length()>10)$product.description.substring(0,9)#else$!product.description#end
     							</p>
     							<p>
     							<a href="#" onClick="javascript:showProductDetail($product.id)" class="btn btn-primary">详情</a>

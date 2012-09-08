@@ -115,7 +115,7 @@
 							</a>
     					#else
     						<a href="#" onClick="javascript:showProductDetail($product.id)">
-								<img width="260" height="180" src="http://placehold.it/260x180" alt="">
+								<img width="260" height="180" src="$!{qthServer}assets/img/260-180.gif" alt="">
 							</a>
     					#end
     						<div class="caption">
