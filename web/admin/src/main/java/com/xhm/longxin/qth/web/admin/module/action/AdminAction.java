@@ -132,17 +132,30 @@ public class AdminAction {
 			@FormGroup("userAudit") UserAuditVO userAuditVO,
 			@FormField(name = "auditUserInfo", group = "userAudit") CustomErrors info,
 			@FormField(name = "auditUserErr", group = "userAudit") CustomErrors err,
-			HttpSession session, Navigator nav, ParameterParser params) {
+			HttpSession session, Navigator nav, ParameterParser params,
+			Context context) {
 		QthAdmin qthAdmin = (QthAdmin) session
 				.getAttribute(AdminConstant.QTH_ADMIN_SESSION_KEY);
-		if (qthAdmin == null) {
+		if (qthAdmin == null || qthAdmin.getId() == null) {
 			err.setMessage("auditFail");
 			return;
 		}
 		userAuditVO.setAuditor(qthAdmin.getId());
+		User user = userService.getUserById(userAuditVO.getId());
+		{
+			if (user == null) {
+				err.setMessage("auditNotExistFail");
+				return;
+			}
+			if (!UserStatus.NEW.equals(user.getStatus())) {
+				err.setMessage("auditStatusFail");
+				return;
+			}
+		}
 		boolean editResult = userService.auditUser(userAuditVO);
 		if (editResult) {
 			info.setMessage("auditSuccess");
+			context.put("auditUserSuccess", true);
 		} else {
 			err.setMessage("auditFail");
 		}
@@ -154,6 +167,12 @@ public class AdminAction {
 			@FormField(name = "resetUserInfo", group = "userPasswordReset") CustomErrors info,
 			@FormField(name = "resetUserErr", group = "userPasswordReset") CustomErrors err,
 			Navigator nav, ParameterParser params) {
+		QthAdmin qthAdmin = (QthAdmin) session
+				.getAttribute(AdminConstant.QTH_ADMIN_SESSION_KEY);
+		if (qthAdmin == null || qthAdmin.getId() == null) {
+			err.setMessage("resetFailEmailError");
+			return;
+		}
 		// ÷ÿ…Ë√‹¬Î¬ﬂº≠
 		user = userService.getUserById(user.getId());
 		String newPass = userService.resetUserPass(user);
@@ -194,7 +213,7 @@ public class AdminAction {
 			err.setMessage("fail");
 		}
 	}
-	
+
 	public void doAddInnerUser(
 			@FormGroup("addUser") User user,
 			@Param("buyInterests") Long[] buyInterests,
@@ -250,9 +269,9 @@ public class AdminAction {
 		} else {
 			err.setMessage("registerFail");
 		}
- 
+
 	}
-	
+
 	public void doEditUser(
 			@FormGroup("editUser") User user,
 			@Param("buyInterests") Long[] buyInterests,
@@ -267,7 +286,8 @@ public class AdminAction {
 			return;
 		}
 		User checkUserByEmail = userService.getUserByEmail(user.getEmail());
-		if (checkUserByEmail != null&&checkUserByEmail.getLoginId().equals(user.getLoginId())) {
+		if (checkUserByEmail != null
+				&& checkUserByEmail.getLoginId().equals(user.getLoginId())) {
 			emailField.setMessage("existError");
 			return;
 		}

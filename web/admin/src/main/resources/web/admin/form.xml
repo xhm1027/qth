@@ -161,6 +161,12 @@
 				<custom-error id="auditFail">
 					<message>用户审核操作失败</message>
 				</custom-error>
+				<custom-error id="auditStatusFail">
+					<message>审核操作失败，该账号状态不是待审核！</message>
+				</custom-error>
+				<custom-error id="auditNotExistFail">
+					<message>审核操作失败，该账号不存在！</message>
+				</custom-error>
 			</services:field>
 			<services:field name="description" displayName="审核信息备注">
 				<string-length-validator maxLength="500">

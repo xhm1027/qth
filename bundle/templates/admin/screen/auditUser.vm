@@ -72,4 +72,28 @@
 			</form>
 		</div>
 	</div>
+	<div id="auditUserOk" class="modal" style="display: none; ">
+		<div class="modal-header">
+			<a class="close" data-dismiss="modal">×</a>
+			<h3>用户审核</h3>
+		</div>
+		<div class="modal-body" id="confirmMessage">
+			用户审核成功！
+		</div>
+		<div class="modal-footer">
+				<a href="#" class="btn btn-primary" data-dismiss="modal" onClick="returnUserList();">确定</a>
+		</div>
+	</div>
 </div>
+<script>
+	#if(!$group.auditUserInfo.valid)
+	window.onload=function init(){
+    		//alert('show');
+    		$("#auditUserOk").modal('show');
+	};
+	#end
+	function returnUserList(){
+		var target="listUser.htm";
+		window.location=target;
+	}
+</script>
