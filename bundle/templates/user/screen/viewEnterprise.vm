@@ -1,0 +1,59 @@
+<div class="container-fluid">
+	<div class="row-fluid">
+		<div class="row-fluid">
+			<form class="well form-horizontal">
+				<legend><h2>企业信息</h2></legend>
+				<div class="row-fluid" >
+					<div class="span3">公司：</div>
+					<div class="span9">$!user.company</div>
+				</div>
+				<hr>
+				<h2>联系方式</h2>
+				<div class="row-fluid" >
+					<div class="span3">联系人：</div>
+					<div class="span9">$!user.name</div>
+				</div>
+				<div class="row-fluid" >
+					<div class="span3">联系电话：</div>
+					<div class="span9">$!user.phoneArea&nbsp;$!user.phoneNumber</div>
+				</div>
+				<div class="row-fluid" >
+					<div class="span3">移动电话：</div>
+					<div class="span9">$!user.mobilePhone</div>
+				</div>
+				<div class="row-fluid" >
+					<div class="span3">电子邮箱：</div>
+					<div class="span9">$!user.email</div>
+				</div>
+				<div class="row-fluid" >
+					<div class="span3">公司地址：</div>
+					<div class="span9">$!user.companyAddress</div>
+				</div>
+				<hr>
+				<h2>产品信息</h2>
+				<span class="label label-important">主营采购类别</span>
+				<div class="control-group">
+					#foreach($buy in $buyInterestList)
+						<label class="checkbox inline">
+							<input type="checkbox" disabled="true"
+							name="buyInterests" value="$!buy.category.id" checked=true>
+							$!buy.category.name
+						</label>
+					#end
+				</div>
+				<span class="label label-info">主营销售类别</span>
+				<div class="control-group">
+					#foreach($sell in $sellInterestList)
+						<label class="checkbox inline">
+							<input type="checkbox"  disabled="true"
+							name="sellInterests" value="$!sell.category.id"  checked=true>
+							$!sell.category.name
+						</label>
+					#end
+				</div>
+			</form>
+		</div>
+		<!--/row-->
+	</div>
+	<!--/span-->
+</div>

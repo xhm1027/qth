@@ -5,7 +5,7 @@
 				<h3>您还没有登录，请您登录后再查看企业的详细信息！</h3>
 			</div>
 			<div class="modal-footer">
-				<a href="#" class="btn btn-success" data-dismiss="modal" onClick="location.reload();">确定</a>
+				<a href="#" class="btn btn-success" data-dismiss="modal">确定</a>
 			</div>
 		</div>
 		<div class="row">
@@ -112,7 +112,7 @@
 							<td>#if($!user.status=='new')待审核 #elseif($!user.status=='normal')审核通过#elseif($!user.status=='auditFailed')审核失败#elseif($!user.status=='freese')已冻结 #else $!user.status#end</td>
 							<td>
 								#if ($qthUser.hasLoggedIn())
-									<a href="enterpriseDetail.htm?id=$!user.id">查看详情</a>
+									<a href="viewEnterprise.htm?id=$!user.id">查看详情</a>
 								#else
 									<a data-toggle="modal" href="#nopermissionModal">查看详情</a>
 								#end
