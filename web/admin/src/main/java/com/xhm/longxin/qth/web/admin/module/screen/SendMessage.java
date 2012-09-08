@@ -28,7 +28,7 @@ public class SendMessage {
 		QthAdmin qthAdmin = (QthAdmin) session
 		.getAttribute(AdminConstant.QTH_ADMIN_SESSION_KEY);
 
-		if (qthAdmin == null) {
+		if (qthAdmin == null||!qthAdmin.hasLoggedIn()) {
 			log.warn("user not logged in yet! no rights to send message!");
 			return;
 		}

@@ -34,6 +34,18 @@
 					$!buyProduct.lowestDealSize
 				</div>
 			</div>
+			<div class="row-fluid" >
+				<div class="span3">企业信息</div>
+				<div class="span9">
+					<a href="viewEnterprise.htm?id=$!company.id">$!company.name</a>
+				</div>
+			</div>
+			<span style="color:red">
+				#if($!company.status=='freese')该企业账号已冻结
+				#elseif($!company.status=='new')该企业账号待审核
+				#elseif($!company.status=='auditFailed')该企业账号审核失败
+				#end
+            </span>
 			<hr>
 			<h2>产品图片</h2>
 			<div class="span6" >
