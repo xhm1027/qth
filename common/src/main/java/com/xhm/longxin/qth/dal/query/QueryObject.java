@@ -14,8 +14,20 @@ public class QueryObject {
 	public static final int maxPageSize = 100;
 	public static final int defaultPageSize = 20;
 	public static final int messagePageSize = 10;
-	private Boolean orderDesc=null;
-	private Boolean orderModified=null;
+	private Boolean orderDesc = null;
+	private Boolean orderAsc = null;
+	private Boolean orderModified = null;
+	public static final String ORDER_DESC = "desc";
+	public static final String ORDER_ASC = "asc";
+
+	public Boolean getOrderAsc() {
+		return orderAsc;
+	}
+
+	public void setOrderAsc(Boolean orderAsc) {
+		this.orderAsc = orderAsc;
+		this.orderDesc = null;
+	}
 
 	public Boolean getOrderDesc() {
 		return orderDesc;
@@ -23,6 +35,7 @@ public class QueryObject {
 
 	public void setOrderDesc(Boolean orderDesc) {
 		this.orderDesc = orderDesc;
+		this.orderAsc = null;
 	}
 
 	public Boolean getOrderModified() {

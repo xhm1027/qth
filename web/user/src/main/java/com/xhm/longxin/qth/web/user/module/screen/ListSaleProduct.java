@@ -109,6 +109,7 @@ public class ListSaleProduct {
 			proVo.setLowestDealSize(p.getLowestDealSize());
 			proVo.setName(p.getName());
 			proVo.setPrice(p.getPrice());
+			proVo.setGmtModified(p.getGmtModified());
 			proVo.setUnit(p.getUnit());
 			proVo.setQuantity(p.getQuantity());
 			User user = userService.getUserByLoginId(p.getOwner());

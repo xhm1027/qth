@@ -9,6 +9,8 @@
 		<result property="id" column="ID" jdbcType="BIGINT" javaType="long" />
 		<result property="name" column="name" jdbcType="VARCHAR"
 			javaType="String" />
+		<result property="gmtModified" column="gmt_modified" jdbcType="DATETIME"
+			javaType="java.util.Date" />
 		<result property="unit" column="unit" jdbcType="VARCHAR"
 			javaType="String" />
 		<result property="categoryId" column="category_id" jdbcType="BIGINT"
@@ -123,6 +125,7 @@
 				category_id,
 				quantity,
 				unit,
+				gmt_modified,
 				price,
 				lowest_deal_size,
 				status,
@@ -148,6 +151,9 @@
 		<isNotNull property="id" prepend="AND">
 			id=#id#
 		</isNotNull>
+		<isNotNull property="owner" prepend="AND">
+			owner=#owner#
+		</isNotNull>
 		<isNotNull property="gmtPublishStart" prepend="AND">
 			<![CDATA[gmt_modified>=#gmtPublishStart#]]>
 		</isNotNull>
@@ -162,6 +168,9 @@
 		</isNotNull>
 		<isNotNull property="orderDesc" prepend=" ">
 		<![CDATA[	desc]]>
+		</isNotNull>
+		<isNotNull property="orderAsc" prepend=" ">
+		<![CDATA[	asc]]>
 		</isNotNull>
 		<include refid="ALICRM_COMMON.ALI_PAGING" />
 	</select>
@@ -195,6 +204,9 @@
 		<isNotNull property="id" prepend="AND">
 			p.id=#id#
 		</isNotNull>
+		<isNotNull property="owner" prepend="AND">
+			owner=#owner#
+		</isNotNull>
 	</select>
 
 
@@ -210,15 +222,18 @@
 				p.price,
 				p.lowest_deal_size,
 				p.status,
+				gmt_modified,
 				p.owner,
 				p.product_type,
 				p.description
 				from qth_product_sale p,qth_user u where  p.is_deleted='N' and u.is_deleted='N']]>
 		<isNotNull property="name" prepend="AND">
-			p.name like CONCAT('%',#name#, '%')
+			p.name like
+			CONCAT('%',#name#, '%')
 		</isNotNull>
 		<isNotNull property="company" prepend="AND">
-			u.company like CONCAT('%',#company#, '%') and p.owner=u.login_id
+			u.company like
+			CONCAT('%',#company#, '%') and p.owner=u.login_id
 		</isNotNull>
 		<isNotNull property="categoryIds" prepend="AND">
 			p.category_id in
@@ -240,7 +255,7 @@
 		<isNotNull property="gmtPublishEnd" prepend="AND">
 			<![CDATA[p.gmt_modified<=#gmtPublishEnd#]]>
 		</isNotNull>
-		 <isNotNull property="orderModified" prepend=" ">
+		<isNotNull property="orderModified" prepend=" ">
 			<![CDATA[order by gmt_modified]]>
 		</isNotNull>
 		<isNotNull property="orderByPrice" prepend=" ">
@@ -249,19 +264,25 @@
 		<isNotNull property="orderDesc" prepend=" ">
 		<![CDATA[	desc]]>
 		</isNotNull>
+		<isNotNull property="orderAsc" prepend=" ">
+		<![CDATA[	asc]]>
+		</isNotNull>
 		<include refid="ALICRM_COMMON.ALI_PAGING" />
 	</select>
 
-	<select id="QUERY_COUNT_WITH_COMPANY" resultClass="int" parameterClass="SALE_PRODUCT_QUERY_VO">
+	<select id="QUERY_COUNT_WITH_COMPANY" resultClass="int"
+		parameterClass="SALE_PRODUCT_QUERY_VO">
 		 <![CDATA[
 				select
 				count(*)
 				from qth_product_sale p,qth_user u where  p.is_deleted='N' and u.is_deleted='N']]>
 		<isNotNull property="name" prepend="AND">
-			p.name like CONCAT('%',#name#, '%')
+			p.name like
+			CONCAT('%',#name#, '%')
 		</isNotNull>
 		<isNotNull property="company" prepend="AND">
-			u.company like CONCAT('%',#company#, '%') and p.owner=u.login_id
+			u.company like
+			CONCAT('%',#company#, '%') and p.owner=u.login_id
 		</isNotNull>
 		<isNotNull property="categoryIds" prepend="AND">
 			p.category_id in

@@ -266,7 +266,7 @@ public class UserAction {
 
 	/**
 	 * 判断用户是否需要重新审核
-	 * 
+	 *
 	 * @param oldUser
 	 * @param newUser
 	 * @return
@@ -278,7 +278,7 @@ public class UserAction {
 			return true;
 		}
 		if (StringUtils.isNotBlank(newUser.getPhoneArea())
-				&& oldUser.getPhoneArea().equals(newUser.getPhoneArea()) == false) {
+				&& newUser.getPhoneArea().equals(oldUser.getPhoneArea()) == false) {
 			return true;
 		}
 		if (StringUtils.isNotBlank(newUser.getPhoneNumber())

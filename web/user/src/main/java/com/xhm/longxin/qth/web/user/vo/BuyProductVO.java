@@ -5,6 +5,15 @@ import com.xhm.longxin.qth.dal.dataobject.SaleProduct;
 public class BuyProductVO extends SaleProduct {
 	private String ownerStatus;
 	private String categoryName;
+	private String gmtModified;
+
+	public String getGmtModified() {
+		return gmtModified;
+	}
+
+	public void setGmtModified(String gmtModified) {
+		this.gmtModified = gmtModified;
+	}
 
 	public String getCategoryName() {
 		return categoryName;
