@@ -18,6 +18,21 @@
 				<a class="close" data-dismiss="modal">×</a>
 				<h3>操作成功！</h3>
 			</div>
+			<div class="modal-body">
+			用户冻结/解冻操作成功！
+			</div>
+			<div class="modal-footer">
+				<a href="#" class="btn btn-success" data-dismiss="modal" onClick="location.reload();">确定</a>
+			</div>
+		</div>
+		<div id="failModal" class="modal" style="display: none; ">
+			<div class="modal-header">
+				<a class="close" data-dismiss="modal">×</a>
+				<h3>操作失败！</h3>
+			</div>
+			<div class="modal-body">
+			用户状态错误，用户冻结/解冻操作失败！
+			</div>
 			<div class="modal-footer">
 				<a href="#" class="btn btn-success" data-dismiss="modal" onClick="location.reload();">确定</a>
 			</div>
@@ -141,7 +156,8 @@
 		                	$('#okModal').modal('show');
 		                	$('#freeseModal').modal('hide');
 		                }else{
-		                	alert('冻结/解冻操作出现异常，请您稍后再试。');
+		                	$('#failModal').modal('show');
+		                	$('#freeseModal').modal('hide');
 		                }
 		            }
 		        }
