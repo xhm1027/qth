@@ -1,0 +1,56 @@
+<div class="container-fluid">
+	<div class="row-fluid">
+		<div class="row-fluid">
+			<fieldset>
+			<legend><h2>查看采购产品</h2></legend>
+			<h2>产品信息</h2>
+			<div class="row-fluid" >
+				<div class="span3">名称</div>
+				<div class="span9">
+					$!buyProduct.name
+				</div>
+			</div>
+			<div class="row-fluid" >
+				<div class="span3">类别</div>
+				<div class="span9">
+					$!category.name
+				</div>
+			</div>
+			<div class="row-fluid" >
+				<div class="span3">产品数量</div>
+				<div class="span9">
+					$!buyProduct.quantity
+				</div>
+			</div>
+			<div class="row-fluid" >
+				<div class="span3">产品单位</div>
+				<div class="span9">
+					$!buyProduct.unit
+				</div>
+			</div>
+			<div class="row-fluid" >
+				<div class="span3">最小起订</div>
+				<div class="span9">
+					$!buyProduct.lowestDealSize
+				</div>
+			</div>
+			<hr>
+			<h2>产品图片</h2>
+			<div class="span6" >
+			<div id="myCarousel" class="carousel slide">
+				<div class="carousel-inner">
+					#foreach($img in $buyProduct.imgs)
+					<div class="item #if($velocityCount == 1) active #end">
+						<img src="$upload$!img.path" alt="">
+					</div>
+					#end
+				</div>
+				<a class="left carousel-control" href="#myCarousel" data-slide="prev">‹</a>
+				<a class="right carousel-control" href="#myCarousel" data-slide="next">›</a>
+			</div>
+            </div>
+		</div>
+		<!--/row-->
+	</div>
+	<!--/span-->
+</div>
