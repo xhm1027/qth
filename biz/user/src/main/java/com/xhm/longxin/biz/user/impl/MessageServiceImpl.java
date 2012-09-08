@@ -45,6 +45,16 @@ public class MessageServiceImpl implements MessageService {
 		return messageDao.query(messageQuery, pageStart, pageSize);
 	}
 
+
+	public List<Message> getUnopenInboxMessageList(String receiver, int pageStart,
+			int pageSize) {
+		MessageQuery messageQuery = new MessageQuery();
+		messageQuery.setReceiver(receiver);
+		messageQuery.setReceiverDeleted(IS.N);
+		messageQuery.setIsOpened(IS.N);
+		return messageDao.query(messageQuery, pageStart, pageSize);
+	}
+
 	public List<Message> getOutboxMessageList(String sender, int pageStart,
 			int pageSize) {
 		MessageQuery messageQuery = new MessageQuery();
@@ -86,6 +96,13 @@ public class MessageServiceImpl implements MessageService {
 		return messageDao.queryCount(messageQuery);
 	}
 
+	public int getInboxUnopenMessageCount(String receiver) {
+		MessageQuery messageQuery = new MessageQuery();
+		messageQuery.setReceiver(receiver);
+		messageQuery.setReceiverDeleted(IS.N);
+		messageQuery.setIsOpened(IS.N);
+		return messageDao.queryCount(messageQuery);
+	}
 	/*
 	 * (non-Javadoc)
 	 *

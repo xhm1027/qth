@@ -51,13 +51,16 @@
         </div>
          <div class="pagination">
 			  <ul>
-			  	<li#if($!page == 1) class="active"#end><a href="inbox.htm?page=1&pageSize=$!pageSize">1</a></li>
+			  	<li#if($!page == 1) class="active"#end><a href="inbox.htm?page=1&pageSize=$!pageSize&opened=$!opened">1</a></li>
 			 	 #if($!totalPage != 1)
 				 	 #foreach($pageIndex in [2 .. $!totalPage])
-						<li#if($!page == $!pageIndex) class="active"#end><a href="inbox.htm?page=$!pageIndex&pageSize=$!pageSize">$!pageIndex</a></li>
+						<li#if($!page == $!pageIndex) class="active"#end><a href="inbox.htm?page=$!pageIndex&pageSize=$!pageSize&opened=$!opened">$!pageIndex</a></li>
 				 	 #end
 			 	 #end
 			  </ul>
+		</div>
+		<div class="span10">
+			<div class="row">&nbsp;&nbsp;&nbsp;&nbsp;共&nbsp;<a href="inbox.htm">$!totalCount</a>&nbsp;条站内信，其中&nbsp;<a href="inbox.htm?opened=N">$!unOpenCount</a>&nbsp;条未读</div>
 		</div>
 		<div class="span10">
 				<table class="table table-bordered">

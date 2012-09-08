@@ -50,4 +50,19 @@ public interface MessageService {
 	 * */
 	public int getOutboxMessageCount(String receiver);
 
+	/**
+	 * @param receiver
+	 * @param pageStart
+	 * @param pageSize
+	 * @return
+	 */
+	public List<Message> getUnopenInboxMessageList(String receiver, int pageStart,
+			int pageSize);
+
+	/**
+	 * @param receiver
+	 * @return
+	 */
+	public int getInboxUnopenMessageCount(String receiver);
+
 }

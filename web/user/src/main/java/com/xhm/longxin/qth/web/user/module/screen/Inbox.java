@@ -12,6 +12,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import com.alibaba.citrus.turbine.Context;
 import com.alibaba.citrus.turbine.dataresolver.Param;
 import com.xhm.longxin.biz.user.interfaces.MessageService;
+import com.xhm.longxin.qth.dal.constant.IS;
 import com.xhm.longxin.qth.dal.dataobject.Message;
 import com.xhm.longxin.qth.dal.query.QueryObject;
 import com.xhm.longxin.qth.web.user.common.QthUser;
@@ -28,7 +29,8 @@ public class Inbox {
 	HttpSession session;
 
 	public void execute(@Param("page") int page,
-			@Param("pageSize") int pageSize, Context context) {
+			@Param("opened") String isOpened, @Param("pageSize") int pageSize,
+			Context context) {
 		QthUser qthUser = (QthUser) session
 				.getAttribute(UserConstant.QTH_USER_SESSION_KEY);
 
@@ -42,12 +44,26 @@ public class Inbox {
 		if (pageSize == 0 || pageSize > QueryObject.maxPageSize) {
 			pageSize = QueryObject.messagePageSize;
 		}
-		context.put("messageList", messageService.getInboxMessageList(qthUser
-				.getId(), (page - 1) * pageSize, pageSize));
+		if (IS.N.equals(isOpened)) {// 未读信息列表
+			context.put("messageList", messageService
+					.getUnopenInboxMessageList(qthUser.getId(), (page - 1)
+							* pageSize, pageSize));
+		} else {// 全部信息列表
+			context.put("messageList", messageService.getInboxMessageList(
+					qthUser.getId(), (page - 1) * pageSize, pageSize));
+		}
 		context.put("page", page);
+		context.put("opened", isOpened);
 		context.put("pageSize", pageSize);
+		int unOpenCount = messageService.getInboxUnopenMessageCount(qthUser
+				.getId());
 		int totalCount = messageService.getInboxMessageCount(qthUser.getId());
 		context.put("totalCount", totalCount);
-		context.put("totalPage", (totalCount - 1) / pageSize + 1);
+		context.put("unOpenCount", unOpenCount);
+		if (IS.N.equals(isOpened)) {// 未读信息分页
+			context.put("totalPage", (unOpenCount - 1) / pageSize + 1);
+		} else {
+			context.put("totalPage", (totalCount - 1) / pageSize + 1);
+		}
 	}
 }
