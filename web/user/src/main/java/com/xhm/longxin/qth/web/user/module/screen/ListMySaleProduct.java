@@ -10,6 +10,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 
 import com.alibaba.citrus.turbine.Context;
 import com.alibaba.citrus.turbine.dataresolver.Param;
+import com.alibaba.citrus.util.StringUtil;
 import com.xhm.longxin.biz.user.interfaces.ProductCategoryService;
 import com.xhm.longxin.biz.user.interfaces.SaleProductService;
 import com.xhm.longxin.biz.user.interfaces.UserService;
@@ -19,6 +20,7 @@ import com.xhm.longxin.qth.dal.dataobject.BuyProduct;
 import com.xhm.longxin.qth.dal.dataobject.ProductCategory;
 import com.xhm.longxin.qth.dal.dataobject.SaleProduct;
 import com.xhm.longxin.qth.dal.dataobject.User;
+import com.xhm.longxin.qth.dal.dataobject.UserInterest;
 import com.xhm.longxin.qth.dal.query.BuyProductQuery;
 import com.xhm.longxin.qth.dal.query.CategoryQuery;
 import com.xhm.longxin.qth.dal.query.QueryObject;
@@ -35,13 +37,51 @@ public class ListMySaleProduct {
 	private ProductCategoryService productCategoryService;
 	@Autowired
 	HttpSession session;
+	@Autowired
+	private UserService userService;
 
 	public void execute(@Param(name = "name") String name,
 			@Param(name = "status") String status,
-			@Param(name = "materialIds") Long[] materialIds,
-			@Param(name = "notMaterialIds") Long[] notMaterialIds,
+			@Param(name = "notFirst") String notFirst,
+			@Param(name = "m") Long[] m, @Param(name = "nm") Long[] nm,
 			@Param(name = "page") int page,
 			@Param(name = "pageSize") int pageSize, Context context) {
+		QthUser qthUser = (QthUser) session
+				.getAttribute(UserConstant.QTH_USER_SESSION_KEY);
+		if (qthUser == null || qthUser.getId() == null) {
+			return;
+		}
+		// 如果是第一次请求，把兴趣类别默认勾选！
+		if (StringUtil.isEmpty(notFirst)) {
+			List<ProductCategory> resourceCategoryList = productCategoryService
+					.getAllResourceCategory();
+			List<ProductCategory> materialCategoryList = productCategoryService
+					.getAllMaterialCategory();
+			// 用户已登录，把兴趣取出来（这里是列的是自己自己的求购产品，即用户有求购的兴趣的产品类目要选中）
+			List<Long> materialIdList = new ArrayList<Long>();
+			List<Long> resourceIdList = new ArrayList<Long>();
+			User user = userService.getUserByLoginId(qthUser.getId());
+			if (user != null && user.getSaleInterests() != null) {
+				for (UserInterest interest : user.getSaleInterests()) {
+					for (int i = 0; i < resourceCategoryList.size(); i++) {
+						if (interest.getValue().equals(
+								resourceCategoryList.get(i).getId())) {
+							resourceIdList.add(interest.getValue());
+						}
+					}
+					for (int i = 0; i < materialCategoryList.size(); i++) {
+						if (interest.getValue().equals(
+								materialCategoryList.get(i).getId())) {
+							materialIdList.add(interest.getValue());
+						}
+					}
+				}
+			}
+			m = new Long[materialIdList.size()];
+			materialIdList.toArray(m);
+			nm = new Long[resourceIdList.size()];
+			resourceIdList.toArray(nm);
+		}
 		// 分页参数处理
 		SaleProductQuery productQuery = new SaleProductQuery();
 		if (page == 0) {
@@ -53,20 +93,14 @@ public class ListMySaleProduct {
 		productQuery.setName(name);
 		// 用户冻结和审核失败时，需要扩展字段来进行描述标记，不能直接用BuyProduct
 		productQuery.setStatus(status);
-		QthUser qthUser = (QthUser) session
-				.getAttribute(UserConstant.QTH_USER_SESSION_KEY);
-
-		if (qthUser == null || qthUser.getId() == null) {
-			return;
-		}
 		productQuery.setOwner(qthUser.getId());
 		// 采购类别
 		List<Long> categoryIds = new ArrayList<Long>();
-		List<Long> mIds = Arrays.asList(materialIds);
+		List<Long> mIds = Arrays.asList(m);
 		for (Long id : mIds) {
 			categoryIds.add(id);
 		}
-		List<Long> notMCIds = Arrays.asList(notMaterialIds);
+		List<Long> notMCIds = Arrays.asList(nm);
 		for (Long id : notMCIds) {
 			categoryIds.add(id);
 		}
@@ -74,11 +108,12 @@ public class ListMySaleProduct {
 			productQuery.setCategoryIds(categoryIds);
 		}
 		// 查询参数
-		context.put("materialIds", materialIds);
-		context.put("notMaterialIds", notMaterialIds);
+		context.put("m", m);
+		context.put("nm", nm);
 		context.put("name", name);
 		context.put("status", status);
 		context.put("page", page);
+		context.put("notFirst", "notFirst");//只要查过，下次就会带这个参数
 		context.put("pageSize", pageSize);
 		int totalCount = saleProductService.queryCount(productQuery);
 		context.put("totalCount", totalCount);
@@ -91,12 +126,12 @@ public class ListMySaleProduct {
 		CategoryQuery categoryQuery = new CategoryQuery();
 		categoryQuery.setIsMaterial(IS.Y);
 		context.put("materialCategories", wrapProductCategoryVO(
-				productCategoryService.query(categoryQuery), Arrays
-						.asList(materialIds), null));
+				productCategoryService.query(categoryQuery), Arrays.asList(m),
+				null));
 		categoryQuery.setIsMaterial(IS.N);
 		context.put("notMaterialCategories", wrapProductCategoryVO(
 				productCategoryService.query(categoryQuery), null, Arrays
-						.asList(notMaterialIds)));
+						.asList(nm)));
 	}
 
 	private List<SaleProductVO> wrapSaleProductVO(List<SaleProduct> productList) {

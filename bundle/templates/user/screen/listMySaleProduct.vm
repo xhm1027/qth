@@ -1,7 +1,17 @@
 #if($qthUser.hasLoggedIn())
 <div class="container-fluid">
+		<div id="cateSelectModal" class="modal" style="display: none; ">
+			<div class="modal-header">
+				<a class="close" data-dismiss="modal">×</a>
+				<h3>请至少选择一个类别！</h3>
+			</div>
+			<div class="modal-footer">
+				<a href="#" class="btn btn-success" data-dismiss="modal">确定</a>
+			</div>
+		</div>
 		<div class="row">
 			<form class="well form-search span12" id="searchForm">
+				<input type="hidden" name="notFirst" value="$!notFirst"/>
 				<div>
 					<label class="label label-warning"  for="name">产品名称</label>
 					<input
@@ -9,11 +19,15 @@
 				</div>
 				#if($qthUser.hasLoggedIn() && $qthUser.role=='innerUser')
 				<label class="label label-warning">资源类别</label>
+				<label class="checkbox inline">
+					<input type="checkbox" id="checkAllCategories" onClick="checkAll(this);"/>
+					全部选中
+				</label>
 				<div>
 						#foreach($materialCategory in $notMaterialCategories)
 							<label class="checkbox inline">
 								<input type="checkbox"
-								id="$!materialCategory.id" value="$!materialCategory.id" name="notMaterialIds" #if($materialCategory.checked)checked="true"#end>
+								id="$!materialCategory.id" value="$!materialCategory.id" name="nm" #if($materialCategory.checked)checked="true"#end>
 								$!materialCategory.name
 							</label>
 						#end
@@ -21,11 +35,15 @@
 				#end
 				#if($qthUser.hasLoggedIn() && $qthUser.role=='outerUser')
 				<label class="label label-warning">原材料类别</label>
+				<label class="checkbox inline">
+					<input type="checkbox" id="checkAllCategories" onClick="checkAll(this);"/>
+					全部选中
+				</label>
 					<div>
 						#foreach($materialCategory in $materialCategories)
 							<label class="checkbox inline">
 								<input type="checkbox"
-								id="$!materialCategory.id" value="$!materialCategory.id" name="materialIds" #if($materialCategory.checked)checked="true"#end>
+								id="$!materialCategory.id" value="$!materialCategory.id" name="m" #if($materialCategory.checked)checked="true"#end>
 								$!materialCategory.name
 							</label>
 						#end
@@ -41,9 +59,9 @@
 					<option value="auditFailed" #if($!status=='auditFailed') selected=true #end>审核失败</option>
 				</select>
 				<div>
-					<button class="btn btn-warning " onClick="doSearch();">
+					<a href="javascript:doSearch();" class="btn btn-warning">
 					查询
-					</button>
+					</a>
 				</div>
 			</form>
 		</div>
@@ -53,13 +71,13 @@
 			  	#if($!page == 1)
 			  		<li class="active"><a href="javascript:void(0)">1</a></li>
 			  	#else
-					<li><a href="listMySaleProduct.htm?name=$!name&status=$!status#foreach($id in $materialIds)&materialIds=$!id#end#foreach($id in $notMaterialIds)&notMaterialIds=$!id#end&page=1&pageSize=20">1</a></li>
+					<li><a href="listMySaleProduct.htm?notFirst=$!notFirst&name=$!name&status=$!status#foreach($id in $m)&m=$!id#end#foreach($id in $nm)&nm=$!id#end&page=1&pageSize=20">1</a></li>
 			  	#end
 			 	#foreach($pageIndex in [2 .. $!totalPage])
 					#if($!page == $!pageIndex)
 						<li class="active"><a href="javascript:void(0)">$!pageIndex</a></li>
 					#else
-						<li><a href="listMySaleProduct.htm?name=$!name&status=$!status#foreach($id in $materialIds)&materialIds=$!id#end#foreach($id in $notMaterialIds)&notMaterialIds=$!id#end&page=$!pageIndex&pageSize=$!pageSize">$!pageIndex</a></li>
+						<li><a href="listMySaleProduct.htm?notFirst=$!notFirst&name=$!name&status=$!status#foreach($id in $m)&m=$!id#end#foreach($id in $nm)&nm=$!id#end&page=$!pageIndex&pageSize=$!pageSize">$!pageIndex</a></li>
 					#end
 			 	#end
 			  </ul>
@@ -105,13 +123,13 @@
 			  	#if($!page == 1)
 			  		<li class="active"><a href="javascript:void(0)">1</a></li>
 			  	#else
-					<li><a href="listMySaleProduct.htm?name=$!name&status=$!status&order=$!order#foreach($id in $materialIds)&materialIds=$!id#end#foreach($id in $notMaterialIds)&notMaterialIds=$!id#end&page=1&pageSize=20">1</a></li>
+					<li><a href="listMySaleProduct.htm?notFirst=$!notFirst&name=$!name&status=$!status&order=$!order#foreach($id in $m)&m=$!id#end#foreach($id in $nm)&nm=$!id#end&page=1&pageSize=20">1</a></li>
 			  	#end
 			 	#foreach($pageIndex in [2 .. $!totalPage])
 					#if($!page == $!pageIndex)
 						<li class="active"><a href="javascript:void(0)">$!pageIndex</a></li>
 					#else
-						<li><a href="listMySaleProduct.htm?name=$!name&status=$!status&order=$!order#foreach($id in $materialIds)&materialIds=$!id#end#foreach($id in $notMaterialIds)&notMaterialIds=$!id#end&page=$!pageIndex&pageSize=$!pageSize">$!pageIndex</a></li>
+						<li><a href="listMySaleProduct.htm?notFirst=$!notFirst&name=$!name&status=$!status&order=$!order#foreach($id in $m)&m=$!id#end#foreach($id in $nm)&nm=$!id#end&page=$!pageIndex&pageSize=$!pageSize">$!pageIndex</a></li>
 					#end
 			 	#end
 			  </ul>
@@ -120,5 +138,50 @@
 		<hr>
 	</div>
 	<script>
+		function doSearch(){
+			if(paraValid()){
+				$("#searchForm").submit();
+			}else{
+				$('#cateSelectModal').modal('show');
+			}
+		}
+
+		function paraValid(){
+			var mids=$("input[name='m']");
+			var notMids=$("input[name='nm']");
+			var midChecked=false;
+			var notMidChecked=false;
+			for (var i = 0; i < mids.length; i++) {
+				if(mids[i].checked){
+					midChecked=true;
+					break;
+				}
+			}
+			for (var i = 0; i < notMids.length; i++) {
+				if(notMids[i].checked){
+					notMidChecked=true;
+					break;
+				}
+			}
+			return notMidChecked||midChecked;//类型有选择
+		}
+		function checkAll(chx){
+			var mids=$("input[name='m']");
+			var notMids=$("input[name='nm']");
+			for (var i = 0; i < mids.length; i++) {
+				if(chx.checked){
+					mids[i].checked=true;
+				}else{
+					mids[i].checked=false;
+				}
+			}
+			for (var i = 0; i < notMids.length; i++) {
+				if(chx.checked){
+					notMids[i].checked=true;
+				}else{
+					notMids[i].checked=false;
+				}
+			}
+		}
 	</script>
 #end
