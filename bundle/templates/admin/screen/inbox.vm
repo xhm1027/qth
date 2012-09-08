@@ -64,7 +64,7 @@
 					<thead>
 						<tr>
 							<th width="15%">#</th>
-							<th width="5%"></th>
+							<th width="10%">状态</th>
 							<th width="20%">标题</th>
 							<th width="20%">发件人</th>
 							<th width="15%">时间</th>
@@ -81,9 +81,9 @@
 									<td>
 										<a href="openMessage.htm?id=$!message.id">
 										#if($!message.isOpened != 'Y')
-											<img src="$!{qthServer}assets/img/unread.PNG"/>
+											未读<img src="$!{qthServer}assets/img/unread.PNG"/>
 										#else
-											<img src="$!{qthServer}assets/img/read.PNG">
+											已读<img src="$!{qthServer}assets/img/read.PNG">
 										#end
 										</a>
 									</td>
