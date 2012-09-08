@@ -65,24 +65,10 @@ public class ListBuyProduct {
 					nm[i] = resourceCategoryList.get(i).getId();
 				}
 			} else {
-				// 如果已登录，则先把兴趣取出来（不分买或卖，只要兴趣的id与类别id相同即设置）
+				// 如果已登录，则先把兴趣取出来（这里是列的求购产品，即用户有卖的兴趣的产品）
 				List<Long> materialIdList = new ArrayList<Long>();
 				List<Long> resourceIdList = new ArrayList<Long>();
 				User user = userService.getUserByLoginId(qthUser.getId());
-				if (user != null && user.getBuyInterests() != null) {
-					for (UserInterest interest : user.getBuyInterests()) {
-						for (int i = 0; i < resourceCategoryList.size(); i++) {
-							if(interest.getValue().equals(resourceCategoryList.get(i).getId())){
-								resourceIdList.add(interest.getValue());
-							}
-						}
-						for (int i = 0; i < materialCategoryList.size(); i++) {
-							if(interest.getValue().equals(materialCategoryList.get(i).getId())){
-								materialIdList.add(interest.getValue());
-							}
-						}
-					}
-				}
 				if (user != null && user.getSaleInterests() != null) {
 					for (UserInterest interest : user.getSaleInterests()) {
 						for (int i = 0; i < resourceCategoryList.size(); i++) {

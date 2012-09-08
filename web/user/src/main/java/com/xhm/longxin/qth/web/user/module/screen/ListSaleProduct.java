@@ -4,10 +4,13 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
+import javax.servlet.http.HttpSession;
+
 import org.springframework.beans.factory.annotation.Autowired;
 
 import com.alibaba.citrus.turbine.Context;
 import com.alibaba.citrus.turbine.dataresolver.Param;
+import com.alibaba.citrus.util.StringUtil;
 import com.xhm.longxin.biz.user.interfaces.ProductCategoryService;
 import com.xhm.longxin.biz.user.interfaces.SaleProductService;
 import com.xhm.longxin.biz.user.interfaces.UserService;
@@ -16,10 +19,12 @@ import com.xhm.longxin.qth.dal.constant.ProductStatus;
 import com.xhm.longxin.qth.dal.dataobject.ProductCategory;
 import com.xhm.longxin.qth.dal.dataobject.SaleProduct;
 import com.xhm.longxin.qth.dal.dataobject.User;
+import com.xhm.longxin.qth.dal.dataobject.UserInterest;
 import com.xhm.longxin.qth.dal.query.CategoryQuery;
 import com.xhm.longxin.qth.dal.query.QueryObject;
 import com.xhm.longxin.qth.dal.query.SaleProductQuery;
 import com.xhm.longxin.qth.web.user.common.QthUser;
+import com.xhm.longxin.qth.web.user.common.UserConstant;
 import com.xhm.longxin.qth.web.user.vo.ProductCategoryVO;
 import com.xhm.longxin.qth.web.user.vo.SaleProductVO;
 
@@ -30,14 +35,59 @@ public class ListSaleProduct {
 	private UserService userService;
 	@Autowired
 	private ProductCategoryService productCategoryService;
-
+	@Autowired
+	HttpSession session;
 	public void execute(@Param(name = "name") String name,
-			@Param(name = "materialIds") Long[] materialIds,
-			@Param(name = "notMaterialIds") Long[] notMaterialIds,
+			@Param(name = "notFirst") String notFirst,
+			@Param(name = "m") Long[] m,
+			@Param(name = "nm") Long[] nm,
 			@Param(name = "order") String order,
 			@Param(name = "orderDesc") String orderDesc,
 			@Param(name = "page") int page,
 			@Param(name = "pageSize") int pageSize, Context context) {
+		// 如果是第一次请求，把兴趣类别默认勾选！
+		if (StringUtil.isEmpty(notFirst)) {
+			List<ProductCategory> resourceCategoryList = productCategoryService
+					.getAllResourceCategory();
+			List<ProductCategory> materialCategoryList = productCategoryService
+					.getAllMaterialCategory();
+			QthUser qthUser = (QthUser) session
+					.getAttribute(UserConstant.QTH_USER_SESSION_KEY);
+			if (qthUser == null || qthUser.getId() == null) {
+				// 如果未登录，类别全选
+				m = new Long[materialCategoryList.size()];
+				for (int i = 0; i < materialCategoryList.size(); i++) {
+					m[i] = materialCategoryList.get(i).getId();
+				}
+				nm = new Long[resourceCategoryList.size()];
+				for (int i = 0; i < resourceCategoryList.size(); i++) {
+					nm[i] = resourceCategoryList.get(i).getId();
+				}
+			} else {
+				// 如果已登录，则先把兴趣取出来（这里列是的卖的产品，也即用户要有采购兴趣的产品）
+				List<Long> materialIdList = new ArrayList<Long>();
+				List<Long> resourceIdList = new ArrayList<Long>();
+				User user = userService.getUserByLoginId(qthUser.getId());
+				if (user != null && user.getBuyInterests() != null) {
+					for (UserInterest interest : user.getBuyInterests()) {
+						for (int i = 0; i < resourceCategoryList.size(); i++) {
+							if(interest.getValue().equals(resourceCategoryList.get(i).getId())){
+								resourceIdList.add(interest.getValue());
+							}
+						}
+						for (int i = 0; i < materialCategoryList.size(); i++) {
+							if(interest.getValue().equals(materialCategoryList.get(i).getId())){
+								materialIdList.add(interest.getValue());
+							}
+						}
+					}
+				}
+				m=new Long[materialIdList.size()];
+				materialIdList.toArray(m);
+				nm=new Long[resourceIdList.size()];
+				resourceIdList.toArray(nm);
+			}
+		}
 		// 分页参数处理
 		SaleProductQuery productQuery = new SaleProductQuery();
 		if (page == 0) {
@@ -47,15 +97,22 @@ public class ListSaleProduct {
 			pageSize = QueryObject.defaultPageSize;
 		}
 		productQuery.setName(name);
+		//排序方式
+		if(orderDesc!=null&&orderDesc.equals(QueryObject.ORDER_DESC)){
+			productQuery.setOrderDesc(true);
+		}
+		if(orderDesc!=null&&orderDesc.equals(QueryObject.ORDER_ASC)){
+			productQuery.setOrderAsc(true);
+		}
 		// 用户冻结和审核失败时，需要扩展字段来进行描述标记，不能直接用SaleProduct
 		productQuery.setStatus(ProductStatus.ON_SHELF);
 		// 采购类别
 		List<Long> categoryIds = new ArrayList<Long>();
-		List<Long> mIds = Arrays.asList(materialIds);
+		List<Long> mIds = Arrays.asList(m);
 		for (Long id : mIds) {
 			categoryIds.add(id);
 		}
-		List<Long> notMCIds = Arrays.asList(notMaterialIds);
+		List<Long> notMCIds = Arrays.asList(nm);
 		for (Long id : notMCIds) {
 			categoryIds.add(id);
 		}
@@ -69,17 +126,15 @@ public class ListSaleProduct {
 		if (order != null && order.equals("publish")) {
 			productQuery.setOrderModified(true);
 		}
-		if (order != null) {
-			productQuery.setOrderDesc(true);
-		}
 		// 查询参数
-		context.put("materialIds", materialIds);
-		context.put("notMaterialIds", notMaterialIds);
+		context.put("m", m);
+		context.put("nm", nm);
 		context.put("name", name);
 		context.put("order", order);
 		context.put("page", page);
 		context.put("pageSize", pageSize);
 		context.put("orderDesc", orderDesc);
+		context.put("notFirst", "notFirst");//只要查过，下次就会带这个参数
 		int totalCount = saleProductService.queryCount(productQuery);
 		context.put("totalCount", totalCount);
 		context.put("totalPage", (totalCount - 1) / pageSize + 1);
@@ -92,11 +147,11 @@ public class ListSaleProduct {
 		categoryQuery.setIsMaterial(IS.Y);
 		context.put("materialCategories", wrapProductCategoryVO(
 				productCategoryService.query(categoryQuery), Arrays
-						.asList(materialIds), null));
+						.asList(m), null));
 		categoryQuery.setIsMaterial(IS.N);
 		context.put("notMaterialCategories", wrapProductCategoryVO(
 				productCategoryService.query(categoryQuery), null, Arrays
-						.asList(notMaterialIds)));
+						.asList(nm)));
 	}
 
 	private List<SaleProductVO> wrapSaleProductVO(List<SaleProduct> productList) {
