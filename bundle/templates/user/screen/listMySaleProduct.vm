@@ -109,7 +109,7 @@
 								#if($!product.status=='onShelf')
 								<a href="#">下架</a>
 								#end
-								<a href="#">编辑</a>
+								<a href="$userModule.setTarget("editSaleProduct")?id=$!product.id">编辑</a>
 							</td>
 						</tr>
 						#end

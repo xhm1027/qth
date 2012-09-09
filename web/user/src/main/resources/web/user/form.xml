@@ -392,9 +392,6 @@
 				</required-validator>
 			</services:field>
 			<services:field name="price" displayName="单价">
-				<required-validator>
-					<message>必须填写 ${displayName}</message>
-				</required-validator>
 				<number-validator numberType="double">
 			        <message>${displayName} 必须是数字</message>
 			    </number-validator>
@@ -445,9 +442,6 @@
 				</required-validator>
 			</services:field>
 			<services:field name="price" displayName="单价">
-				<required-validator>
-					<message>必须填写 ${displayName}</message>
-				</required-validator>
 				<number-validator numberType="double">
 			        <message>${displayName} 必须是数字</message>
 			    </number-validator>
@@ -506,9 +500,6 @@
 				</required-validator>
 			</services:field>
 			<services:field name="price" displayName="单价">
-				<required-validator>
-					<message>必须填写 ${displayName}</message>
-				</required-validator>
 				<number-validator numberType="double">
 			        <message>${displayName} 必须是数字</message>
 			    </number-validator>
@@ -568,9 +559,6 @@
 				</required-validator>
 			</services:field>
 			<services:field name="price" displayName="单价">
-				<required-validator>
-					<message>必须填写 ${displayName}</message>
-				</required-validator>
 				<number-validator numberType="double">
 			        <message>${displayName} 必须是数字</message>
 			    </number-validator>

@@ -32,6 +32,7 @@ import com.alibaba.citrus.turbine.Context;
 import com.alibaba.citrus.turbine.Navigator;
 import com.alibaba.citrus.turbine.dataresolver.FormField;
 import com.alibaba.citrus.turbine.dataresolver.FormGroup;
+import com.alibaba.citrus.turbine.dataresolver.Param;
 
 import com.xhm.longxin.biz.user.interfaces.BuyProductService;
 import com.xhm.longxin.biz.user.interfaces.FileService;
@@ -69,6 +70,7 @@ public class BuyProductAction {
 	FileService fileService;
 
 	public void doAdd(@FormGroup("addBuyProduct") BuyProduct buyProduct,
+			@Param("priceOnface") String priceOnface,
 			@FormField(name = "addBuyProductError", group = "addBuyProduct") CustomErrors err,
 			Navigator nav, ParameterParser params, Context context) {
 		QthUser qthUser = (QthUser) session
@@ -120,6 +122,10 @@ public class BuyProductAction {
 		}
 		buyProduct.setImgs(imgs);
 
+		if(priceOnface!=null){//处理面议情况
+			buyProduct.setPrice(-1d);
+		}
+		
 		boolean result = buyProductService.addBuyProduct(buyProduct);
 		if(result){
 			context.put("result", "success");
@@ -130,6 +136,7 @@ public class BuyProductAction {
 
 	
 	public void doEdit(@FormGroup("editBuyProduct") BuyProduct buyProduct,
+			@Param("priceOnface") String priceOnface,
 			@FormField(name = "editBuyProductError", group = "editBuyProduct") CustomErrors err,
 			Navigator nav, ParameterParser params, Context context) {
 		QthUser qthUser = (QthUser) session
@@ -183,6 +190,9 @@ public class BuyProductAction {
 		}
 		buyProduct.setImgs(imgs);
 
+		if(priceOnface!=null){//处理面议情况
+			buyProduct.setPrice(-1d);
+		}
 		boolean result = buyProductService.updateBuyProduct(buyProduct);
 		if(result){ 
 			context.put("result", "success");

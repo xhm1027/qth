@@ -28,6 +28,16 @@
 					$!buyProduct.unit
 				</div>
 			</div>
+			
+			<div class="row-fluid" >
+				<div class="span3">产品单价</div>
+				<div class="span9">
+					#if($buyProduct.price == -1) 面议 
+					#else
+						$buyProduct.price
+					#end
+				</div>
+			</div>
 			<div class="row-fluid" >
 				<div class="span3">最小起订</div>
 				<div class="span9">

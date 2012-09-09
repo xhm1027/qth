@@ -83,8 +83,10 @@
 				<div class="control-group #if(!$group.price.valid)error  #end" >
 					<label class="control-label" for="price">$group.price.displayName<span style="color:red">*</span></label>
 					<div class="controls">
-						<input type="text" class="input-xlarge" id="price" name="$group.price.key" value="$!saleProduct.price"
+						<input type="text" class="input-xlarge" id="price" name="$group.price.key"  #if($saleProduct.price != -1) value="$!saleProduct.price" #end
 						placeholder="$group.price.displayName">
+						<input type="checkbox"
+							name="priceOnface" value="true" #if($saleProduct.price == -1) checked=true #end > 面议
 						<p class="help-inline">
 						#if(!$group.price.valid)$group.price.message #end
 						</p>

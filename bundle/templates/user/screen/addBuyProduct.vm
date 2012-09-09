@@ -80,6 +80,8 @@
 					<div class="controls">
 						<input type="text" class="input-xlarge" id="price" name="$group.price.key" value="$!group.price.value"
 						placeholder="$group.price.displayName">
+						<input type="checkbox"
+							name="priceOnface" value="true"/> 面议
 						<p class="help-inline">
 						#if(!$group.price.valid)$group.price.message #end
 						</p>
