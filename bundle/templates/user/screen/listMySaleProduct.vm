@@ -55,7 +55,7 @@
 					<option></option>
 					<option value="new" #if($!status=='new') selected=true #end>待审核</option>
 					<option value="onShelf" #if($!status=='onShelf') selected=true #end>已上架</option>
-					<option value="offShelf" #if($!status=='freese') selected=true #end>已下架</option>
+					<option value="offShelf" #if($!status=='offShelf') selected=true #end>已下架</option>
 					<option value="auditFailed" #if($!status=='auditFailed') selected=true #end>审核失败</option>
 				</select>
 				<div>
