@@ -30,7 +30,8 @@
 				<div class="span9">$!message.gmtCreated</div>
 			</div>
 			<div class="container-fluid">
-				<textarea class="textarea span10" id="content" readOnly="true" disabled="disabled" cols="500" rows="20">$!message.content</textarea>
+				#noescape() $!message.content #end
+				##<textarea class="textarea span10" id="content" readOnly="true" disabled="disabled" cols="500" rows="20">$!message.content</textarea>
 			</div>
 			#if (1==$message.receiver)
 				<div class="span10"><a class="btn btn-primary" href="sendMessage.htm?replyId=$!message.id">回复</a></div>

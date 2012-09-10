@@ -28,7 +28,10 @@
 				<div class="span3">时间：</div>
 				<div class="span9">$!message.gmtCreated</div>
 			</div>
-			<textarea class="textarea span10" id="content" readOnly="true" enable="false" cols="500" rows="20">$!message.content</textarea>
+			<div class="row-fluid" >
+			#noescape() $!message.content #end
+			</div>
+			##<textarea class="textarea span10" id="content" readOnly="true" enable="false" cols="500" rows="20">$!message.content</textarea>
 			#if ($qthUser.id==$message.receiver)
 				<div class="span10"><a class="btn btn-primary" href="sendMessage.htm?replyId=$!message.id">回复</a></div>
 			#end
