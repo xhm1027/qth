@@ -7,11 +7,13 @@ import com.xhm.longxin.biz.user.vo.AuditProductVO;
 import com.xhm.longxin.qth.dal.constant.AuditResult;
 import com.xhm.longxin.qth.dal.constant.AuditType;
 import com.xhm.longxin.qth.dal.constant.ProductStatus;
+import com.xhm.longxin.qth.dal.constant.UserLevel;
 import com.xhm.longxin.qth.dal.dao.AuditLogDao;
 import com.xhm.longxin.qth.dal.dao.SaleProductDao;
 import com.xhm.longxin.qth.dal.dataobject.AuditLog;
 import com.xhm.longxin.qth.dal.dataobject.BuyProduct;
 import com.xhm.longxin.qth.dal.dataobject.SaleProduct;
+import com.xhm.longxin.qth.dal.dataobject.User;
 import com.xhm.longxin.qth.dal.query.SaleProductQuery;
 
 public class SaleProductServiceImpl implements SaleProductService {
@@ -70,5 +72,38 @@ public class SaleProductServiceImpl implements SaleProductService {
 		auditLog.setAuditor(auditVO.getAuditor());
 		aditLogDao.addAuditLog(auditLog);
 		return true;
+	}
+
+	/* (non-Javadoc)
+	 * @see com.xhm.longxin.biz.user.interfaces.SaleProductService#offShelf(java.lang.Long)
+	 */
+	public boolean offShelf(Long id, User user) {
+		SaleProduct b = saleProductDao.getSaleProductById(id);
+		if (b == null || !user.getLoginId().equals(b.getOwner())) {
+			return false;
+		}
+		b.setStatus(ProductStatus.OFF_SHELF);
+		return saleProductDao.updateSaleProduct(b);
+
+	}
+
+	/*
+	 * (non-Javadoc)
+	 *
+	 * @see
+	 * com.xhm.longxin.biz.user.interfaces.BuyProductService#onShelf(java.lang
+	 * .Long)
+	 */
+	public boolean onShelf(Long id, User user) {
+		SaleProduct b = saleProductDao.getSaleProductById(id);
+		if (b == null || !user.getLoginId().equals(b.getOwner())) {
+			return false;
+		}
+		if (UserLevel.GOLDEN.equals(user.getUserLevel())) {
+			b.setStatus(ProductStatus.ON_SHELF);
+		} else {
+			b.setStatus(ProductStatus.NEW);
+		}
+		return saleProductDao.updateSaleProduct(b);
 	}
 }

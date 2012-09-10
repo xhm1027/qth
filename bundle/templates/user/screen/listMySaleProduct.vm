@@ -107,7 +107,10 @@
 							<td>
 								<a href="$userModule.setTarget("viewSaleProduct")?id=$!product.id">查看</a>
 								#if($!product.status=='onShelf')
-								<a href="#">下架</a>
+								<a href="javascript:offShelfProduct($!product.id)">下架</a>
+								#end
+								#if($!product.status=='offShelf')
+								<a href="javascript:onShelfProduct($!product.id)">上架</a>
 								#end
 								<a href="$userModule.setTarget("editSaleProduct")?id=$!product.id">编辑</a>
 							</td>
@@ -137,7 +140,77 @@
 		#end
 		<hr>
 	</div>
+	<div id="onShelfModal" class="modal" style="display: none; ">
+			<div class="modal-header">
+				<a class="close" data-dismiss="modal">×</a>
+				<h3>产品上架确认</h3>
+			</div>
+			<div class="modal-body" id="confirmMessage">
+				您确认要上架该产品吗？
+			</div>
+			<div class="modal-footer">
+				<a href="javascript:doOnShelfProduct();" class="btn btn-success">确定</a>
+				<a href="#" class="btn" data-dismiss="modal">关闭</a>
+			</div>
+	</div>
+	<div id="offShelfModal" class="modal" style="display: none; ">
+			<div class="modal-header">
+				<a class="close" data-dismiss="modal">×</a>
+				<h3>产品下架确认</h3>
+			</div>
+			<div class="modal-body" >
+				您确认要下架该产品吗？
+			</div>
+			<div class="modal-footer">
+				<a href="javascript:doOffShelfProduct();" class="btn btn-success">确定</a>
+				<a href="#" class="btn" data-dismiss="modal">关闭</a>
+			</div>
+	</div>
+	<div id="operationOk" class="modal" style="display: none; ">
+		<div class="modal-header">
+			<a class="close" data-dismiss="modal">×</a>
+			<h3>操作成功</h3>
+		</div>
+		<div class="modal-body">
+			操作成功！
+		</div>
+		<div class="modal-footer">
+				<a href="#" class="btn btn-primary" data-dismiss="modal">确定</a>
+		</div>
+	</div>
+	<div id="operationErr" class="modal" style="display: none; ">
+		<div class="modal-header">
+			<a class="close" data-dismiss="modal">×</a>
+			<h3>操作失败</h3>
+		</div>
+		<div class="modal-body">
+			操作失败！
+		</div>
+		<div class="modal-footer">
+				<a href="#" class="btn btn-primary" data-dismiss="modal">确定</a>
+		</div>
+	</div>
+	<form class="well form-search span12" id="onShelfForm" method="post">
+			<input type="hidden" name="action" value="sale_product_action"/>
+			<input type="hidden" name="id" id="onShelfProductId"/>
+			<input type="hidden" name="event_submit_do_on_shelf_product" value="submit" />
+	</form>
+	<form class="well form-search span12" id="offShelfForm" method="post">
+			<input type="hidden" name="action" value="sale_product_action"/>
+			<input type="hidden" name="id" id="offShelfProductId"/>
+			<input type="hidden" name="event_submit_do_off_shelf_product" value="submit" />
+	</form>
 	<script>
+		window.onload=function init(){
+			#if(true==$offShelfSucess||true==$onShelfSucess)
+			//alert('show');
+				$("#operationOk").modal('show');
+			#end
+			#if(false==$offShelfSucess||false==$onShelfSucess)
+			//alert('show');
+				$("#operationErr").modal('show');
+			#end
+		};
 		function doSearch(){
 			if(paraValid()){
 				$("#searchForm").submit();
@@ -182,6 +255,24 @@
 					notMids[i].checked=false;
 				}
 			}
+		}
+
+		function offShelfProduct(id){
+			$("#offShelfProductId").val(id);
+			$('#offShelfModal').modal('show');
+		}
+
+		function onShelfProduct(id){
+			$("#onShelfProductId").val(id);
+			$('#onShelfModal').modal('show');
+		}
+
+		function doOffShelfProduct(){
+			$("#offShelfForm").submit();
+		}
+
+		function doOnShelfProduct(){
+			$("#onShelfForm").submit();
 		}
 	</script>
 #end

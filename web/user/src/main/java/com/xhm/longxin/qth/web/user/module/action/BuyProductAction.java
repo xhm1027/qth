@@ -69,137 +69,195 @@ public class BuyProductAction {
 	@Autowired
 	FileService fileService;
 
-	public void doAdd(@FormGroup("addBuyProduct") BuyProduct buyProduct,
+	public void doAdd(
+			@FormGroup("addBuyProduct") BuyProduct buyProduct,
 			@Param("priceOnface") String priceOnface,
 			@FormField(name = "addBuyProductError", group = "addBuyProduct") CustomErrors err,
 			Navigator nav, ParameterParser params, Context context) {
 		QthUser qthUser = (QthUser) session
 				.getAttribute(UserConstant.QTH_USER_SESSION_KEY);
-		if(qthUser==null||qthUser.getId()==null){
+		if (qthUser == null || qthUser.getId() == null) {
 			nav.redirectTo(UserConstant.LOGIN_RETURN_DEFAULT_LINK);
 			return;
 		}
 		User user = userService.getUserByLoginId(qthUser.getId());
-		if(user==null){
+		if (user == null) {
 			nav.redirectTo(UserConstant.LOGIN_RETURN_DEFAULT_LINK);
 			return;
 		}
 
-		if(UserStatus.NORMAL.equalsIgnoreCase(user.getStatus())==false){ //其他状态不能发布产品
+		if (UserStatus.NORMAL.equalsIgnoreCase(user.getStatus()) == false) { // 其他状态不能发布产品
 			err.setMessage("noPermissionFail");
 			return;
 		}
 
-		buyProduct.setOwner(qthUser.getId());//设置所属用户
-		ProductCategory pc = productCategoryService.getCategoryById(buyProduct.getCategoryId());
-		if(IS.Y.equalsIgnoreCase(pc.getIsMaterial())){//判断产品类型
+		buyProduct.setOwner(qthUser.getId());// 设置所属用户
+		ProductCategory pc = productCategoryService.getCategoryById(buyProduct
+				.getCategoryId());
+		if (IS.Y.equalsIgnoreCase(pc.getIsMaterial())) {// 判断产品类型
 			buyProduct.setProductType(ProductType.MATERIAL);
-		}else{
+		} else {
 			buyProduct.setProductType(ProductType.RESOURCE);
 		}
-		if(UserLevel.GOLDEN.equalsIgnoreCase(user.getUserLevel())){//判断产品状态
+		if (UserLevel.GOLDEN.equalsIgnoreCase(user.getUserLevel())) {// 判断产品状态
 			buyProduct.setStatus(ProductStatus.ON_SHELF);
-			//buyProduct.setIsSale(IS.Y);
-		}else{
+			// buyProduct.setIsSale(IS.Y);
+		} else {
 			buyProduct.setStatus(ProductStatus.NEW);
-			//buyProduct.setIsSale(IS.N);
+			// buyProduct.setIsSale(IS.N);
 		}
-		List<Attachment> imgs=new ArrayList<Attachment>();
+		List<Attachment> imgs = new ArrayList<Attachment>();
 
-		FileItem[] imageItems = parser.getParameters().getFileItems("productImages");
-		try{
-			for(FileItem file:imageItems){
-				String path = fileService.saveFile(file, user.getId().toString());
-				Attachment image=new Attachment();
+		FileItem[] imageItems = parser.getParameters().getFileItems(
+				"productImages");
+		try {
+			for (FileItem file : imageItems) {
+				String path = fileService.saveFile(file, user.getId()
+						.toString());
+				Attachment image = new Attachment();
 				image.setPath(path);
 				image.setType(AttachmentType.IMG);
 				image.setKey(UserInterestType.BUY);
 				imgs.add(image);
 			}
-		}catch(Exception e){
+		} catch (Exception e) {
 			err.setMessage("saveImageFail");
 			return;
 		}
 		buyProduct.setImgs(imgs);
 
-		if(priceOnface!=null){//处理面议情况
+		if (priceOnface != null) {// 处理面议情况
 			buyProduct.setPrice(-1d);
 		}
-		
+
 		boolean result = buyProductService.addBuyProduct(buyProduct);
-		if(result){
+		if (result) {
 			context.put("result", "success");
-		}else{
+		} else {
 			err.setMessage("addBuyProductFail");
 		}
 	}
 
-	
-	public void doEdit(@FormGroup("editBuyProduct") BuyProduct buyProduct,
+	public void doEdit(
+			@FormGroup("editBuyProduct") BuyProduct buyProduct,
 			@Param("priceOnface") String priceOnface,
 			@FormField(name = "editBuyProductError", group = "editBuyProduct") CustomErrors err,
 			Navigator nav, ParameterParser params, Context context) {
 		QthUser qthUser = (QthUser) session
 				.getAttribute(UserConstant.QTH_USER_SESSION_KEY);
-		if(qthUser==null||qthUser.getId()==null){
+		if (qthUser == null || qthUser.getId() == null) {
 			nav.redirectTo(UserConstant.LOGIN_RETURN_DEFAULT_LINK);
 			return;
 		}
 		User user = userService.getUserByLoginId(qthUser.getId());
-		if(user==null){
+		if (user == null) {
 			nav.redirectTo(UserConstant.LOGIN_RETURN_DEFAULT_LINK);
 			return;
 		}
 
-		if(UserStatus.NORMAL.equalsIgnoreCase(user.getStatus())==false){ //其他状态不能发布产品
+		if (UserStatus.NORMAL.equalsIgnoreCase(user.getStatus()) == false) { // 其他状态不能发布产品
 			err.setMessage("noPermissionFail");
 			return;
 		}
-		BuyProduct buyProductInDatabase = buyProductService.getBuyProductById(buyProduct.getId());//查找产品是否存在
-		if(buyProductInDatabase==null){
+		BuyProduct buyProductInDatabase = buyProductService
+				.getBuyProductById(buyProduct.getId());// 查找产品是否存在
+		if (buyProductInDatabase == null) {
 			err.setMessage("editBuyProductError");
 			return;
 		}
 
-		buyProduct.setOwner(qthUser.getId());//设置所属用户
+		buyProduct.setOwner(qthUser.getId());// 设置所属用户
 		buyProduct.setProductType(buyProductInDatabase.getProductType());
 
-		if(UserLevel.GOLDEN.equalsIgnoreCase(user.getUserLevel())){//判断产品状态
+		if (UserLevel.GOLDEN.equalsIgnoreCase(user.getUserLevel())) {// 判断产品状态
 			buyProduct.setStatus(ProductStatus.ON_SHELF);
-			//buyProduct.setIsSale(IS.Y);
-		}else{
+			// buyProduct.setIsSale(IS.Y);
+		} else {
 			buyProduct.setStatus(ProductStatus.NEW);
-			//buyProduct.setIsSale(IS.N);
+			// buyProduct.setIsSale(IS.N);
 		}
-		List<Attachment> imgs=buyProductInDatabase.getImgs();
+		List<Attachment> imgs = buyProductInDatabase.getImgs();
 
-		FileItem[] imageItems = parser.getParameters().getFileItems("productImages");
-		try{
-			for(FileItem file:imageItems){
-				String path = fileService.saveFile(file, user.getId().toString());
-				Attachment image=new Attachment();
+		FileItem[] imageItems = parser.getParameters().getFileItems(
+				"productImages");
+		try {
+			for (FileItem file : imageItems) {
+				String path = fileService.saveFile(file, user.getId()
+						.toString());
+				Attachment image = new Attachment();
 				image.setPath(path);
 				image.setType(AttachmentType.IMG);
 				image.setKey(UserInterestType.BUY);
 				image.setOwnerId(buyProduct.getId());
 				imgs.add(image);
 			}
-		}catch(Exception e){
+		} catch (Exception e) {
 			err.setMessage("saveImageFail");
 			return;
 		}
 		buyProduct.setImgs(imgs);
 
-		if(priceOnface!=null){//处理面议情况
+		if (priceOnface != null) {// 处理面议情况
 			buyProduct.setPrice(-1d);
 		}
 		boolean result = buyProductService.updateBuyProduct(buyProduct);
-		if(result){ 
+		if (result) {
 			context.put("result", "success");
 			context.put("resultMessage", " 编辑产品成功！");
-		}else{
+		} else {
 			err.setMessage("editBuyProductFail");
 		}
+	}
+
+	public void doOffShelfProduct(@Param("id") Long id, Navigator nav,
+			Context context) {
+		QthUser qthUser = (QthUser) session
+				.getAttribute(UserConstant.QTH_USER_SESSION_KEY);
+		if (qthUser == null || qthUser.getId() == null) {
+			nav.redirectTo(UserConstant.LOGIN_RETURN_DEFAULT_LINK);
+			return;
+		}
+		User user = userService.getUserByLoginId(qthUser.getId());
+		if (user == null) {
+			nav.redirectTo(UserConstant.LOGIN_RETURN_DEFAULT_LINK);
+			return;
+		}
+		BuyProduct product = buyProductService.getBuyProductById(id);
+		if (product == null
+				|| !ProductStatus.ON_SHELF.equals(product.getStatus())) {
+			context.put("offShelfSucess", false);
+			return;
+		}
+		if (buyProductService.offShelf(id,user)) {
+			context.put("offShelfSucess", true);
+			return;
+		}
+		context.put("offShelfSucess", false);
+	}
+
+	public void doOnShelfProduct(@Param("id") Long id,  Navigator nav,Context context) {
+		QthUser qthUser = (QthUser) session
+				.getAttribute(UserConstant.QTH_USER_SESSION_KEY);
+		if (qthUser == null || qthUser.getId() == null) {
+			nav.redirectTo(UserConstant.LOGIN_RETURN_DEFAULT_LINK);
+			return;
+		}
+		User user = userService.getUserByLoginId(qthUser.getId());
+		if (user == null) {
+			nav.redirectTo(UserConstant.LOGIN_RETURN_DEFAULT_LINK);
+			return;
+		}
+		BuyProduct product = buyProductService.getBuyProductById(id);
+		if (product == null
+				|| !ProductStatus.OFF_SHELF.equals(product.getStatus())) {
+			context.put("onShelfSucess", false);
+			return;
+		}
+		if (buyProductService.onShelf(id,user)) {
+			context.put("onShelfSucess", true);
+			return;
+		}
+		context.put("onShelfSucess", false);
 	}
 
 }

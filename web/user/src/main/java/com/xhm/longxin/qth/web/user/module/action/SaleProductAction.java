@@ -45,6 +45,7 @@ import com.xhm.longxin.qth.dal.constant.UserInterestType;
 import com.xhm.longxin.qth.dal.constant.UserLevel;
 import com.xhm.longxin.qth.dal.constant.UserStatus;
 import com.xhm.longxin.qth.dal.dataobject.Attachment;
+import com.xhm.longxin.qth.dal.dataobject.BuyProduct;
 import com.xhm.longxin.qth.dal.dataobject.ProductCategory;
 import com.xhm.longxin.qth.dal.dataobject.SaleProduct;
 import com.xhm.longxin.qth.dal.dataobject.User;
@@ -124,7 +125,7 @@ public class SaleProductAction {
 		if(priceOnface!=null){//处理面议情况
 			saleProduct.setPrice(-1d);
 		}
-		
+
 		boolean result = saleProductService.addSaleProduct(saleProduct);
 		if(result){
 			context.put("result", "success");
@@ -192,7 +193,7 @@ public class SaleProductAction {
 		if(priceOnface!=null){//处理面议情况
 			saleProduct.setPrice(-1d);
 		}
-		
+
 		boolean result = saleProductService.updateSaleProduct(saleProduct);
 		if(result){
 			context.put("result", "success");
@@ -202,5 +203,54 @@ public class SaleProductAction {
 		}
 	}
 
+	public void doOffShelfProduct(@Param("id") Long id, Navigator nav,
+			Context context) {
+		QthUser qthUser = (QthUser) session
+				.getAttribute(UserConstant.QTH_USER_SESSION_KEY);
+		if (qthUser == null || qthUser.getId() == null) {
+			nav.redirectTo(UserConstant.LOGIN_RETURN_DEFAULT_LINK);
+			return;
+		}
+		User user = userService.getUserByLoginId(qthUser.getId());
+		if (user == null) {
+			nav.redirectTo(UserConstant.LOGIN_RETURN_DEFAULT_LINK);
+			return;
+		}
+		SaleProduct product = saleProductService.getSaleProductById(id);
+		if (product == null
+				|| !ProductStatus.ON_SHELF.equals(product.getStatus())) {
+			context.put("offShelfSucess", false);
+			return;
+		}
+		if (saleProductService.offShelf(id,user)) {
+			context.put("offShelfSucess", true);
+			return;
+		}
+		context.put("offShelfSucess", false);
+	}
 
+	public void doOnShelfProduct(@Param("id") Long id,  Navigator nav,Context context) {
+		QthUser qthUser = (QthUser) session
+				.getAttribute(UserConstant.QTH_USER_SESSION_KEY);
+		if (qthUser == null || qthUser.getId() == null) {
+			nav.redirectTo(UserConstant.LOGIN_RETURN_DEFAULT_LINK);
+			return;
+		}
+		User user = userService.getUserByLoginId(qthUser.getId());
+		if (user == null) {
+			nav.redirectTo(UserConstant.LOGIN_RETURN_DEFAULT_LINK);
+			return;
+		}
+		SaleProduct product = saleProductService.getSaleProductById(id);
+		if (product == null
+				|| !ProductStatus.OFF_SHELF.equals(product.getStatus())) {
+			context.put("onShelfSucess", false);
+			return;
+		}
+		if (saleProductService.onShelf(id,user)) {
+			context.put("onShelfSucess", true);
+			return;
+		}
+		context.put("onShelfSucess", false);
+	}
 }

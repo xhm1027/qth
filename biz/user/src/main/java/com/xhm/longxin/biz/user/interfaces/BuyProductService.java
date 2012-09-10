@@ -9,6 +9,7 @@ import java.util.List;
 import com.xhm.longxin.biz.user.vo.AuditProductVO;
 import com.xhm.longxin.qth.dal.dataobject.BuyProduct;
 import com.xhm.longxin.qth.dal.dataobject.SaleProduct;
+import com.xhm.longxin.qth.dal.dataobject.User;
 import com.xhm.longxin.qth.dal.query.BuyProductQuery;
 import com.xhm.longxin.qth.dal.query.SaleProductQuery;
 
@@ -43,5 +44,13 @@ public interface BuyProductService {
 	 * 审核产品
 	 * */
 	public boolean auditBuyProductById(AuditProductVO auditVO);
+	/**
+	 * 上架
+	 * */
+	public boolean onShelf(Long id,User user);
+	/**
+	 * 下架
+	 * */
+	public boolean offShelf(Long id,User user);
 
 }
