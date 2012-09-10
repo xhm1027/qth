@@ -196,7 +196,7 @@ public class SaleProductAction {
 		boolean result = saleProductService.updateSaleProduct(saleProduct);
 		if(result){
 			context.put("result", "success");
-			context.put("resultMessage", "编辑产品成功！");
+			context.put("resultMessage", " 编辑产品成功！");
 		}else{
 			err.setMessage("editSaleProductFail");
 		}
