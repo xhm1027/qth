@@ -401,6 +401,8 @@
 					<message>必须填写 ${displayName}</message>
 				</required-validator>
 			</services:field>
+			<services:field name="description" displayName="描述信息">
+			</services:field>
 		</services:group>
 
 		<!--
@@ -450,6 +452,8 @@
 				<required-validator>
 					<message>必须填写 ${displayName}</message>
 				</required-validator>
+			</services:field>
+			<services:field name="description" displayName="描述信息">
 			</services:field>
 		</services:group>
 		
@@ -509,6 +513,8 @@
 					<message>必须填写 ${displayName}</message>
 				</required-validator>
 			</services:field>
+			<services:field name="description" displayName="描述信息">
+			</services:field>
 		</services:group>
 		
 		
@@ -567,6 +573,8 @@
 				<required-validator>
 					<message>必须填写 ${displayName}</message>
 				</required-validator>
+			</services:field>
+			<services:field name="description" displayName="描述信息">
 			</services:field>
 		</services:group>
 		

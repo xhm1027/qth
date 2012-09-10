@@ -102,6 +102,15 @@
 						</p>
 					</div>
 				</div>
+				<div class="control-group #if(!$group.description.valid)error  #end" >
+					<label class="control-label" for="price">$group.description.displayName</label>
+					<div class="controls">
+						<textarea class="input-xlarge"  name="$group.description.key" rows="3">$!saleProduct.description</textarea>
+						<p class="help-block">
+						#if(!$group.description.valid)$group.description.message #end
+						</p>
+					</div>
+				</div>
 				<hr>
                 <h2>图片信息</h2>
 				#set($leftCount = 4 - $saleProduct.imgs.size())

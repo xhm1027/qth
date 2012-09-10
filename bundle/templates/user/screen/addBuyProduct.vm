@@ -3,7 +3,7 @@
 		<div class="span12">
 			<ul class="nav nav-pills">
 				<li class="active"><a href="$userModule.setTarget("addBuyProduct")">添加采购产品</a></li>
-				<li><a href="$userModule.setTarget("listBuyProduct")">我的采购产品</a></li>
+				<li><a href="$userModule.setTarget("listMyBuyProduct")">我的采购产品</a></li>
 			</ul>
 		</div>
 	</div>
@@ -94,6 +94,15 @@
 						placeholder="$group.lowestDealSize.displayName">
 						<p class="help-inline">
 						#if(!$group.lowestDealSize.valid)$group.lowestDealSize.message #end
+						</p>
+					</div>
+				</div>
+				<div class="control-group #if(!$group.description.valid)error  #end" >
+					<label class="control-label" for="price">$group.description.displayName</label>
+					<div class="controls">
+						<textarea class="input-xlarge"  name="$group.description.key" rows="3">$!group.description.value</textarea>
+						<p class="help-block">
+						#if(!$group.description.valid)$group.description.message #end
 						</p>
 					</div>
 				</div>

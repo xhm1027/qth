@@ -3,7 +3,7 @@
 		<div class="span12">
 			<ul class="nav nav-pills">
 				<li class="active"><a href="$userModule.setTarget("addSaleProduct")">添加销售产品</a></li>
-				<li><a href="$userModule.setTarget("listSaleProduct")">我的销售产品</a></li>
+				<li><a href="$userModule.setTarget("listMySaleProduct")">我的销售产品</a></li>
 			</ul>
 		</div>
 	</div>
