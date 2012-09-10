@@ -38,7 +38,7 @@ public class MessageAction {
 	public void doDelete(@Param("id") Long id, Navigator nav, Context context) {
 		QthUser qthUser = (QthUser) session
 				.getAttribute(UserConstant.QTH_USER_SESSION_KEY);
-		if (qthUser == null) {
+		if (qthUser == null||qthUser.getId()==null) {
 			log.warn("user not logged in.");
 			return;
 		}
@@ -65,7 +65,7 @@ public class MessageAction {
 			@FormField(name = "messageSendErr", group = "sendMessage") CustomErrors err) {
 		QthUser qthUser = (QthUser) session
 				.getAttribute(UserConstant.QTH_USER_SESSION_KEY);
-		if (qthUser == null) {
+		if (qthUser == null||qthUser.getId()==null) {
 			log.warn("user not logged in.");
 			err.setMessage("fail");
 			return;

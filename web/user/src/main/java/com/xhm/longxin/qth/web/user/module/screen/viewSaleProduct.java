@@ -14,6 +14,8 @@ import com.xhm.longxin.biz.user.interfaces.UserService;
 import com.xhm.longxin.qth.dal.dataobject.ProductCategory;
 import com.xhm.longxin.qth.dal.dataobject.SaleProduct;
 import com.xhm.longxin.qth.dal.dataobject.User;
+import com.xhm.longxin.qth.web.user.common.QthUser;
+import com.xhm.longxin.qth.web.user.common.UserConstant;
 
 /**
  *
@@ -29,7 +31,12 @@ public class viewSaleProduct {
 	private ProductCategoryService productCategoryService;
 
 	public void execute(@Param(name = "id") Long id,Navigator nav,HttpSession session, Context context) {
-
+		QthUser qthUser = (QthUser) session
+				.getAttribute(UserConstant.QTH_USER_SESSION_KEY);
+		if(qthUser==null||qthUser.getId()==null){
+			nav.redirectTo(UserConstant.LOGIN_RETURN_DEFAULT_LINK);
+			return;
+		}
 		SaleProduct saleProduct = saleProductService.getSaleProductById(id);
 		if(saleProduct!=null){
 			ProductCategory category = productCategoryService.getCategoryById(saleProduct.getCategoryId());

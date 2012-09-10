@@ -75,7 +75,7 @@ public class BuyProductAction {
 			Navigator nav, ParameterParser params, Context context) {
 		QthUser qthUser = (QthUser) session
 				.getAttribute(UserConstant.QTH_USER_SESSION_KEY);
-		if(qthUser==null){
+		if(qthUser==null||qthUser.getId()==null){
 			nav.redirectTo(UserConstant.LOGIN_RETURN_DEFAULT_LINK);
 			return;
 		}
@@ -141,7 +141,7 @@ public class BuyProductAction {
 			Navigator nav, ParameterParser params, Context context) {
 		QthUser qthUser = (QthUser) session
 				.getAttribute(UserConstant.QTH_USER_SESSION_KEY);
-		if(qthUser==null){
+		if(qthUser==null||qthUser.getId()==null){
 			nav.redirectTo(UserConstant.LOGIN_RETURN_DEFAULT_LINK);
 			return;
 		}
