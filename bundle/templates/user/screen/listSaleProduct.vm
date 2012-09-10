@@ -73,10 +73,6 @@
 					<input type="checkbox" id="checkAllCategories" onClick="checkAll(this);"/>
 					全部选中
 				</label>
-				<label class="checkbox inline">
-					<input type="checkbox" id="checkAllCategories" onClick="checkAll(this);"/>
-					全部选中
-				</label>
 					<div>
 						#foreach($materialCategory in $materialCategories)
 							<label class="checkbox inline">
