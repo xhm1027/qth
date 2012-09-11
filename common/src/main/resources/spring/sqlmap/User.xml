@@ -7,6 +7,8 @@
 		<result property="id" column="ID" jdbcType="BIGINT" javaType="long" />
 		<result property="loginId" column="login_id" jdbcType="VARCHAR"
 			javaType="String" />
+		<result property="gmtModified" column="gmt_modified" jdbcType="DATETIME"
+			javaType="java.util.Date" />
 		<result property="name" column="name" jdbcType="VARCHAR"
 			javaType="String" />
 		<result property="gender" column="gender" jdbcType="VARCHAR"
@@ -161,6 +163,7 @@
 				u.login_id,
 				u.name,
 				u.gender,
+				u.gmt_modified,
 				u.email,
 				u.phone_area,
 				u.phone_number,
@@ -242,7 +245,13 @@
 		<![CDATA[group by u.id ]]>
 		<isNotNull property="orderModified" prepend=" ">
 			order by
-			u.gmt_modified desc
+			u.gmt_modified
+		</isNotNull>
+		<isNotNull property="orderDesc" prepend=" ">
+		<![CDATA[	desc]]>
+		</isNotNull>
+		<isNotNull property="orderAsc" prepend=" ">
+		<![CDATA[	asc]]>
 		</isNotNull>
 		<include refid="ALICRM_COMMON.ALI_PAGING" />
 	</select>
@@ -257,6 +266,7 @@
 				u.name,
 				u.gender,
 				u.email,
+				u.gmt_modified,
 				u.phone_area,
 				u.phone_number,
 				u.mobile_phone,
@@ -314,7 +324,13 @@
 		</isNotNull>
 		<isNotNull property="orderModified" prepend=" ">
 			order by
-			u.gmt_modified desc
+			u.gmt_modified
+		</isNotNull>
+		<isNotNull property="orderDesc" prepend=" ">
+		<![CDATA[	desc]]>
+		</isNotNull>
+		<isNotNull property="orderAsc" prepend=" ">
+		<![CDATA[	asc]]>
 		</isNotNull>
 		<include refid="ALICRM_COMMON.ALI_PAGING" />
 	</select>
