@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 
 import com.alibaba.citrus.turbine.Context;
 import com.alibaba.citrus.turbine.dataresolver.Param;
+import com.alibaba.citrus.util.StringUtil;
 import com.xhm.longxin.biz.user.interfaces.ProductCategoryService;
 import com.xhm.longxin.biz.user.interfaces.SaleProductService;
 import com.xhm.longxin.biz.user.interfaces.UserService;
@@ -37,11 +38,26 @@ public class ListSaleProduct {
 			@Param(name = "company") String company,
 			@Param(name = "gmtPublishStart") String gmtPublishStart,
 			@Param(name = "gmtPublishEnd") String gmtPublishEnd,
-			@Param(name = "materialIds") Long[] materialIds,
-			@Param(name = "notMaterialIds") Long[] notMaterialIds,
+			@Param(name = "m") Long[] m,
+			@Param(name = "nm") Long[] nm,
+			@Param(name = "notFirst") String notFirst,
 			@Param(name = "page") int page,
 			@Param(name = "pageSize") int pageSize, Context context) {
-		// 分页参数处理
+		if (StringUtil.isEmpty(notFirst)) {
+			List<ProductCategory> resourceCategoryList = productCategoryService
+					.getAllResourceCategory();
+			List<ProductCategory> materialCategoryList = productCategoryService
+					.getAllMaterialCategory();
+			// 如果第一次访问，类别全选
+			m = new Long[materialCategoryList.size()];
+			for (int i = 0; i < materialCategoryList.size(); i++) {
+				m[i] = materialCategoryList.get(i).getId();
+			}
+			nm = new Long[resourceCategoryList.size()];
+			for (int i = 0; i < resourceCategoryList.size(); i++) {
+				nm[i] = resourceCategoryList.get(i).getId();
+			}
+		}
 		// 分页参数处理
 		SaleProductQuery productQuery = new SaleProductQuery();
 		if (page == 0) {
@@ -56,11 +72,11 @@ public class ListSaleProduct {
 		productQuery.setStatus(status);
 		// 采购类别
 		List<Long> categoryIds = new ArrayList<Long>();
-		List<Long> mIds = Arrays.asList(materialIds);
+		List<Long> mIds = Arrays.asList(m);
 		for (Long id : mIds) {
 			categoryIds.add(id);
 		}
-		List<Long> notMCIds = Arrays.asList(notMaterialIds);
+		List<Long> notMCIds = Arrays.asList(nm);
 		for (Long id : notMCIds) {
 			categoryIds.add(id);
 		}
@@ -72,14 +88,14 @@ public class ListSaleProduct {
 		productQuery.setGmtPublishEnd(gmtPublishEnd);
 
 		// 往页面回写查询参数
-		context.put("materialIds", materialIds);
-		context.put("notMaterialIds", notMaterialIds);
+		context.put("m", m);
+		context.put("nm", nm);
 		context.put("name", name);
 		context.put("status", status);
 		context.put("company", company);
 		context.put("gmtPublishStart", gmtPublishStart);
 		context.put("gmtPublishEnd", gmtPublishEnd);
-
+		context.put("notFirst", "notFirst");//
 		context.put("page", page);
 		context.put("pageSize", pageSize);
 		int totalCount = saleProductService.queryCount(productQuery);
@@ -94,11 +110,11 @@ public class ListSaleProduct {
 		categoryQuery.setIsMaterial(IS.Y);
 		context.put("materialCategories", wrapProductCategoryVO(
 				productCategoryService.query(categoryQuery), Arrays
-						.asList(materialIds), null));
+						.asList(m), null));
 		categoryQuery.setIsMaterial(IS.N);
 		context.put("notMaterialCategories", wrapProductCategoryVO(
 				productCategoryService.query(categoryQuery), null, Arrays
-						.asList(notMaterialIds)));
+						.asList(nm)));
 	}
 
 	private List<SaleProductVO> wrapSaleProductVO(List<SaleProduct> productList) {

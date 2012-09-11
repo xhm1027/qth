@@ -2,6 +2,7 @@
 		<div class="row">
 			<form class="well form-search span12" id="searchForm">
 				<input type="hidden" name="order" id="orderBy" value="$!order"/>
+				<input type="hidden" name="notFirst" id="notFirst" value="$!notFirst"/>
 				<div>
 					<label class="label label-warning"  for="name">产品名称</label>
 					<input
@@ -24,11 +25,15 @@
 					<input type="text" id="publishEnd" name="gmtPublishEnd" onClick="WdatePicker();">
 				</div>
 				<label class="label label-warning">资源类别</label>
+				<label class="checkbox inline">
+					<input type="checkbox" checked="true" id="checkAllCategories" onClick="checkAll(this);"/>
+					全部选中
+				</label>
 				<div>
 						#foreach($materialCategory in $notMaterialCategories)
 							<label class="checkbox inline">
 								<input type="checkbox"
-								id="$!materialCategory.id" value="$!materialCategory.id" name="notMaterialIds" #if($materialCategory.checked)checked="true"#end>
+								id="$!materialCategory.id" value="$!materialCategory.id" name="nm" #if($materialCategory.checked)checked="true"#end>
 								$!materialCategory.name
 							</label>
 						#end
@@ -38,15 +43,15 @@
 						#foreach($materialCategory in $materialCategories)
 							<label class="checkbox inline">
 								<input type="checkbox"
-								id="$!materialCategory.id" value="$!materialCategory.id" name="materialIds" #if($materialCategory.checked)checked="true"#end>
+								id="$!materialCategory.id" value="$!materialCategory.id" name="m" #if($materialCategory.checked)checked="true"#end>
 								$!materialCategory.name
 							</label>
 						#end
 				</div>
 				<div>
-					<button class="btn btn-warning " onClick="doSearch();">
+					<a href="#" class="btn btn-warning " onClick="doSearch();">
 					查询
-					</button>
+					</a>
 				</div>
 			</form>
 		</div>
@@ -56,13 +61,13 @@
 			  	#if($!page == 1)
 			  		<li class="active"><a href="javascript:void(0)">1</a></li>
 			  	#else
-					<li><a href="listSaleProduct.htm?name=$!name&company=$!company&status=$!status&gmtPublishStart=$!gmtPublishStart&gmtPublishEnd=$!gmtPublishEnd#foreach($id in $materialIds)&materialIds=$!id#end#foreach($id in $notMaterialIds)&notMaterialIds=$!id#end&page=1&pageSize=20">1</a></li>
+					<li><a href="listSaleProduct.htm?name=$!name&company=$!company&status=$!status&gmtPublishStart=$!gmtPublishStart&gmtPublishEnd=$!gmtPublishEnd#foreach($id in $m)&m=$!id#end#foreach($id in $nm)&nm=$!id#end&page=1&pageSize=20">1</a></li>
 			  	#end
 			 	#foreach($pageIndex in [2 .. $!totalPage])
 					#if($!page == $!pageIndex)
 						<li class="active"><a href="javascript:void(0)">$!pageIndex</a></li>
 					#else
-						<li><a href="listSaleProduct.htm?name=$!name&company=$!company&status=$!status&gmtPublishStart=$!gmtPublishStart&gmtPublishEnd=$!gmtPublishEnd#foreach($id in $materialIds)&materialIds=$!id#end#foreach($id in $notMaterialIds)&notMaterialIds=$!id#end&page=$!pageIndex&pageSize=$!pageSize">$!pageIndex</a></li>
+						<li><a href="listSaleProduct.htm?name=$!name&company=$!company&status=$!status&gmtPublishStart=$!gmtPublishStart&gmtPublishEnd=$!gmtPublishEnd#foreach($id in $m)&m=$!id#end#foreach($id in $nm)&nm=$!id#end&page=$!pageIndex&pageSize=$!pageSize">$!pageIndex</a></li>
 					#end
 			 	#end
 			  </ul>
@@ -110,13 +115,13 @@
 			  	#if($!page == 1)
 			  		<li class="active"><a href="javascript:void(0)">1</a></li>
 			  	#else
-					<li><a href="listSaleProduct.htm?name=$!name&company=$!company&status=$!status&gmtPublishStart=$!gmtPublishStart&gmtPublishEnd=$!gmtPublishEnd#foreach($id in $materialIds)&materialIds=$!id#end#foreach($id in $notMaterialIds)&notMaterialIds=$!id#end&page=1&pageSize=20">1</a></li>
+					<li><a href="listSaleProduct.htm?name=$!name&company=$!company&status=$!status&gmtPublishStart=$!gmtPublishStart&gmtPublishEnd=$!gmtPublishEnd#foreach($id in $m)&m=$!id#end#foreach($id in $nm)&nm=$!id#end&page=1&pageSize=20">1</a></li>
 			  	#end
 			 	#foreach($pageIndex in [2 .. $!totalPage])
 					#if($!page == $!pageIndex)
 						<li class="active"><a href="javascript:void(0)">$!pageIndex</a></li>
 					#else
-						<li><a href="listSaleProduct.htm?name=$!name&company=$!company&status=$!status&gmtPublishStart=$!gmtPublishStart&gmtPublishEnd=$!gmtPublishEnd#foreach($id in $materialIds)&materialIds=$!id#end#foreach($id in $notMaterialIds)&notMaterialIds=$!id#end&page=$!pageIndex&pageSize=$!pageSize">$!pageIndex</a></li>
+						<li><a href="listSaleProduct.htm?name=$!name&company=$!company&status=$!status&gmtPublishStart=$!gmtPublishStart&gmtPublishEnd=$!gmtPublishEnd#foreach($id in $m)&m=$!id#end#foreach($id in $nm)&nm=$!id#end&page=$!pageIndex&pageSize=$!pageSize">$!pageIndex</a></li>
 					#end
 			 	#end
 			  </ul>
@@ -166,6 +171,15 @@
 				<a href="#" class="btn btn-primary" data-dismiss="modal">确定</a>
 		</div>
 	</div>
+	<div id="cateSelectModal" class="modal" style="display: none; ">
+			<div class="modal-header">
+				<a class="close" data-dismiss="modal">×</a>
+				<h3>请至少选择一个类别！</h3>
+			</div>
+			<div class="modal-footer">
+				<a href="#" class="btn btn-success" data-dismiss="modal">确定</a>
+			</div>
+		</div>
 	<script>
 		window.onload=function init(){
 			$("#publishStart").val("$!gmtPublishStart");
@@ -187,5 +201,51 @@
 		function deleteProduct(id){
 			$("#deletedId").val(id);
 			$('#okModal').modal('show');
+		}
+
+		function checkAll(chx){
+			var mids=$("input[name='m']");
+			var notMids=$("input[name='nm']");
+			for (var i = 0; i < mids.length; i++) {
+				if(chx.checked){
+					mids[i].checked=true;
+				}else{
+					mids[i].checked=false;
+				}
+			}
+			for (var i = 0; i < notMids.length; i++) {
+				if(chx.checked){
+					notMids[i].checked=true;
+				}else{
+					notMids[i].checked=false;
+				}
+			}
+		}
+		function paraValid(){
+			var mids=$("input[name='m']");
+			var notMids=$("input[name='nm']");
+			var midChecked=false;
+			var notMidChecked=false;
+			for (var i = 0; i < mids.length; i++) {
+				if(mids[i].checked){
+					midChecked=true;
+					break;
+				}
+			}
+			for (var i = 0; i < notMids.length; i++) {
+				if(notMids[i].checked){
+					notMidChecked=true;
+					break;
+				}
+			}
+			return notMidChecked||midChecked;//类型有选择
+		}
+
+		function doSearch(){
+			if(paraValid()){
+				$("#searchForm").submit();
+			}else{
+				$('#cateSelectModal').modal('show');
+			}
 		}
 	</script>
