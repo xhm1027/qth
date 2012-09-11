@@ -86,9 +86,9 @@
 				<div class="row-fluid">
 					<label class="label label-warning" " for="input01">排序</label>
 					 #if($!order=='publish')
-						<a href="#"  class="btn btn-mini active" onClick="doSearchWithOrder('publish');">
+						<a href="#"  class="btn btn-mini active" onClick="doSearchWithOrder('publish','publish');">
 					#else
-						<a href="#"  class="btn btn-mini" onClick="doSearchWithOrder('publish');">
+						<a href="#"  class="btn btn-mini" onClick="doSearchWithOrder('publish','price');">
 					#end
 					#if($!orderDesc=='desc'&& $!order=='publish')
 						<i class="icon-arrow-down"></i>
@@ -98,9 +98,9 @@
 					发布时间
 					</a>
 					 #if($!order=='price')
-						<a href="#" class="btn btn-mini active" onClick="doSearchWithOrder('price');">
+						<a href="#" class="btn btn-mini active" onClick="doSearchWithOrder('price','price');">
 					#else
-						<a href="#" class="btn btn-mini" onClick="doSearchWithOrder('price');">
+						<a href="#" class="btn btn-mini" onClick="doSearchWithOrder('price','publish');">
 					#end
 					#if($!orderDesc=='desc'&& $!order=='price')
 						<i class="icon-arrow-down"></i>
@@ -198,7 +198,13 @@
 		<hr>
 	</div>
 	<script>
-		function doSearchWithOrder(order){
+		function doSearchWithOrder(order,oldOrder){
+			#if(!$order)//如果是第一次
+				$("#orderDesc").val('asc');
+			#end
+			if(order!=oldOrder){//如果是和上次不一样
+				$("#orderDesc").val('asc');
+			}
 			if(paraValid()){
 				$("#orderBy").val(order);
 				if($("#orderDesc").val()!='desc'){
