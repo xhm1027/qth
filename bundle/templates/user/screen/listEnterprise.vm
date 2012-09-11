@@ -20,18 +20,23 @@
 			<form class="well form-search span12" id="searchForm">
 				<input type="hidden" name="userRole" value="$!userRole"/>
 				<input type="hidden" name="order" id="orderBy" value="$!order"/>
+				<input type="hidden" name="orderDesc" id="orderDesc" value="$!orderDesc"/>
 				<div>
 					<label class="label label-warning"  for="company">公司名称</label>
 					<input
 					type="text" class="input-xlarge" id="company" name="company"  value="$!company">
 				</div>
 				<label class="label label-warning">销售类目</label>
+				<label class="checkbox inline">
+					<input type="checkbox" id="checkAllCategories" onClick="checkAll(this);"/>
+					全部选中
+				</label>
 				<div>
 					#if($!userRole != 'innerUser')
 						#foreach($materialCategory in $materialCategories)
 							<label class="checkbox inline">
 								<input type="checkbox"
-								id="$!materialCategory.id" value="$!materialCategory.id" name="saleInterests" #if($materialCategory.checked)checked="true"#end>
+								id="$!materialCategory.id" value="$!materialCategory.id" name="s" #if($materialCategory.checked)checked="true"#end>
 								$!materialCategory.name
 							</label>
 						#end
@@ -39,7 +44,7 @@
 						#foreach($materialCategory in $notMaterialCategories)
 							<label class="checkbox inline">
 								<input type="checkbox"
-								id="$!materialCategory.id" value="$!materialCategory.id" name="saleInterests" #if($materialCategory.checked)checked="true"#end>
+								id="$!materialCategory.id" value="$!materialCategory.id" name="s" #if($materialCategory.checked)checked="true"#end>
 								$!materialCategory.name
 							</label>
 						#end
@@ -51,7 +56,7 @@
 						#foreach($materialCategory in $notMaterialCategories)
 							<label class="checkbox inline">
 								<input type="checkbox"
-								id="$!materialCategory.id" value="$!materialCategory.id" name="buyInterests" #if($materialCategory.checked)checked="true"#end>
+								id="$!materialCategory.id" value="$!materialCategory.id" name="b" #if($materialCategory.checked)checked="true"#end>
 								$!materialCategory.name
 							</label>
 						#end
@@ -59,7 +64,7 @@
 						#foreach($materialCategory in $materialCategories)
 							<label class="checkbox inline">
 								<input type="checkbox"
-								id="$!materialCategory.id" value="$!materialCategory.id" name="buyInterests" #if($materialCategory.checked)checked="true"#end>
+								id="$!materialCategory.id" value="$!materialCategory.id" name="b" #if($materialCategory.checked)checked="true"#end>
 								$!materialCategory.name
 							</label>
 						#end
@@ -67,8 +72,12 @@
 				</div>
 				<div class="row-fluid">
 					<label class="label label-warning" " for="input01">排序</label>
-					<button class="btn btn-mini" onClick="doSearchWithOrder();">
-					<i class="icon-arrow-up"></i>
+					<button class="btn btn-mini  #if($order)active#end" onClick="doSearchWithOrder();">
+					#if($!orderDesc=='desc')
+						<i class="icon-arrow-down"></i>
+					#else
+						<i class="icon-arrow-up"></i>
+					#end
 					更新时间
 					</button>
 				</div>
@@ -81,10 +90,10 @@
 		</div>
 		<div class="pagination">
 			  <ul>
-			  	<li#if($!page == 1) class="active"#end><a href="listEnterprise.htm?company=$!company#foreach($id in $saleInterestIds)&saleInterests=$!id#end#foreach($id in $buyInterestIds)&buyInterests=$!id#end&page=1&pageSize=20&userRole=$!userRole">1</a></li>
+			  	<li#if($!page == 1) class="active"#end><a href="listEnterprise.htm?company=$!company#foreach($id in $saleInterestIds)&s=$!id#end#foreach($id in $buyInterestIds)&b=$!id#end&page=1&pageSize=20&userRole=$!userRole">1</a></li>
 			 	 #if($!totalPage != 1)
 			 	 #foreach($pageIndex in [2 .. $!totalPage])
-					<li#if($!page == $!pageIndex) class="active"#end><a href="listEnterprise.htm?company=$!company#foreach($id in $saleInterestIds)&saleInterests=$!id#end#foreach($id in $buyInterestIds)&buyInterests=$!id#end&page=$!pageIndex&pageSize=$!pageSize&userRole=$!userRole">$!pageIndex</a></li>
+					<li#if($!page == $!pageIndex) class="active"#end><a href="listEnterprise.htm?company=$!company#foreach($id in $saleInterestIds)&s=$!id#end#foreach($id in $buyInterestIds)&b=$!id#end&page=$!pageIndex&pageSize=$!pageSize&userRole=$!userRole">$!pageIndex</a></li>
 			 	 #end
 			 	 #end
 			  </ul>
@@ -97,7 +106,8 @@
 							<th width="15%">#</th>
 							<th width="25%">公司名</th>
 							<th width="20%">类别</th>
-							<th width="20%">状态</th>
+							<th width="20%">最后更新</th>
+							<th width="10%">状态</th>
 							<th width="10%">操作</th>
 						</tr>
 					</thead>
@@ -109,6 +119,7 @@
 							<td>$!_rowIndex</td>
 							<td>$!user.company</td>
 							<td>#if($!user.role=='innerUser')园区内部企业 #elseif($!user.role=='outerUser')园区外部企业#else $!user.role#end</td>
+							<td>$!user.gmtModified</td>
 							<td>#if($!user.status=='new')待审核 #elseif($!user.status=='normal')审核通过#elseif($!user.status=='auditFailed')审核失败#elseif($!user.status=='freese')已冻结 #else $!user.status#end</td>
 							<td>
 								#if ($qthUser.hasLoggedIn())
@@ -125,10 +136,10 @@
 		</div>
 		<div class="pagination">
 			  <ul>
-			  	<li#if($!page == 1) class="active"#end><a href="listEnterprise.htm?company=$!company#foreach($id in $saleInterestIds)&saleInterests=$!id#end#foreach($id in $buyInterestIds)&buyInterests=$!id#end&page=1&pageSize=20&userRole=$!userRole">1</a></li>
+			  	<li#if($!page == 1) class="active"#end><a href="listEnterprise.htm?company=$!company#foreach($id in $saleInterestIds)&s=$!id#end#foreach($id in $buyInterestIds)&b=$!id#end&page=1&pageSize=20&userRole=$!userRole">1</a></li>
 			 	 #if($!totalPage != 1)
 			 	 #foreach($pageIndex in [2 .. $!totalPage])
-					<li#if($!page == $!pageIndex) class="active"#end><a href="listEnterprise.htm?company=$!company#foreach($id in $saleInterestIds)&saleInterests=$!id#end#foreach($id in $buyInterestIds)&buyInterests=$!id#end&page=$!pageIndex&pageSize=$!pageSize&userRole=$!userRole">$!pageIndex</a></li>
+					<li#if($!page == $!pageIndex) class="active"#end><a href="listEnterprise.htm?company=$!company#foreach($id in $saleInterestIds)&s=$!id#end#foreach($id in $buyInterestIds)&b=$!id#end&page=$!pageIndex&pageSize=$!pageSize&userRole=$!userRole">$!pageIndex</a></li>
 			 	 #end
 			 	 #end
 			  </ul>
@@ -137,7 +148,31 @@
 	</div>
 	<script>
 		function doSearchWithOrder(){
+			if($("#orderDesc").val()!='desc'){
+				$("#orderDesc").val('desc');
+			}else{
+				$("#orderDesc").val('asc');
+			}
 			$("#orderBy").val(true);
 			$("#searchForm").submit();
+		}
+
+		function checkAll(chx){
+			var mids=$("input[name='s']");
+			var notMids=$("input[name='b']");
+			for (var i = 0; i < mids.length; i++) {
+				if(chx.checked){
+					mids[i].checked=true;
+				}else{
+					mids[i].checked=false;
+				}
+			}
+			for (var i = 0; i < notMids.length; i++) {
+				if(chx.checked){
+					notMids[i].checked=true;
+				}else{
+					notMids[i].checked=false;
+				}
+			}
 		}
 	</script>
