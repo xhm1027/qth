@@ -96,9 +96,12 @@ public class UserDaoImpl extends SqlMapClientDaoSupport implements UserDao {
 	 * */
 
 	public User getUserByLoginId(String loginId) {
-		User user = (User) getSqlMapClientTemplate().queryForObject(
+		List<User> users = (List<User>) getSqlMapClientTemplate().queryForList(
 				NAMESPACE_USER + "." + QUERY_BY_LOGIN_ID, loginId);
-		return user;
+		if(users==null||users.size()==0){
+			return null;
+		}
+		return users.get(0);
 	}
 
 	/**
