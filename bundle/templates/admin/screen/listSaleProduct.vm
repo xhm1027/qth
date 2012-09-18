@@ -57,6 +57,7 @@
 		</div>
 		#if($!totalPage != 1)
 		<div class="pagination">
+			#if($!page <= 20 && $!totalPage<=20)
 			  <ul>
 			  	#if($!page == 1)
 			  		<li class="active"><a href="javascript:void(0)">1</a></li>
@@ -71,6 +72,37 @@
 					#end
 			 	#end
 			  </ul>
+			#else
+				#set($start = $page - 5)
+				#if($start<2||!$start)
+					#set($start = 2)
+				#end
+				#set($end = $page + 5)
+				#if($end>$!totalPage)
+					#set($end = $!totalPage)
+				#end
+					<ul>
+					#if($!page == 1)
+				  		<li class="active"><a href="javascript:void(0)">1</a></li>
+				  	#else
+						<li><a href="listSaleProduct.htm?name=$!name&company=$!company&status=$!status&gmtPublishStart=$!gmtPublishStart&gmtPublishEnd=$!gmtPublishEnd#foreach($id in $m)&m=$!id#end#foreach($id in $nm)&nm=$!id#end&page=1&pageSize=20">1</a></li>
+				  	#end
+				 	#if($start>2)
+				 	<li><a href="javascript:void(0)">……</a></li>
+				  	#end
+				 	#foreach($pageIndex in [$start .. $end])
+						#if($!page == $!pageIndex)
+							<li class="active"><a href="javascript:void(0)">$!pageIndex</a></li>
+						#else
+							<li><a href="listSaleProduct.htm?name=$!name&company=$!company&status=$!status&gmtPublishStart=$!gmtPublishStart&gmtPublishEnd=$!gmtPublishEnd#foreach($id in $m)&m=$!id#end#foreach($id in $nm)&nm=$!id#end&page=$!pageIndex&pageSize=$!pageSize">$!pageIndex</a></li>
+						#end
+				 	#end
+				 	#if($end<$!totalPage)
+				 	<li><a href="javascript:void(0)">……</a></li>
+				 	<li><a href="listSaleProduct.htm?name=$!name&company=$!company&status=$!status&gmtPublishStart=$!gmtPublishStart&gmtPublishEnd=$!gmtPublishEnd#foreach($id in $m)&m=$!id#end#foreach($id in $nm)&nm=$!id#end&page=$!totalPage&pageSize=$!pageSize">$!totalPage</a></li>
+				  	#end
+				  </ul>
+			#end
 		</div>
 		#end
 		<div class="row">
@@ -111,6 +143,7 @@
 		</div>
 		#if($!totalPage != 1)
 		<div class="pagination">
+			#if($!page <= 20 && $!totalPage<=20)
 			  <ul>
 			  	#if($!page == 1)
 			  		<li class="active"><a href="javascript:void(0)">1</a></li>
@@ -125,6 +158,37 @@
 					#end
 			 	#end
 			  </ul>
+			#else
+				#set($start = $page - 5)
+				#if($start<2||!$start)
+					#set($start = 2)
+				#end
+				#set($end = $page + 5)
+				#if($end>$!totalPage)
+					#set($end = $!totalPage)
+				#end
+					<ul>
+					#if($!page == 1)
+				  		<li class="active"><a href="javascript:void(0)">1</a></li>
+				  	#else
+						<li><a href="listSaleProduct.htm?name=$!name&company=$!company&status=$!status&gmtPublishStart=$!gmtPublishStart&gmtPublishEnd=$!gmtPublishEnd#foreach($id in $m)&m=$!id#end#foreach($id in $nm)&nm=$!id#end&page=1&pageSize=20">1</a></li>
+				  	#end
+				 	#if($start>2)
+				 	<li><a href="javascript:void(0)">……</a></li>
+				  	#end
+				 	#foreach($pageIndex in [$start .. $end])
+						#if($!page == $!pageIndex)
+							<li class="active"><a href="javascript:void(0)">$!pageIndex</a></li>
+						#else
+							<li><a href="listSaleProduct.htm?name=$!name&company=$!company&status=$!status&gmtPublishStart=$!gmtPublishStart&gmtPublishEnd=$!gmtPublishEnd#foreach($id in $m)&m=$!id#end#foreach($id in $nm)&nm=$!id#end&page=$!pageIndex&pageSize=$!pageSize">$!pageIndex</a></li>
+						#end
+				 	#end
+				 	#if($end<$!totalPage)
+				 	<li><a href="javascript:void(0)">……</a></li>
+				 	<li><a href="listSaleProduct.htm?name=$!name&company=$!company&status=$!status&gmtPublishStart=$!gmtPublishStart&gmtPublishEnd=$!gmtPublishEnd#foreach($id in $m)&m=$!id#end#foreach($id in $nm)&nm=$!id#end&page=$!totalPage&pageSize=$!pageSize">$!totalPage</a></li>
+				  	#end
+				  </ul>
+			#end
 		</div>
 		#end
 		<hr>
