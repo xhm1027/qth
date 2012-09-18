@@ -77,16 +77,56 @@
 				</div>
 			</form>
 		</div>
+		#if($!totalPage != 1)
 		<div class="pagination">
+			#if($!page <= 20 && $!totalPage<=20)
 			  <ul>
-			  	<li#if($!page == 1) class="active"#end><a href="listUser.htm?name=$!name&company=$!company&status=$!status&userLevel=$!userLevel&page=1&pageSize=20">1</a></li>
-			 	 #if($!totalPage != 1)
-			 	 #foreach($pageIndex in [2 .. $!totalPage])
-					<li#if($!page == $!pageIndex) class="active"#end><a href="listUser.htm?name=$!name&company=$!company&status=$!status&userLevel=$!userLevel&page=$!pageIndex&pageSize=$!pageSize">$!pageIndex</a></li>
-			 	 #end
-			 	 #end
+			  	#if($!page == 1)
+			  		<li class="active"><a href="javascript:void(0)">1</a></li>
+			  	#else
+					<li><a href="listUser.htm?name=$!name&company=$!company&status=$!status&userLevel=$!userLevel&page=1&pageSize=20">1</a></li>
+			  	#end
+			 	#foreach($pageIndex in [2 .. $!totalPage])
+					#if($!page == $!pageIndex)
+						<li class="active"><a href="javascript:void(0)">$!pageIndex</a></li>
+					#else
+						<li><a href="listUser.htm?name=$!name&company=$!company&status=$!status&userLevel=$!userLevel&page=$!pageIndex&pageSize=$!pageSize">$!pageIndex</a></li>
+					#end
+			 	#end
 			  </ul>
+			#else
+				#set($start = $page - 5)
+				#if($start<2||!$start)
+					#set($start = 2)
+				#end
+				#set($end = $page + 5)
+				#if($end>$!totalPage)
+					#set($end = $!totalPage)
+				#end
+					<ul>
+					#if($!page == 1)
+				  		<li class="active"><a href="javascript:void(0)">1</a></li>
+				  	#else
+						<li><a href="listUser.htm?name=$!name&company=$!company&status=$!status&userLevel=$!userLevel&page=1&pageSize=20">1</a></li>
+				  	#end
+				 	#if($start>2)
+				 	<li><a href="javascript:void(0)">……</a></li>
+				  	#end
+				 	#foreach($pageIndex in [$start .. $end])
+						#if($!page == $!pageIndex)
+							<li class="active"><a href="javascript:void(0)">$!pageIndex</a></li>
+						#else
+							<li><a href="listUser.htm?name=$!name&company=$!company&status=$!status&userLevel=$!userLevel&page=$!pageIndex&pageSize=$!pageSize">$!pageIndex</a></li>
+						#end
+				 	#end
+				 	#if($end<$!totalPage)
+				 	<li><a href="javascript:void(0)">……</a></li>
+				 	<li><a href="listUser.htm?name=$!name&company=$!company&status=$!status&userLevel=$!userLevel&page=$!totalPage&pageSize=$!pageSize">$!totalPage</a></li>
+				  	#end
+				  </ul>
+			#end
 		</div>
+		#end
 		<div class="row">
 			<div class="span12">
 				<table class="table table-bordered">
@@ -131,16 +171,56 @@
 				</table>
 			</div>
 		</div>
+		#if($!totalPage != 1)
 		<div class="pagination">
+			#if($!page <= 20 && $!totalPage<=20)
 			  <ul>
-			  	<li#if($!page == 1) class="active"#end><a href="listUser.htm?name=$!name&company=$!company&status=$!status&userLevel=$!userLevel&page=1&pageSize=20">1</a></li>
-			 	 #if($!totalPage != 1)
-			 	 #foreach($pageIndex in [2 .. $!totalPage])
-					<li#if($!page == $!pageIndex) class="active"#end><a href="listUser.htm?name=$!name&company=$!company&status=$!status&userLevel=$!userLevel&page=$!pageIndex&pageSize=$!pageSize">$!pageIndex</a></li>
-			 	 #end
-			 	 #end
+			  	#if($!page == 1)
+			  		<li class="active"><a href="javascript:void(0)">1</a></li>
+			  	#else
+					<li><a href="listUser.htm?name=$!name&company=$!company&status=$!status&userLevel=$!userLevel&page=1&pageSize=20">1</a></li>
+			  	#end
+			 	#foreach($pageIndex in [2 .. $!totalPage])
+					#if($!page == $!pageIndex)
+						<li class="active"><a href="javascript:void(0)">$!pageIndex</a></li>
+					#else
+						<li><a href="listUser.htm?name=$!name&company=$!company&status=$!status&userLevel=$!userLevel&page=$!pageIndex&pageSize=$!pageSize">$!pageIndex</a></li>
+					#end
+			 	#end
 			  </ul>
+			#else
+				#set($start = $page - 5)
+				#if($start<2||!$start)
+					#set($start = 2)
+				#end
+				#set($end = $page + 5)
+				#if($end>$!totalPage)
+					#set($end = $!totalPage)
+				#end
+					<ul>
+					#if($!page == 1)
+				  		<li class="active"><a href="javascript:void(0)">1</a></li>
+				  	#else
+						<li><a href="listUser.htm?name=$!name&company=$!company&status=$!status&userLevel=$!userLevel&page=1&pageSize=20">1</a></li>
+				  	#end
+				 	#if($start>2)
+				 	<li><a href="javascript:void(0)">……</a></li>
+				  	#end
+				 	#foreach($pageIndex in [$start .. $end])
+						#if($!page == $!pageIndex)
+							<li class="active"><a href="javascript:void(0)">$!pageIndex</a></li>
+						#else
+							<li><a href="listUser.htm?name=$!name&company=$!company&status=$!status&userLevel=$!userLevel&page=$!pageIndex&pageSize=$!pageSize">$!pageIndex</a></li>
+						#end
+				 	#end
+				 	#if($end<$!totalPage)
+				 	<li><a href="javascript:void(0)">……</a></li>
+				 	<li><a href="listUser.htm?name=$!name&company=$!company&status=$!status&userLevel=$!userLevel&page=$!totalPage&pageSize=$!pageSize">$!totalPage</a></li>
+				  	#end
+				  </ul>
+			#end
 		</div>
+		#end
 		<hr>
 	</div>
 	<script>
